@@ -3,6 +3,7 @@ import roleHarvester from 'roles/harvester';
 import roleUpgrader, { Upgrader } from 'roles/upgrader';
 import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
+import { spawnCreeps } from './spawning';
 
 declare global {
   interface CreepMemory {
@@ -22,6 +23,10 @@ function unwrappedLoop(): void {
       });
     }
   });
+
+  //Spawning
+  spawnCreeps()
+
 
   Object.values(Game.creeps).forEach(creep => {
     if (creep.memory.role === 'harvester') {

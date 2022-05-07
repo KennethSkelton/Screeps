@@ -8,6 +8,7 @@ export default class ErrorMapper {
 
   public static get consumer(): SourceMapConsumer {
     if (this._consumer == null) {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
       this._consumer = new SourceMapConsumer(require('main.js.map'));
     }
     return this._consumer;
