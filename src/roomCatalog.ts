@@ -44,7 +44,7 @@ function numberOfClearAjacentSquares(object: RoomObject): number{
     */
 
     const area = Game.rooms[object.pos.roomName].lookAtArea(top, left, bottom, right)
-    let clearSqaures = 8
+    let clearSqaures = 0
 
     //console.log("area: ",area)
 
@@ -65,8 +65,8 @@ function numberOfClearAjacentSquares(object: RoomObject): number{
                 */
 
                 // eslint-disable-next-line max-len
-                if((location.type == "terrain" && location.terrain == "wall") ){
-                    clearSqaures-=1
+                if( !(location.type == "terrain" && location.terrain == "wall") ){
+                    clearSqaures+=1
                 }
             }
 
