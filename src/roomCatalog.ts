@@ -1,10 +1,5 @@
 declare global {
-    interface RoomMemory {
-        sources: Record<string, {
-            workerSpots : number,
-            workers : number
-        }>
-  }
+    interface RoomMemory { [name: string]: any };
 }
 
 function storeSourcesInMemory(room: Room): void {
