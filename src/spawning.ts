@@ -1,5 +1,5 @@
 function spawnCreeps(): void {
-    const harvesters = _.filter(Game.creeps, creep => creep.memory.role == 'harvester');
+    const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester');
     console.log(`Harvesters: ${harvesters.length}`);
 
     const superHarvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'superHarvester');
@@ -22,7 +22,7 @@ function spawnCreeps(): void {
     if(harvesters.length < 4) {
         const newName = `Harvester ${Game.time}`;
         console.log('Spawning new harvester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE], newName,
             {memory: {role: 'harvester'}});
     }
 
