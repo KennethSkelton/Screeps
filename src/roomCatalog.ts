@@ -1,10 +1,10 @@
 function storeSourcesInMemory(room: Room): void {
-    if(!('sources' in room.memory)){
+    if(!('sources' in Memory)){
         Object.assign(room.memory, {sources: {}})
         let sources = room.find(FIND_SOURCES)
         sources.forEach(source => {
-        room.memory.sources[source.id].workerSpots = numberOfClearAjacentSquares(source)
-        room.memory.sources[source.id].workers = 0
+        Memory.sources[source.id].workerSpots = numberOfClearAjacentSquares(source)
+        Memory.sources[source.id].workers = 0
         })
     }
 }
