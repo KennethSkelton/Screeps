@@ -57,8 +57,15 @@ function numberOfClearAjacentSquares(object: RoomObject): number{
                 console.log("is the square occupied: ", OBSTACLE_OBJECT_TYPES.includes(location.type))
                 console.log("is the terrain a wall: ", (location.type == "terrain" && location.terrain == "wall"))
                 */
+
+                let isObstacle
+                OBSTACLE_OBJECT_TYPES.forEach(type => {
+                    if(type == location.type){
+                        isObstacle = true
+                    }
+                })
                 // eslint-disable-next-line max-len
-                if((OBSTACLE_OBJECT_TYPES.includes(location.type) || (location.type == "terrain" && location.terrain == "wall"))){
+                if(isObstacle || (location.type == "terrain" && location.terrain == "wall")){
                     clearSqaures-=1
                 }
             }
