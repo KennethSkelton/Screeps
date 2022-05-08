@@ -21,7 +21,7 @@ const roleHarvester = {
           console.log(sourceInfoObject.toString())
           console.log(groupedHarvesters.toString())
 
-          if(groupedHarvesters[sourceId].length < sourceInfoObject.workerSpots){
+          if(!groupedHarvesters[sourceId] || (groupedHarvesters[sourceId].length < sourceInfoObject.workerSpots)){
             creep.memory.sourceId = sourceId as Id<Source>
           }
         }
