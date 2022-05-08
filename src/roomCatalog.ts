@@ -9,7 +9,7 @@ declare global {
 
 function storeSourcesInMemory(room: Room): void {
     if(!('sources' in room.memory)){
-        let sources = room.find(FIND_SOURCES)
+        const sources = room.find(FIND_SOURCES)
         sources.forEach(source => {
             room.memory.sources[source.id].workerSpots = numberOfClearAjacentSquares(source)
             room.memory.sources[source.id].workers = 0
@@ -19,7 +19,6 @@ function storeSourcesInMemory(room: Room): void {
 
 function numberOfClearAjacentSquares(object: RoomObject): number{
     const position = object.pos
-
     /*
     console.log(position)
     console.log(position.y)
@@ -38,7 +37,7 @@ function numberOfClearAjacentSquares(object: RoomObject): number{
     console.log("right: ", right)
     */
 
-    const area = object.room.lookAtArea(top, left, bottom, right)
+    const area = Game.rooms[object.pos.roomName].lookAtArea(top, left, bottom, right)
     let clearSqaures = 8
 
     //console.log("area: ",area)
