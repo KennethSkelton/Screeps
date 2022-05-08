@@ -11,28 +11,30 @@ interface HarvesterMemory extends CreepMemory {
 
 const roleHarvester = {
   run(creep: Harvester): void {
-    if (creep.store.getFreeCapacity() > 0) {
-      const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester');
-      const groupedHarvesters = _.groupBy(harvesters, 'sourceId')
+    if(creep.room.find(FIND_MY_STRUCTURES, { filter: isToBeFilled }).length == 0 || creep.store.getFreeCapacity() > 0) {
+      if (!creep.memory.sourceId){
+        const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester');
+        const groupedHarvesters = _.groupBy(harvesters, 'sourceId')
 
-      for(const [sourceId, harvestersAssigned] of Object.entries(groupedHarvesters)){
-        console.log(creep.room.name)
-        console.log(Memory.rooms[creep.room.name])
-        console.log(sourceId)
-        console.log(Memory.rooms[creep.room.name].sources)
-        console.log(Memory.rooms[creep.room.name].sources[sourceId as Id<Source>])
+        for(const [sourceId, harvestersAssigned] of Object.entries(groupedHarvesters)){
+          console.log(creep.room.name)
+          console.log(Memory.rooms[creep.room.name])
+          console.log(sourceId)
+          console.log(Memory.rooms[creep.room.name].sources)
+          console.log(Memory.rooms[creep.room.name].sources[sourceId as Id<Source>])
 
 
-        if(Memory.rooms[creep.room.name].sources[sourceId as Id<Source>].workerSpots > harvestersAssigned.length){
-          const source = Game.getObjectById(sourceId as Id<Source>)
-          if(!source){
-            continue
+          if(Memory.rooms[creep.room.name].sources[sourceId as Id<Source>].workerSpots > harvestersAssigned.length){
+            creep.memory.sourceId = sourceId as Id<Source>
           }
-          if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
-          }
-          creep.memory.sourceId = sourceId as Id<Source>
         }
+      }
+      let source = Game.getObjectById(creep.memory.sourceId as Id<Source>)
+      if(!source){
+        source = creep.room.find(FIND_SOURCES)[0]
+      }
+      if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
+        creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
       }
     } else {
       if(creep.memory.sourceId){
@@ -43,12 +45,6 @@ const roleHarvester = {
       if (targets.length > 0) {
         if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
-        }
-      }
-      else{
-        const sources = creep.room.find(FIND_SOURCES);
-        if (creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
         }
       }
     }
