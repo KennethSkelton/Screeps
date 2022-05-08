@@ -65,7 +65,7 @@ function numberOfClearAjacentSquares(object: RoomObject): number{
                 */
 
                 // eslint-disable-next-line max-len
-                if(((OBSTACLE_OBJECT_TYPES as string[]).includes(location.type) && location.type != 'creep') || (location.type == "terrain" && location.terrain == "wall") ){
+                if((location.type == "terrain" && location.terrain == "wall") ){
                     clearSqaures-=1
                 }
             }
