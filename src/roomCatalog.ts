@@ -3,10 +3,11 @@ declare global {
          sources : {[id: Id<Source>]: SourceInfo}
     }
 }
-
-interface SourceInfo {
-    workerSpots : number,
-    workers : number
+declare global {
+    interface SourceInfo {
+        workerSpots : number,
+        workers : number
+    }
 }
 
 function storeSourcesInMemory(room: Room): void {

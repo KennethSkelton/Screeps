@@ -1,5 +1,5 @@
 import roleBuilder, { Builder } from 'roles/builder';
-import roleHarvester from 'roles/harvester';
+import roleHarvester, { Harvester } from 'roles/harvester';
 import roleUpgrader, { Upgrader } from 'roles/upgrader';
 import roleRepairer, { Repairer } from 'roles/repairer';
 import ErrorMapper from 'utils/ErrorMapper';
@@ -41,7 +41,7 @@ function unwrappedLoop(): void {
 
   Object.values(Game.creeps).forEach(creep => {
     if (creep.memory.role === 'harvester') {
-      roleHarvester.run(creep);
+      roleHarvester.run(creep as Harvester);
     }
     if (creep.memory.role === 'upgrader') {
       roleUpgrader.run(creep as Upgrader);
@@ -59,7 +59,7 @@ function unwrappedLoop(): void {
     if (creep.memory.role === 'floater'){
       /*
       if(creep.room.energyAvailable < creep.room.energyCapacityAvailable){
-        roleHarvester.run(creep)
+        roleHarvester.run(creep as Harvester)
       } else if(creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0){
         roleBuilder.run(creep as Builder)
       } else{
