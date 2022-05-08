@@ -29,7 +29,11 @@ function unwrappedLoop(): void {
   spawnCreeps()
 
   //Catalog Room
-  storeSourcesInMemory()
+  Object.values(Game.rooms).forEach(room => {
+    if (room.controller?.my) {
+      storeSourcesInMemory(room)
+    }
+  });
 
   Object.values(Game.creeps).forEach(creep => {
     if (creep.memory.role === 'harvester') {

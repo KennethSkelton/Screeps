@@ -1,16 +1,12 @@
-function storeSourcesInMemory(): void {
-    Object.values(Game.rooms).forEach(room => {
-        if (room.controller?.my) {
-          if(!('sources' in room.memory)){
-              Object.assign(Game.rooms[room.name].memory, {sources: {}})
-              let sources = room.find(FIND_SOURCES)
-              sources.forEach(source => {
-                Game.rooms[room.name].memory.sources[source.id].workerSpots = numberOfClearAjacentSquares(source)
-                Game.rooms[room.name].memory.sources[source.id].workers = 0
-              })
-            }
-        }
-    });
+function storeSourcesInMemory(room: Room): void {
+    if(!('sources' in room.memory)){
+        Object.assign(room.memory, {sources: {}})
+        let sources = room.find(FIND_SOURCES)
+        sources.forEach(source => {
+        room.memory.sources[source.id].workerSpots = numberOfClearAjacentSquares(source)
+        room.memory.sources[source.id].workers = 0
+        })
+    }
 }
 
 function numberOfClearAjacentSquares(object: RoomObject): number{
