@@ -16,15 +16,8 @@ const roleHarvester = {
         const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester');
         const groupedHarvesters = _.groupBy(harvesters, 'sourceId')
 
-        for(const [sourceId, harvestersAssigned] of Object.entries(groupedHarvesters)){
-          console.log(creep.room.name)
-          console.log(Memory.rooms[creep.room.name])
-          console.log(sourceId)
-          console.log(Memory.rooms[creep.room.name].sources)
-          console.log(Memory.rooms[creep.room.name].sources[sourceId as Id<Source>])
-
-
-          if(Memory.rooms[creep.room.name].sources[sourceId as Id<Source>].workerSpots > harvestersAssigned.length){
+        for(const [sourceId, sourceInfoObject] of Object.entries(Memory.rooms[creep.room.name].sources)){
+          if(groupedHarvesters[sourceId].length < sourceInfoObject.workerSpots){
             creep.memory.sourceId = sourceId as Id<Source>
           }
         }
