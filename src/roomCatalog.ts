@@ -8,7 +8,7 @@ declare global {
 }
 
 function storeSourcesInMemory(room: Room): void {
-    if(!('sources' in room.memory)){
+    if(!(room.memory.sources)){
         const sources = room.find(FIND_SOURCES)
         sources.forEach(source => {
             room.memory.sources[source.id].workerSpots = numberOfClearAjacentSquares(source)
@@ -58,14 +58,8 @@ function numberOfClearAjacentSquares(object: RoomObject): number{
                 console.log("is the terrain a wall: ", (location.type == "terrain" && location.terrain == "wall"))
                 */
 
-                let isObstacle
-                OBSTACLE_OBJECT_TYPES.forEach(type => {
-                    if(type == location.type){
-                        isObstacle = true
-                    }
-                })
                 // eslint-disable-next-line max-len
-                if(isObstacle || (location.type == "terrain" && location.terrain == "wall")){
+                if((OBSTACLE_OBJECT_TYPES as string[]).includes(location.type) || (location.type == "terrain" && location.terrain == "wall")){
                     clearSqaures-=1
                 }
             }
