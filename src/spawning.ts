@@ -22,7 +22,7 @@ function spawnCreeps(): void {
 
 
 
-    if(harvesters.length < 4) {
+    if(harvesters.length < 7) {
         const newName = `Harvester ${Game.time}`;
         console.log('Spawning new harvester: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE], newName,
