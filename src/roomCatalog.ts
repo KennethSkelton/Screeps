@@ -1,6 +1,10 @@
-declare global {
-    interface RoomMemory { [name: string]: any };
-}
+
+interface CreepMemory { [name: string]: any }
+interface FlagMemory { [name: string]: any }
+interface SpawnMemory { [name: string]: any }
+interface RoomMemory { [name: string]: any }
+interface Memory { [key: string]: any }
+
 
 function storeSourcesInMemory(room: Room): void {
     if(!('sources' in room.memory)){
