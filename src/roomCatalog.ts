@@ -1,10 +1,11 @@
-
-interface CreepMemory { [name: string]: any }
-interface FlagMemory { [name: string]: any }
-interface SpawnMemory { [name: string]: any }
-interface RoomMemory { [name: string]: any }
-interface Memory { [key: string]: any }
-
+declare global {
+    interface RoomMemory {
+        sources: Record<string, {
+            workerSpots : number,
+            workers : number
+        }>
+  }
+}
 
 function storeSourcesInMemory(room: Room): void {
     if(!('sources' in room.memory)){
