@@ -1,6 +1,9 @@
 declare global {
     interface RoomMemory {
-        sources: Record<string, unknown>
+        sources: {
+            workerSpots : number,
+            workers : number
+        }
   }
 }
 
