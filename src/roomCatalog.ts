@@ -1,15 +1,16 @@
 declare global {
     interface RoomMemory {
-        sources: Record<string, {
+         sources : {[id: Id<Source>]: {
             workerSpots : number,
             workers : number
-        }>
-  }
+        }}
+    }
 }
 
 function storeSourcesInMemory(room: Room): void {
     if(!(room.memory.sources)){
         const sources = room.find(FIND_SOURCES)
+        room.memory.sources = {}
         sources.forEach(source => {
             room.memory.sources[source.id].workerSpots = numberOfClearAjacentSquares(source)
             room.memory.sources[source.id].workers = 0
