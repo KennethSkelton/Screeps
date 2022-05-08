@@ -1,4 +1,7 @@
 function spawnCreeps(): void {
+    const floaters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'floaters');
+    console.log(`Floaters: ${floaters.length}`);
+
     const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester');
     console.log(`Harvesters: ${harvesters.length}`);
 
@@ -59,6 +62,13 @@ function spawnCreeps(): void {
         console.log('Spawning new Repairer: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'repairer'}});
+    }
+
+    if(floaters.length < 6) {
+        const newName = `Floater' ${Game.time}`;
+        console.log('Spawning new Floater: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+            {memory: {role: 'Floater'}});
     }
 
     if(Game.spawns['Spawn1'].spawning) {

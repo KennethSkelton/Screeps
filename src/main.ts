@@ -38,6 +38,15 @@ function unwrappedLoop(): void {
     if (creep.memory.role === 'builder') {
       roleBuilder.run(creep as Builder);
     }
+    if (creep.memory.role === 'floater'){
+      if(creep.room.energyAvailable < creep.room.energyCapacityAvailable){
+        roleHarvester.run(creep)
+      } else if(creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0){
+        roleBuilder.run(creep as Builder)
+      } else{
+        roleUpgrader.run(creep as Upgrader)
+      }
+    }
   });
 
   // Automatically delete memory of missing creeps
