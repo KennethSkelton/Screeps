@@ -69,13 +69,15 @@ function unwrappedLoop(): void {
       roleRepairer.run(creep as Repairer);
     }
     if (creep.memory.role === 'floater'){
+      /*
       if(creep.room.energyAvailable < creep.room.energyCapacityAvailable){
         roleHarvester.run(creep as Harvester)
       } else if(creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0){
         roleBuilder.run(creep as Builder)
       } else{
+        */
         roleUpgrader.run(creep as Upgrader)
-      }
+      //}
     }
   });
 
