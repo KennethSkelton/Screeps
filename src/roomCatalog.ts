@@ -1,6 +1,10 @@
+declare global { interface Sources {
+    [key:string]: any
+  } }
+
+
 function storeSourcesInMemory(room: Room): void {
     if(!('sources' in Memory)){
-        Object.assign(Memory, {sources: {}})
         let sources = room.find(FIND_SOURCES)
         sources.forEach(source => {
         Memory.sources[source.id].workerSpots = numberOfClearAjacentSquares(source)
