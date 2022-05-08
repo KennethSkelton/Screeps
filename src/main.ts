@@ -1,6 +1,7 @@
 import roleBuilder, { Builder } from 'roles/builder';
 import roleHarvester from 'roles/harvester';
 import roleUpgrader, { Upgrader } from 'roles/upgrader';
+import roleRepairer, { Repairer } from 'roles/repairer';
 import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
 import { spawnCreeps } from './spawning';
@@ -47,6 +48,9 @@ function unwrappedLoop(): void {
     }
     if (creep.memory.role === 'builder') {
       roleBuilder.run(creep as Builder);
+    }
+    if (creep.memory.role === 'repairer') {
+      roleRepairer.run(creep as Repairer);
     }
     if (creep.memory.role === 'floater'){
       if(creep.room.energyAvailable < creep.room.energyCapacityAvailable){

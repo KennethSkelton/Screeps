@@ -57,7 +57,7 @@ function spawnCreeps(): void {
             {memory: {role: 'superBuilder'}});
     }
 
-    if(repairers.length < 0) {
+    if(repairers.length < 2) {
         const newName = `Repairer ${Game.time}`;
         console.log('Spawning new Repairer: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
