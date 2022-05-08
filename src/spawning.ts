@@ -1,5 +1,5 @@
 function spawnCreeps(): void {
-    const floaters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'floaters');
+    const floaters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'floater');
     console.log(`Floaters: ${floaters.length}`);
 
     const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester');
