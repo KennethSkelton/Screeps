@@ -39,7 +39,7 @@ function unwrappedLoop(): void {
   }
 
   //Spawning
-  spawnCreeps()
+  spawnCreeps('Spawn1')
 
 
   //Catalog Room

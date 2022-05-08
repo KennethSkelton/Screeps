@@ -1,4 +1,13 @@
-function spawnCreeps(): void {
+import { HARVESTER_SCHEMA } from './constants';
+
+
+function spawnCreeps(spawnName: string): void {
+    const energyCapacityAvailable = Game.spawns[spawnName].room.energyCapacityAvailable
+    let schemaNumber = 1
+    if(energyCapacityAvailable >= 550){
+        schemaNumber = 2
+    }
+
     const floaters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'floater');
     console.log(`Floaters: ${floaters.length}`);
 
@@ -21,62 +30,47 @@ function spawnCreeps(): void {
     console.log(`repairer: ${repairers.length}`);
 
 
-
-    if(superHarvesters.length < 0) {
-        const newName = `SuperHarvester ${Game.time}`;
-        console.log('Spawning new SuperHarvester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,CARRY,MOVE,MOVE], newName,
-            {memory: {role: 'superHarvester'}});
-    }
-
     if(upgraders.length < 2) {
         const newName = `Upgrader ${Game.time}`;
         console.log('Spawning new upgrader: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+        Game.spawns[spawnName].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'upgrader'}});
     }
 
     if(builders.length < 3) {
         const newName = `Builder ${Game.time}`;
         console.log('Spawning new builder: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+        Game.spawns[spawnName].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'builder'}});
-    }
-
-    if(superBuilders.length < 0) {
-        const newName = `SuperBuilder ${Game.time}`;
-        console.log('Spawning new SuperBuilder: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,WORK,CARRY,CARRY,MOVE,MOVE,MOVE], newName,
-            {memory: {role: 'superBuilder'}});
     }
 
     if(repairers.length < 2) {
         const newName = `Repairer ${Game.time}`;
         console.log('Spawning new Repairer: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+        Game.spawns[spawnName].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'repairer'}});
     }
 
     if(floaters.length < 6) {
         const newName = `Floater ${Game.time}`;
         console.log('Spawning new floater: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
+        Game.spawns[spawnName].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'floater'}});
     }
 
     if(harvesters.length < 7) {
         const newName = `Harvester ${Game.time}`;
         console.log('Spawning new harvester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE], newName,
+        Game.spawns[spawnName].spawnCreep(HARVESTER_SCHEMA[schemaNumber as keyof HARVESTER_SCHEMA], newName,
             {memory: {role: 'harvester'}});
     }
 
-    if(Game.spawns['Spawn1'].spawning) {
-        const spawningCreep = Game.creeps[Game.spawns['Spawn1'].spawning.name];
-        Game.spawns['Spawn1'].room.visual.text(
+    if(Game.spawns[spawnName].spawning) {
+        const spawningCreep = Game.creeps[Game.spawns[spawnName].spawning!.name];
+        Game.spawns[spawnName].room.visual.text(
             '🛠️' + spawningCreep.memory.role,
-            Game.spawns['Spawn1'].pos.x + 1,
-            Game.spawns['Spawn1'].pos.y,
+            Game.spawns[spawnName].pos.x + 1,
+            Game.spawns[spawnName].pos.y,
             {align: 'left', opacity: 0.8});
     }
 }
