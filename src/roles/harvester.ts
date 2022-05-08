@@ -14,6 +14,10 @@ const roleHarvester = {
           creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
         }
       }
+      else{
+        const sources = creep.room.find(FIND_SOURCES);
+        creep.harvest(sources[0])
+      }
     }
   }
 
