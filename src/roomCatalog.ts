@@ -1,9 +1,9 @@
 declare global {
     interface RoomMemory {
-        sources: {
+        sources: Record<string, {
             workerSpots : number,
             workers : number
-        }[]
+        }>
   }
 }
 
