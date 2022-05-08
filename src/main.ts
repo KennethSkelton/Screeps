@@ -26,6 +26,18 @@ function unwrappedLoop(): void {
     }
   });
 
+
+  //Build Tower
+  // eslint-disable-next-line max-len
+  console.log(Game.rooms['W12N56'].controller?.level)
+  console.log(Game.rooms['W12N56'].controller?.level && Game.rooms['W12N56'].controller?.level >= 3)
+  console.log(Game.rooms['W12N56'].lookForAt(LOOK_CONSTRUCTION_SITES,25,32).length == 0)
+
+  // eslint-disable-next-line max-len
+  if(Game.rooms['W12N56'].controller?.level && Game.rooms['W12N56'].controller?.level >= 3 && Game.rooms['W12N56'].lookForAt(LOOK_CONSTRUCTION_SITES,25,32).length == 0){
+    Game.rooms['W12N56'].createConstructionSite(25,32,STRUCTURE_TOWER)
+  }
+
   //Spawning
   spawnCreeps()
 
