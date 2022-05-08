@@ -22,13 +22,6 @@ function spawnCreeps(): void {
 
 
 
-    if(harvesters.length < 7) {
-        const newName = `Harvester ${Game.time}`;
-        console.log('Spawning new harvester: ' + newName);
-        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE], newName,
-            {memory: {role: 'harvester'}});
-    }
-
     if(superHarvesters.length < 0) {
         const newName = `SuperHarvester ${Game.time}`;
         console.log('Spawning new SuperHarvester: ' + newName);
@@ -69,6 +62,13 @@ function spawnCreeps(): void {
         console.log('Spawning new floater: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'floater'}});
+    }
+
+    if(harvesters.length < 7) {
+        const newName = `Harvester ${Game.time}`;
+        console.log('Spawning new harvester: ' + newName);
+        Game.spawns['Spawn1'].spawnCreep([WORK,WORK,CARRY,MOVE], newName,
+            {memory: {role: 'harvester'}});
     }
 
     if(Game.spawns['Spawn1'].spawning) {
