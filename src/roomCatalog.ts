@@ -3,7 +3,7 @@ declare global {
         sources: {
             workerSpots : number,
             workers : number
-        }
+        }[]
   }
 }
 
