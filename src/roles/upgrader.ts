@@ -26,11 +26,18 @@ const roleUpgrader = {
         }
       }
     } else {
-      const sources = creep.room.find(FIND_SOURCES);
-      if (creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+        const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
+        if(droppedResources.length != 0){
+          if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE){
+            creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+          }
+        } else{
+          const sources = creep.room.find(FIND_SOURCES);
+          if (creep.harvest(sources[0]) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(sources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+          }
+        }
       }
-    }
   }
 };
 
