@@ -58,17 +58,17 @@ function spawnCreeps(): void {
     }
 
     if(repairers.length < 0) {
-        const newName = `Repairer' ${Game.time}`;
+        const newName = `Repairer ${Game.time}`;
         console.log('Spawning new Repairer: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
             {memory: {role: 'repairer'}});
     }
 
     if(floaters.length < 6) {
-        const newName = `Floater' ${Game.time}`;
-        console.log('Spawning new Floater: ' + newName);
+        const newName = `Floater ${Game.time}`;
+        console.log('Spawning new floater: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
-            {memory: {role: 'Floater'}});
+            {memory: {role: 'floater'}});
     }
 
     if(Game.spawns['Spawn1'].spawning) {
