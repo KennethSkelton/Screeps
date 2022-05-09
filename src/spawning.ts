@@ -2,8 +2,6 @@ import { BUILDER_SCHEMA, FLOATER_SCHEMA, HARVESTER_SCHEMA, HAULER_SCHEMA, UPGRAD
 
 
 function spawnCreeps(spawnName: string): void {
-    const energyCapacityAvailable = Game.spawns[spawnName].room.energyCapacityAvailable
-    const energyAvailable = Game.spawns[spawnName].room.energyAvailable
     const schemaNumber = schemaLevel(spawnName)
 
 
@@ -78,7 +76,7 @@ function spawnCreeps(spawnName: string): void {
     }
 }
 
-function schemaLevel(spawnName: string){
+function schemaLevel(spawnName: string): number{
     const energyCapacityAvailable = Game.spawns[spawnName].room.energyCapacityAvailable
     const energyAvailable = Game.spawns[spawnName].room.energyAvailable
     let schemaNumber = 0

@@ -12,7 +12,7 @@ declare global {
 }
 
 function storeSourcesInMemory(room: Room): void {
-    if((room.memory.sources)){
+    if(!(room.memory.sources)){
         const sources = room.find(FIND_SOURCES)
         room.memory.sources = {}
         sources.forEach(source => {
