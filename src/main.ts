@@ -6,6 +6,7 @@ import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
 import { spawnCreeps } from './spawning';
 import { storeSourcesInMemory} from './roomCatalog'
+import { HOME_ROOM } from './constants';
 
 declare global {
   interface CreepMemory {
@@ -67,6 +68,13 @@ function unwrappedLoop(): void {
       }
     }
   });
+
+  //emergency return to base
+  Object.values(Game.creeps).forEach(creep => {
+    if(creep.pos.roomName != HOME_ROOM){
+      creep.moveTo(Game.flags['HOME_FLAG'].pos, { visualizePathStyle: { stroke: '#ffaa00' } })
+    }
+  })
 
   // Automatically delete memory of missing creeps
   Object.keys(Memory.creeps)
