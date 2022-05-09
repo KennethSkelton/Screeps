@@ -52,7 +52,7 @@ function spawnCreeps(spawnName: string): void {
             {memory: {role: 'floater'}});
     }
 
-    if(harvesters.length < 7) {
+    if(harvesters.length < 8) {
         const newName = `Harvester_${schemaNumber} ${Game.time}`;
         console.log('Spawning new harvester: ' + newName);
         Game.spawns[spawnName].spawnCreep(HARVESTER_SCHEMA[schemaNumber], newName,
