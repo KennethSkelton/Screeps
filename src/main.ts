@@ -33,7 +33,6 @@ function unwrappedLoop(): void {
 
 
   //Catalog Room
-
   Object.values(Game.rooms).forEach(room => {
     if (room.controller?.my) {
       storeSourcesInMemory(room)
@@ -41,6 +40,7 @@ function unwrappedLoop(): void {
   });
 
 
+  //Job Assignment
   Object.values(Game.creeps).forEach(creep => {
     if (creep.memory.role === 'harvester') {
       roleHarvester.run(creep as Harvester);
@@ -57,6 +57,9 @@ function unwrappedLoop(): void {
     }
     if (creep.memory.role === 'repairer') {
       roleRepairer.run(creep as Repairer);
+    }
+    if (creep.memory.role === 'hauler'){
+      roleHarvester.run(creep as Harvester)
     }
     if (creep.memory.role === 'floater'){
       if(creep.room.energyAvailable < creep.room.energyCapacityAvailable){

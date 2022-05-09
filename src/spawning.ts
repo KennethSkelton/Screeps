@@ -1,4 +1,4 @@
-import { BUILDER_SCHEMA, FLOATER_SCHEMA, HARVESTER_SCHEMA, UPGRADER_SCHEMA } from './constants';
+import { BUILDER_SCHEMA, FLOATER_SCHEMA, HARVESTER_SCHEMA, HAULER_SCHEMA, UPGRADER_SCHEMA } from './constants';
 
 
 function spawnCreeps(spawnName: string): void {
@@ -24,6 +24,9 @@ function spawnCreeps(spawnName: string): void {
     const repairers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'repairer');
     console.log(`repairer: ${repairers.length}`);
 
+    const haulers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'hauler');
+    console.log(`hauler: ${haulers.length}`);
+
 
     if(upgraders.length < 2) {
         const newName = `Upgrader_${schemaNumber} ${Game.time}`;
@@ -37,6 +40,13 @@ function spawnCreeps(spawnName: string): void {
         console.log('Spawning new builder: ' + newName);
         Game.spawns[spawnName].spawnCreep(BUILDER_SCHEMA[schemaNumber], newName,
             {memory: {role: 'builder'}});
+    }
+
+    if(haulers.length < 4) {
+        const newName = `Hauler${schemaNumber} ${Game.time}`;
+        console.log('Spawning new Hauler: ' + newName);
+        Game.spawns[spawnName].spawnCreep(HAULER_SCHEMA[schemaNumber], newName,
+            {memory: {role: 'Hauler'}});
     }
 
     if(repairers.length < 2) {
@@ -53,7 +63,7 @@ function spawnCreeps(spawnName: string): void {
             {memory: {role: 'floater'}});
     }
 
-    if(harvesters.length < 8) {
+    if(harvesters.length < 6) {
         const newName = `Harvester_${schemaNumber} ${Game.time}`;
         console.log('Spawning new harvester: ' + newName);
         Game.spawns[spawnName].spawnCreep(HARVESTER_SCHEMA[schemaNumber], newName,

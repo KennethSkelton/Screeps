@@ -21,6 +21,15 @@ const FLOATER_SCHEMA = [
     [WORK, WORK, CARRY, CARRY, MOVE, MOVE]
 ]
 
+const HAULER_SCHEMA = [
+    [CARRY, CARRY, MOVE, MOVE],
+    [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
+]
+
+const RUNNER_SCHEMA = [
+    [CARRY, MOVE]
+]
+
 const HOME_ROOM = 'W12N56'
 
 export {
@@ -28,5 +37,7 @@ export {
     UPGRADER_SCHEMA,
     BUILDER_SCHEMA,
     FLOATER_SCHEMA,
+    HAULER_SCHEMA,
+    RUNNER_SCHEMA,
     HOME_ROOM
 }
