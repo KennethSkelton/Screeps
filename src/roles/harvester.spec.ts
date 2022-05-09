@@ -1,5 +1,5 @@
 import { mockInstanceOf, mockStructure } from 'screeps-jest';
-import roleHarvester, { isToBeFilled } from './harvester';
+import roleHarvester, { Harvester, isToBeFilled } from './harvester';
 
 const source1 = mockInstanceOf<Source>({ id: 'source1' as Id<Source> });
 const source2 = mockInstanceOf<Source>({ id: 'source2' as Id<Source> });
@@ -10,7 +10,7 @@ describe('Harvester role', () => {
   describe('run', () => {
 
     it("harvests, when it's not full and is near a source", () => {
-      const creep = mockInstanceOf<Creep>({
+      const creep = mockInstanceOf<Harvester>({
         store: { getFreeCapacity: () => 50 },
         room: { find: () => [source1, source2] },
         harvest: () => OK
@@ -21,7 +21,7 @@ describe('Harvester role', () => {
     });
 
     it("moves to a source, when it's not full and not near a source", () => {
-      const creep = mockInstanceOf<Creep>({
+      const creep = mockInstanceOf<Harvester>({
         store: { getFreeCapacity: () => 50 },
         room: { find: () => [source1, source2] },
         harvest: () => ERR_NOT_IN_RANGE,
@@ -33,7 +33,7 @@ describe('Harvester role', () => {
     });
 
     it("fills structures, when it's full and near a non-full structure", () => {
-      const creep = mockInstanceOf<Creep>({
+      const creep = mockInstanceOf<Harvester>({
         store: { getFreeCapacity: () => 0 },
         room: { find: () => [extension] },
         transfer: () => OK
@@ -45,7 +45,7 @@ describe('Harvester role', () => {
     });
 
     it("moves towards a non-full structure, when it's full and out of range to transfer", () => {
-      const creep = mockInstanceOf<Creep>({
+      const creep = mockInstanceOf<Harvester>({
         store: { getFreeCapacity: () => 0 },
         room: { find: () => [extension] },
         transfer: () => ERR_NOT_IN_RANGE,
@@ -58,7 +58,7 @@ describe('Harvester role', () => {
     });
 
     it("idles, when it's full and there are no structures in need of refilling", () => {
-      const creep = mockInstanceOf<Creep>({
+      const creep = mockInstanceOf<Harvester>({
         store: { getFreeCapacity: () => 0 },
         room: { find: () => [] }, // no structures to fill
         moveTo: () => OK,
