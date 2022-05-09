@@ -20,8 +20,7 @@ const roleHarvester = {
 
         for(const [sourceId, sourceInfoObject] of Object.entries(Memory.rooms[creep.room.name].sources)){
           if(!groupedHarvesters[sourceId] || (groupedHarvesters[sourceId].length < sourceInfoObject.workerSpots)){
-            //creep.memory.sourceId = sourceId as Id<Source>
-            //console.log(`${sourceId} ${groupedHarvesters[sourceId].length}`)
+            console.log(`${sourceId} ${groupedHarvesters[sourceId].length}`)
             potentialSources.push(sourceId as Id<Source>)
             //break;
           }
@@ -43,9 +42,6 @@ const roleHarvester = {
       }
       creep.memory.sourceId = source.id
     } else {
-      if(creep.memory.sourceId){
-        delete creep.memory.sourceId
-      }
       const targets = creep.room.find(FIND_MY_STRUCTURES, { filter: isToBeFilled });
 
       if (targets.length > 0) {
