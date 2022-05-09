@@ -2,6 +2,7 @@ import roleBuilder, { Builder } from 'roles/builder';
 import roleHarvester, { Harvester } from 'roles/harvester';
 import roleUpgrader, { Upgrader } from 'roles/upgrader';
 import roleRepairer, { Repairer } from 'roles/repairer';
+import roleHauler, { Hauler } from 'roles/hauler';
 import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
 import { spawnCreeps } from './spawning';
@@ -59,7 +60,7 @@ function unwrappedLoop(): void {
       roleRepairer.run(creep as Repairer);
     }
     if (creep.memory.role === 'hauler'){
-      roleHarvester.run(creep as Harvester)
+      roleHauler.run(creep as Hauler)
     }
     if (creep.memory.role === 'floater'){
       if(creep.room.energyAvailable < creep.room.energyCapacityAvailable){
