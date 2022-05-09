@@ -1,3 +1,5 @@
+import { FILL_PRIORITY, HOME_SPAWN } from "../constants";
+
 export interface Hauler extends Creep {
     memory: HaulerMemory;
   }
@@ -21,13 +23,24 @@ const roleHauler = {
     }
     else{
       const targets = creep.room.find(FIND_STRUCTURES, { filter: isToBeFilled });
+      console.log(JSON. stringify(targets, null, 4))
+      let target: Structure = Game.spawns[HOME_SPAWN]
       if (targets.length > 0) {
-         /*const groupedTargets = _.groupBy(targets, function(n){
+         const groupedTargets = _.groupBy(targets, function(n){
              return n.structureType
-         })*/
+         })
 
-        if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+        for(const type of FILL_PRIORITY){
+            if(groupedTargets[type]){
+                // eslint-disable-next-line max-len
+                groupedTargets[type].sort((a, b) => PathFinder.search(creep.pos, {pos: a.pos, range : 1}).path.length - PathFinder.search(creep.pos, {pos: b.pos, range : 1}).path.length)
+                target = groupedTargets[type][0]
+                console.log(`Target is ${JSON.stringify(target, null, 4)}`)
+                break
+            }
+        }
+        if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
         }
       }
     }
