@@ -4,10 +4,8 @@ import { BUILDER_SCHEMA, FLOATER_SCHEMA, HARVESTER_SCHEMA, HAULER_SCHEMA, UPGRAD
 function spawnCreeps(spawnName: string): void {
     const energyCapacityAvailable = Game.spawns[spawnName].room.energyCapacityAvailable
     const energyAvailable = Game.spawns[spawnName].room.energyAvailable
-    let schemaNumber = 0
-    if(energyCapacityAvailable >= 550 && energyAvailable >= 400){
-        schemaNumber = 1
-    }
+    const schemaNumber = schemaLevel(spawnName)
+
 
     const floaters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'floater');
     console.log(`Floaters: ${floaters.length}`);
@@ -63,7 +61,7 @@ function spawnCreeps(spawnName: string): void {
             {memory: {role: 'floater'}});
     }
 
-    if(harvesters.length < 6) {
+    if(harvesters.length < 4) {
         const newName = `Harvester_${schemaNumber} ${Game.time}`;
         console.log('Spawning new harvester: ' + newName);
         Game.spawns[spawnName].spawnCreep(HARVESTER_SCHEMA[schemaNumber], newName,
@@ -80,5 +78,22 @@ function spawnCreeps(spawnName: string): void {
     }
 }
 
-export {spawnCreeps};
+function schemaLevel(spawnName: string){
+    const energyCapacityAvailable = Game.spawns[spawnName].room.energyCapacityAvailable
+    const energyAvailable = Game.spawns[spawnName].room.energyAvailable
+    let schemaNumber = 0
+
+    if(energyCapacityAvailable >= 800 && energyAvailable >= 650){
+        schemaNumber = 2
+    }
+    else if(energyCapacityAvailable >= 500 && energyAvailable >= 400){
+        schemaNumber = 1
+    }
+    return schemaNumber
+}
+
+export {
+    spawnCreeps,
+    schemaLevel
+};
 
