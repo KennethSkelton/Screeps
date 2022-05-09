@@ -21,6 +21,7 @@ const roleHarvester = {
         for(const [sourceId, sourceInfoObject] of Object.entries(Memory.rooms[creep.room.name].sources)){
           if(!groupedHarvesters[sourceId] || (groupedHarvesters[sourceId].length < sourceInfoObject.workerSpots)){
             //creep.memory.sourceId = sourceId as Id<Source>
+            console.log(`${sourceId} ${groupedHarvesters[sourceId].length}`)
             potentialSources.push(sourceId as Id<Source>)
             //break;
           }
