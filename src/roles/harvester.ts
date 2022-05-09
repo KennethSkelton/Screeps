@@ -13,29 +13,29 @@ const roleHarvester = {
   run(creep: Harvester): void {
     if(creep.room.find(FIND_MY_STRUCTURES, { filter: isToBeFilled }).length == 0 || creep.store.getFreeCapacity() > 0) {
       const potentialSources : Id<Source>[] = []
-      if (!creep.memory.sourceId){
-        const harvesters = _.filter(Game.creeps, (creep: Harvester) => creep.memory.role == 'harvester');
-        const groupedHarvesters = _.groupBy(harvesters, function(n: Harvester) {
-          return n.memory.sourceId
-        })
+      const harvesters = _.filter(Game.creeps, (creep: Harvester) => creep.memory.role == 'harvester');
+      const groupedHarvesters = _.groupBy(harvesters, function(n: Harvester) {
+        return n.memory.sourceId
+      })
 
-        delete groupedHarvesters["undefined"]
-        console.log(JSON.stringify(groupedHarvesters, null, 4))
+      delete groupedHarvesters["undefined"]
+      console.log(JSON.stringify(groupedHarvesters, null, 4))
 
 
-        for(const [sourceId, sourceInfoObject] of Object.entries(Memory.rooms[creep.room.name].sources)){
-          if(!groupedHarvesters[sourceId] || (groupedHarvesters[sourceId].length < sourceInfoObject.workerSpots)){
-            potentialSources.push(sourceId as Id<Source>)
-            //break;
-          }
+      for(const [sourceId, sourceInfoObject] of Object.entries(Memory.rooms[creep.room.name].sources)){
+        if(!groupedHarvesters[sourceId] || (groupedHarvesters[sourceId].length < sourceInfoObject.workerSpots)){
+          potentialSources.push(sourceId as Id<Source>)
+          //break;
         }
       }
+
 
       // eslint-disable-next-line max-len
       potentialSources.sort((a, b) => PathFinder.search(creep.pos, {pos: Game.getObjectById(a)!.pos, range : 1}).path.length - PathFinder.search(creep.pos, {pos: Game.getObjectById(b)!.pos, range : 1}).path.length)
 
 
       let source = Game.getObjectById(potentialSources[0])
+      console.log(source)
 
       if(!source){
         source = creep.room.find(FIND_SOURCES)[0]
