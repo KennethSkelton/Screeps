@@ -12,7 +12,7 @@ interface HarvesterMemory extends CreepMemory {
 const roleHarvester = {
   run(creep: Harvester): void {
     if(creep.room.find(FIND_MY_STRUCTURES, { filter: isToBeFilled }).length == 0 || creep.store.getFreeCapacity() > 0) {
-      let potentialSources : Id<Source>[] = []
+      const potentialSources : Id<Source>[] = []
       if (!creep.memory.sourceId){
         const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester');
         const groupedHarvesters = _.groupBy(harvesters, 'sourceId')
@@ -32,9 +32,6 @@ const roleHarvester = {
 
 
       let source = Game.getObjectById(potentialSources[0])
-      console.log(source)
-      console.log(source?.id)
-      console.log(potentialSources)
 
       if(!source){
         source = creep.room.find(FIND_SOURCES)[0]
@@ -55,7 +52,6 @@ const roleHarvester = {
       }
     }
   }
-
 };
 
 function isToBeFilled(structure: Structure): boolean {

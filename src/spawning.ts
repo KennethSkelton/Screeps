@@ -14,17 +14,11 @@ function spawnCreeps(spawnName: string): void {
     const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester');
     console.log(`Harvesters: ${harvesters.length}`);
 
-    const superHarvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'superHarvester');
-    console.log(`superHarvester: ${superHarvesters.length}`);
-
     const upgraders = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'upgrader');
     console.log(`Upgraders: ${upgraders.length}`);
 
     const builders = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'builder');
     console.log(`Builders:  ${builders.length}`);
-
-    const superBuilders = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'superBuilder');
-    console.log(`superBuilders: ${superBuilders.length}`);
 
     const repairers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'repairer');
     console.log(`repairer: ${repairers.length}`);
