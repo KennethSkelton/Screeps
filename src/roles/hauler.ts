@@ -1,3 +1,5 @@
+import { connect } from "http2";
+
 export interface Hauler extends Creep {
     memory: HaulerMemory;
   }
@@ -39,6 +41,7 @@ if (structure.structureType === STRUCTURE_EXTENSION
     || structure.structureType === STRUCTURE_CONTAINER
 ) {
     const s = structure as StructureExtension | StructureSpawn | StructureTower | StructureContainer;
+    console.log(JSON.stringify(s))
     if(s instanceof StructureContainer){
         return s.store.getFreeCapacity() > 0
     }else{
