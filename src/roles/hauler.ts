@@ -12,7 +12,11 @@ export interface Hauler extends Creep {
 const roleHauler = {
   run(creep: Hauler): void {
     if(creep.store.getUsedCapacity() == 0){
-      const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
+      const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
+        filter : function(object: Resource){
+          return object.amount >= 50
+        }
+      });
       // eslint-disable-next-line max-len
       droppedResources.sort((a, b) => PathFinder.search(creep.pos, {pos: a.pos, range : 1}).path.length - PathFinder.search(creep.pos, {pos: b.pos, range : 1}).path.length)
       if(droppedResources.length != 0){
