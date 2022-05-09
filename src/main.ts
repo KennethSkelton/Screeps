@@ -50,11 +50,11 @@ function unwrappedLoop(): void {
       roleUpgrader.run(creep as Upgrader);
     }
     if (creep.memory.role === 'builder') {
-      if(creep.room.find(FIND_MY_CONSTRUCTION_SITES).length!=0){
+      /*if(creep.room.find(FIND_MY_CONSTRUCTION_SITES).length!=0){
         roleBuilder.run(creep as Builder);
-      }else{
+      }else{*/
         roleHarvester.run(creep as Harvester)
-      }
+      //}
     }
     if (creep.memory.role === 'repairer') {
       roleRepairer.run(creep as Repairer);
