@@ -3,13 +3,13 @@ function runTower(tower: StructureTower): void {
 
   if (closestHostile) {
     tower.attack(closestHostile);
-  } else {
+  } /*else {
     const targets = tower.room.find(FIND_STRUCTURES, { filter: isDamaged })
     targets.sort((a,b) => a.hits - b.hits);
     if (targets.length > 0) {
       tower.repair(targets[0]);
     }
-  }
+  }*/
 }
 
 function isDamaged(structure: Structure): boolean {
