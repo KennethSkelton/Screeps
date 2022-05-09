@@ -3,8 +3,9 @@ import { BUILDER_SCHEMA, FLOATER_SCHEMA, HARVESTER_SCHEMA, UPGRADER_SCHEMA } fro
 
 function spawnCreeps(spawnName: string): void {
     const energyCapacityAvailable = Game.spawns[spawnName].room.energyCapacityAvailable
+    const energyAvailable = Game.spawns[spawnName].room.energyAvailable
     let schemaNumber = 0
-    if(energyCapacityAvailable >= 550){
+    if(energyCapacityAvailable >= 550 && energyAvailable >= 400){
         schemaNumber = 1
     }
 
