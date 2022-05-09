@@ -4,9 +4,10 @@ function runTower(tower: StructureTower): void {
   if (closestHostile) {
     tower.attack(closestHostile);
   } else {
-    const closestDamagedStructure = tower.pos.findClosestByRange(FIND_STRUCTURES, { filter: isDamaged });
-    if (closestDamagedStructure) {
-      tower.repair(closestDamagedStructure);
+    const targets = tower.room.find(FIND_STRUCTURES, { filter: isDamaged })
+    targets.sort((a,b) => a.hits - b.hits);
+    if (targets.length > 0) {
+      tower.repair(targets[0]);
     }
   }
 }
