@@ -19,6 +19,7 @@ const roleHarvester = {
           return n.memory.sourceId
         })
 
+        delete groupedHarvesters["undefined"]
         console.log(JSON.stringify(groupedHarvesters, null, 4))
 
 
