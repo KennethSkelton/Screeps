@@ -36,6 +36,7 @@ const roleHarvester = {
       if(!source){
         source = creep.room.find(FIND_SOURCES)[0]
       }
+      console.log(`${creep.name} ${source.id}`)
       if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
         creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
       }
