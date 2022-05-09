@@ -53,7 +53,7 @@ function unwrappedLoop(): void {
       if(creep.room.find(FIND_MY_CONSTRUCTION_SITES).length!=0){
         roleBuilder.run(creep as Builder);
       }else{
-        roleUpgrader.run(creep as Upgrader)
+        roleHarvester.run(creep as Harvester)
       }
     }
     if (creep.memory.role === 'repairer') {
