@@ -1,8 +1,8 @@
 
 //harvester creeps
 const HARVESTER_SCHEMA = [
-    [WORK, MOVE],
-    [WORK, WORK, MOVE, MOVE, MOVE]
+    [WORK, WORK, MOVE],
+    [WORK, WORK, MOVE]
 ]
 
 //upgrader creeps
