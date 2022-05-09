@@ -31,7 +31,7 @@ function spawnCreeps(spawnName: string): void {
             {memory: {role: 'upgrader'}});
     }
 
-    if(builders.length < 3) {
+    if(builders.length < 2) {
         const newName = `Builder_${schemaNumber} ${Game.time}`;
         console.log('Spawning new builder: ' + newName);
         Game.spawns[spawnName].spawnCreep(BUILDER_SCHEMA[schemaNumber], newName,
@@ -52,7 +52,7 @@ function spawnCreeps(spawnName: string): void {
             {memory: {role: 'repairer'}});
     }
 
-    if(floaters.length < 6) {
+    if(floaters.length < 3) {
         const newName = `Floater_${schemaNumber} ${Game.time}`;
         console.log('Spawning new floater: ' + newName);
         Game.spawns[spawnName].spawnCreep(FLOATER_SCHEMA[schemaNumber], newName,
