@@ -9,7 +9,7 @@ export interface Hauler extends Creep {
 
 const roleHauler = {
   run(creep: Hauler): void {
-    if(creep.store.getFreeCapacity() > 0){
+    if(creep.store.getUsedCapacity() == 0){
       const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
       // eslint-disable-next-line max-len
       droppedResources.sort((a, b) => PathFinder.search(creep.pos, {pos: a.pos, range : 1}).path.length - PathFinder.search(creep.pos, {pos: b.pos, range : 1}).path.length)
@@ -22,6 +22,10 @@ const roleHauler = {
     else{
       const targets = creep.room.find(FIND_STRUCTURES, { filter: isToBeFilled });
       if (targets.length > 0) {
+         /*const groupedTargets = _.groupBy(targets, function(n){
+             return n.structureType
+         })*/
+
         if (creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
         }

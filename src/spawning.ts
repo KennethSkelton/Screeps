@@ -42,7 +42,7 @@ function spawnCreeps(spawnName: string): void {
             {memory: {role: 'builder'}});
     }
 
-    if(haulers.length < 4) {
+    if(haulers.length < 2) {
         const newName = `Hauler${schemaNumber} ${Game.time}`;
         console.log('Spawning new Hauler: ' + newName);
         Game.spawns[spawnName].spawnCreep(HAULER_SCHEMA[schemaNumber], newName,
