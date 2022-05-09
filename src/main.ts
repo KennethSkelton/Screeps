@@ -64,7 +64,7 @@ function unwrappedLoop(): void {
     }
     if (creep.memory.role === 'floater'){
       if(creep.room.energyAvailable < creep.room.energyCapacityAvailable){
-        roleHarvester.run(creep as Harvester)
+        roleHauler.run(creep as Hauler)
       } else if(creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0){
         roleBuilder.run(creep as Builder)
       } else{
