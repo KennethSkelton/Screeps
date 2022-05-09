@@ -15,8 +15,6 @@ const roleHauler = {
       const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
       // eslint-disable-next-line max-len
       droppedResources.sort((a, b) => PathFinder.search(creep.pos, {pos: a.pos, range : 1}).path.length - PathFinder.search(creep.pos, {pos: b.pos, range : 1}).path.length)
-      console.log(droppedResources)
-      console.log(JSON.stringify(droppedResources))
       if(droppedResources.length != 0){
         if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE){
           creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
@@ -41,7 +39,6 @@ if (structure.structureType === STRUCTURE_EXTENSION
     || structure.structureType === STRUCTURE_CONTAINER
 ) {
     const s = structure as StructureExtension | StructureSpawn | StructureTower | StructureContainer;
-    console.log(JSON.stringify(s))
     if(s instanceof StructureContainer){
         return s.store.getFreeCapacity() > 0
     }else{
