@@ -1,5 +1,5 @@
-import { RETRIEVE_PRIORITY } from "../constants";
-import { HOME_SPAWN } from "../constants";
+import { RETRIEVE_PRIORITY } from '../constants';
+import { HOME_SPAWN } from '../constants';
 
 export interface Builder extends Creep {
   memory: BuilderMemory;
@@ -30,33 +30,39 @@ const roleBuilder = {
       }
     } else {
       const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-      console.log(JSON. stringify(targets, null, 4))
-      let target: Structure = Game.spawns[HOME_SPAWN]
+      console.log(JSON.stringify(targets, null, 4));
+      let target: Structure = Game.spawns[HOME_SPAWN];
       if (targets.length > 0) {
-         const groupedTargets = _.groupBy(targets, function(n){
-             return n.structureType
-         })
+        const groupedTargets = _.groupBy(targets, function (n) {
+          return n.structureType;
+        });
 
-        for(const type of RETRIEVE_PRIORITY){
-            if(groupedTargets[type]){
-                // eslint-disable-next-line max-len
-                groupedTargets[type].sort((a, b) => PathFinder.search(creep.pos, {pos: a.pos, range : 1}).path.length - PathFinder.search(creep.pos, {pos: b.pos, range : 1}).path.length)
-                target = groupedTargets[type][0]
-                console.log(`Target is ${JSON.stringify(target, null, 4)}`)
-                break
-            }
-        }
-          if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+        for (const type of RETRIEVE_PRIORITY) {
+          if (groupedTargets[type]) {
+            // eslint-disable-next-line max-len
+            groupedTargets[type].sort(
+              (a, b) =>
+                PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
+                PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
+            );
+            target = groupedTargets[type][0];
+            break;
           }
         }
-        else{
-          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
-          // eslint-disable-next-line max-len
-          droppedResources.sort((a, b) => PathFinder.search(creep.pos, {pos: a.pos, range : 1}).path.length - PathFinder.search(creep.pos, {pos: b.pos, range : 1}).path.length)
+        if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+          creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+        }
+      } else {
+        const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
+        // eslint-disable-next-line max-len
+        droppedResources.sort(
+          (a, b) =>
+            PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
+            PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
+        );
 
-          if(droppedResources.length != 0){
-          if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE){
+        if (droppedResources.length != 0) {
+          if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
             creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
           }
         }
@@ -66,21 +72,22 @@ const roleBuilder = {
 };
 
 function hasEnergy(structure: Structure): boolean {
-  if (structure.structureType === STRUCTURE_EXTENSION
-      || structure.structureType === STRUCTURE_SPAWN
-      || structure.structureType === STRUCTURE_TOWER
-      || structure.structureType === STRUCTURE_CONTAINER
-      || structure.structureType === STRUCTURE_STORAGE
+  if (
+    structure.structureType === STRUCTURE_EXTENSION ||
+    structure.structureType === STRUCTURE_SPAWN ||
+    structure.structureType === STRUCTURE_TOWER ||
+    structure.structureType === STRUCTURE_CONTAINER ||
+    structure.structureType === STRUCTURE_STORAGE
   ) {
-      // eslint-disable-next-line max-len
-      const s = structure as StructureExtension | StructureSpawn | StructureTower | StructureContainer | StructureStorage;
-      if(s instanceof StructureContainer || s instanceof StructureStorage){
-          return s.store.getUsedCapacity() > 0
-      }else{
-          return s.energy > 0;
-      }
+    // eslint-disable-next-line max-len
+    const s = structure as StructureExtension | StructureSpawn | StructureTower | StructureContainer | StructureStorage;
+    if (s instanceof StructureContainer || s instanceof StructureStorage) {
+      return s.store.getUsedCapacity() > 0;
+    } else {
+      return s.energy > 0;
+    }
   }
   return false;
-  }
+}
 
 export default roleBuilder;
