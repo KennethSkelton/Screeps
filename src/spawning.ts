@@ -36,12 +36,15 @@ function spawnCreeps(spawnName: string): void {
   const haulers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'hauler');
   console.log(`haulers: ${haulers.length}`);
 
+  /*
   const claimers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'claimer');
   console.log(`claimers: ${claimers.length}`);
 
   const scouters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'scouter');
   console.log(`scouters: ${claimers.length}`);
+  */
 
+  /*
   if (scouters.length < 1) {
     const newName = `Scouter_${0} ${Game.time}`;
     console.log('Spawning new Scouter: ' + newName);
@@ -57,6 +60,7 @@ function spawnCreeps(spawnName: string): void {
       memory: { role: 'claimer', homeroom: homeRoomName, isRemote: false }
     });
   }
+  */
 
   if (upgraders.length < 2) {
     const newName = `Upgrader_${schemaNumber} ${Game.time}`;
