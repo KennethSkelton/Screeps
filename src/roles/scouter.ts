@@ -14,4 +14,4 @@ const roleScouter = {
   }
 };
 
-export { roleScouter };
+export default roleScouter;

@@ -3,13 +3,13 @@ import roleHarvester, { Harvester } from 'roles/harvester';
 import roleUpgrader, { Upgrader } from 'roles/upgrader';
 import roleRepairer, { Repairer } from 'roles/repairer';
 import roleHauler, { Hauler } from 'roles/hauler';
+import roleClaimer, { Claimer } from 'roles/claimer';
+import roleScouter, { Scouter } from 'roles/scouter';
 import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
 import { spawnCreeps } from './spawning';
 import { storeSourcesInMemory } from './roomCatalog';
 import { HOME_ROOM } from './constants';
-import { Claimer, roleClaimer } from 'roles/claimer';
-import { Scouter, roleScouter } from 'roles/scouter';
 
 declare global {
   interface CreepMemory {

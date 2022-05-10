@@ -20,4 +20,4 @@ const roleClaimer = {
   }
 };
 
-export { roleClaimer };
+export default roleClaimer;
