@@ -84,9 +84,9 @@ function spawnCreeps(spawnName: string): void {
 
   if (wallers.length < 1) {
     const newName = `Waller_${schemaNumber} ${Game.time}`;
-    console.log('Spawning new Repairer: ' + newName);
+    console.log('Spawning new Waller: ' + newName);
     Game.spawns[spawnName].spawnCreep(WALLER_SCHEMA[schemaNumber], newName, {
-      memory: { role: 'repairer', homeroom: homeRoomName, isRemote: false }
+      memory: { role: 'waller', homeroom: homeRoomName, isRemote: false }
     });
   }
 
