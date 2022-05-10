@@ -17,7 +17,7 @@ module.exports = {
     'no-console': 'off',
     'no-param-reassign': ['error', { 'props': false }],
     'no-plusplus': 'off',
-    'object-curly-newline': ['error', { 'multiline': true }],
+    //'object-curly-newline': ['error', { 'multiline': true }],
     'padded-blocks': ['error', {
       'blocks': 'never',
       'classes': 'always',

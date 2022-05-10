@@ -1,21 +1,28 @@
 import {
   BUILDER_SCHEMA,
   CLAIMER_SCHEMA,
+  CREEP_SCHEMA,
   FLOATER_SCHEMA,
   HARVESTER_SCHEMA,
   HAULER_SCHEMA,
+  REPAIRER_SCHEMA,
   SCOUTER_SCHEMA,
-  UPGRADER_SCHEMA
+  UPGRADER_SCHEMA,
+  WALLER_SCHEMA
 } from './constants';
 
 function spawnCreeps(spawnName: string): void {
   const schemaNumber = schemaLevel(spawnName);
+  const homeRoomName = Game.spawns[spawnName].room.name;
 
   const floaters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'floater');
   console.log(`Floaters: ${floaters.length}`);
 
   const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester');
   console.log(`Harvesters: ${harvesters.length}`);
+
+  const wallers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'waller');
+  console.log(`Upgraders: ${wallers.length}`);
 
   const upgraders = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'upgrader');
   console.log(`Upgraders: ${upgraders.length}`);
@@ -38,49 +45,73 @@ function spawnCreeps(spawnName: string): void {
   if (scouters.length < 1) {
     const newName = `Scouter_${0} ${Game.time}`;
     console.log('Spawning new Scouter: ' + newName);
-    Game.spawns[spawnName].spawnCreep(SCOUTER_SCHEMA[0], newName, { memory: { role: 'scouter' } });
+    Game.spawns[spawnName].spawnCreep(SCOUTER_SCHEMA[0], newName, {
+      memory: { role: 'scouter', homeroom: homeRoomName, isRemote: false }
+    });
   }
 
   if (claimers.length < 1) {
     const newName = `Claimer_${0} ${Game.time}`;
     console.log('Spawning new Claimer: ' + newName);
-    Game.spawns[spawnName].spawnCreep(CLAIMER_SCHEMA[0], newName, { memory: { role: 'claimer' } });
+    Game.spawns[spawnName].spawnCreep(CLAIMER_SCHEMA[0], newName, {
+      memory: { role: 'claimer', homeroom: homeRoomName, isRemote: false }
+    });
   }
 
   if (upgraders.length < 2) {
     const newName = `Upgrader_${schemaNumber} ${Game.time}`;
     console.log('Spawning new upgrader: ' + newName);
-    Game.spawns[spawnName].spawnCreep(UPGRADER_SCHEMA[schemaNumber], newName, { memory: { role: 'upgrader' } });
+    Game.spawns[spawnName].spawnCreep(UPGRADER_SCHEMA[schemaNumber], newName, {
+      memory: { role: 'upgrader', homeroom: homeRoomName, isRemote: false }
+    });
   }
 
   if (builders.length < 2) {
     const newName = `Builder_${schemaNumber} ${Game.time}`;
     console.log('Spawning new builder: ' + newName);
-    Game.spawns[spawnName].spawnCreep(BUILDER_SCHEMA[schemaNumber], newName, { memory: { role: 'builder' } });
+    Game.spawns[spawnName].spawnCreep(BUILDER_SCHEMA[schemaNumber], newName, {
+      memory: { role: 'builder', homeroom: homeRoomName, isRemote: false }
+    });
   }
 
-  if (haulers.length < 2) {
+  if (haulers.length < Game.spawns[spawnName].room.find(FIND_SOURCES).length) {
     const newName = `Hauler${schemaNumber} ${Game.time}`;
     console.log('Spawning new Hauler: ' + newName);
-    Game.spawns[spawnName].spawnCreep(HAULER_SCHEMA[schemaNumber], newName, { memory: { role: 'hauler' } });
+    Game.spawns[spawnName].spawnCreep(HAULER_SCHEMA[schemaNumber], newName, {
+      memory: { role: 'hauler', homeroom: homeRoomName, isRemote: false }
+    });
+  }
+
+  if (wallers.length < 1) {
+    const newName = `Waller_${schemaNumber} ${Game.time}`;
+    console.log('Spawning new Repairer: ' + newName);
+    Game.spawns[spawnName].spawnCreep(WALLER_SCHEMA[schemaNumber], newName, {
+      memory: { role: 'repairer', homeroom: homeRoomName, isRemote: false }
+    });
   }
 
   if (repairers.length < 2) {
     const newName = `Repairer_${schemaNumber} ${Game.time}`;
     console.log('Spawning new Repairer: ' + newName);
-    Game.spawns[spawnName].spawnCreep([WORK, CARRY, MOVE], newName, { memory: { role: 'repairer' } });
+    Game.spawns[spawnName].spawnCreep(REPAIRER_SCHEMA[schemaNumber], newName, {
+      memory: { role: 'repairer', homeroom: homeRoomName, isRemote: false }
+    });
   }
 
   if (floaters.length < 3) {
     const newName = `Floater_${schemaNumber} ${Game.time}`;
     console.log('Spawning new floater: ' + newName);
-    Game.spawns[spawnName].spawnCreep(FLOATER_SCHEMA[schemaNumber], newName, { memory: { role: 'floater' } });
+    Game.spawns[spawnName].spawnCreep(FLOATER_SCHEMA[schemaNumber], newName, {
+      memory: { role: 'floater', homeroom: homeRoomName, isRemote: false }
+    });
   }
 
   if (harvesters.length < Game.spawns[spawnName].room.find(FIND_SOURCES).length) {
     const newName = `Harvester_${schemaNumber} ${Game.time}`;
     console.log('Spawning new harvester: ' + newName);
-    Game.spawns[spawnName].spawnCreep(HARVESTER_SCHEMA[schemaNumber], newName, { memory: { role: 'harvester' } });
+    Game.spawns[spawnName].spawnCreep(HARVESTER_SCHEMA[schemaNumber], newName, {
+      memory: { role: 'harvester', homeroom: homeRoomName, isRemote: false }
+    });
   }
 
   if (Game.spawns[spawnName].spawning) {
@@ -105,6 +136,22 @@ function schemaLevel(spawnName: string): number {
     schemaNumber = 1;
   }
   return schemaNumber;
+}
+
+function spawnFromQuota(spawnName: string, quotaList: Record<string, number>) {
+  const schemaNumber = schemaLevel(spawnName);
+  const homeRoomName = Game.spawns[spawnName].room.name;
+  for (const [role, quota] of Object.entries(quotaList)) {
+    const numberOfCreep = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == role);
+    console.log(`${role}s: ${numberOfCreep.length}`);
+
+    if (quota != -1 && numberOfCreep.length < quota) {
+      const newName = `${role}_${schemaNumber} ${Game.time}`;
+      Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[role][schemaNumber], newName, {
+        memory: { role: role, homeroom: homeRoomName, isRemote: false }
+      });
+    }
+  }
 }
 
 export { spawnCreeps, schemaLevel };

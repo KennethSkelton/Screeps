@@ -1,32 +1,32 @@
 import { RETRIEVE_PRIORITY } from '../constants';
 import { HOME_SPAWN } from '../constants';
 
-export interface Repairer extends Creep {
-  memory: RepairerMemory;
+export interface Waller extends Creep {
+  memory: WallerMemory;
 }
 
-interface RepairerMemory extends CreepMemory {
-  role: 'repairer';
-  repairing: boolean;
+interface WallerMemory extends CreepMemory {
+  role: 'waller';
+  walling: boolean;
 }
 
-const roleRepairer = {
+const roleWaller = {
   /** @param {Creep} creep **/
-  run(creep: Repairer): void {
+  run(creep: Waller): void {
     //work
-    if (creep.memory.repairing && creep.store[RESOURCE_ENERGY] == 0) {
-      creep.memory.repairing = false;
+    if (creep.memory.walling && creep.store[RESOURCE_ENERGY] == 0) {
+      creep.memory.walling = false;
       creep.say('🔄 harvest');
     }
-    if (!creep.memory.repairing && creep.store.getFreeCapacity() == 0) {
-      creep.memory.repairing = true;
-      creep.say('⚡ repairing');
+    if (!creep.memory.walling && creep.store.getFreeCapacity() == 0) {
+      creep.memory.walling = true;
+      creep.say('⚡ walling');
     }
 
-    if (creep.memory.repairing) {
+    if (creep.memory.walling) {
       const targets = creep.room.find(FIND_STRUCTURES, {
         filter: function (n: Structure) {
-          return !(n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n);
+          return (n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n);
         }
       });
 
@@ -102,4 +102,4 @@ function isDamaged(structure: Structure): boolean {
   return structure.hits < structure.hitsMax;
 }
 
-export default roleRepairer;
+export default roleWaller;
