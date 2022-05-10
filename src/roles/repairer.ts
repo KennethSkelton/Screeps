@@ -30,7 +30,7 @@ const roleRepairer = {
         }
       });
 
-      targets.sort((a, b) => a.hits - b.hits);
+      targets.sort((a, b) => a.hits / a.hitsMax - b.hits / b.hitsMax);
 
       if (targets.length > 0) {
         if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
