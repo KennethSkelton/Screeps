@@ -1,4 +1,4 @@
-import { FILL_PRIORITY, HOME_SPAWN } from '../../constants';
+import { FILL_PRIORITY, HOME_SPAWN, RETRIEVE_PRIORITY } from '../../constants';
 
 export interface remoteHauler extends Creep {
   memory: remoteHaulerMemory;
@@ -6,32 +6,18 @@ export interface remoteHauler extends Creep {
 
 interface remoteHaulerMemory extends CreepMemory {
   role: 'hauler';
+  haulingHome: boolean;
 }
 
 const roleRemoteHauler = {
   run(creep: remoteHauler): void {
-    if (creep.store.getUsedCapacity() == 0) {
-      if (creep.memory.targetRoom != creep.room.name && creep.memory.targetRoom) {
-        creep.moveTo(Game.flags[`${creep.memory.targetRoom}_Staging_Area`].pos);
-      } else {
-        const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
-          filter: function (object: Resource) {
-            return object.amount >= 50;
-          }
-        });
-        // eslint-disable-next-line max-len
-        droppedResources.sort(
-          (a, b) =>
-            PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-            PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-        );
-        if (droppedResources.length != 0) {
-          if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
-          }
-        }
-      }
+    if (creep.store.getFreeCapacity() > 0) {
+      creep.memory.haulingHome = false;
     } else {
+      creep.memory.haulingHome = true;
+    }
+
+    if (creep.memory.haulingHome) {
       if (Game.spawns[HOME_SPAWN].room) {
         const targets = Game.rooms[Game.spawns[HOME_SPAWN].room.name].find(FIND_STRUCTURES, { filter: isToBeFilled });
         let target: Structure = Game.spawns[HOME_SPAWN];
@@ -57,9 +43,71 @@ const roleRemoteHauler = {
           }
         }
       }
+    } else {
+      if (creep.memory.targetRoom && creep.memory.targetRoom != creep.room.name) {
+        creep.moveTo(Game.flags[`${creep.memory.targetRoom}_Staging_Area`].pos);
+      } else {
+        const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
+        if (targets.length > 0) {
+          const groupedTargets = _.groupBy(targets, function (n) {
+            return n.structureType;
+          });
+          let target;
+          for (const type of RETRIEVE_PRIORITY) {
+            if (groupedTargets[type]) {
+              // eslint-disable-next-line max-len
+              groupedTargets[type].sort(
+                (a, b) =>
+                  PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
+                  PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
+              );
+              target = groupedTargets[type][0];
+              break;
+            }
+          }
+          if (target) {
+            if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+            }
+          }
+        } else {
+          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
+          // eslint-disable-next-line max-len
+          droppedResources.sort(
+            (a, b) =>
+              PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
+              PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
+          );
+
+          if (droppedResources.length != 0) {
+            if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+            }
+          }
+        }
+      }
     }
   }
 };
+
+function hasEnergy(structure: Structure): boolean {
+  if (
+    structure.structureType === STRUCTURE_EXTENSION ||
+    structure.structureType === STRUCTURE_SPAWN ||
+    structure.structureType === STRUCTURE_TOWER ||
+    structure.structureType === STRUCTURE_CONTAINER ||
+    structure.structureType === STRUCTURE_STORAGE
+  ) {
+    // eslint-disable-next-line max-len
+    const s = structure as StructureExtension | StructureSpawn | StructureTower | StructureContainer | StructureStorage;
+    if (s instanceof StructureContainer || s instanceof StructureStorage) {
+      return s.store.getUsedCapacity() > 0;
+    } else {
+      return s.energy > 0;
+    }
+  }
+  return false;
+}
 
 function isToBeFilled(structure: Structure): boolean {
   if (
