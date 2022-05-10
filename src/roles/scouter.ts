@@ -1,5 +1,3 @@
-import { RESERVE_TARGETS } from '../constants';
-
 export interface Scouter extends Creep {
   memory: ScouterMemory;
 }
@@ -10,7 +8,14 @@ interface ScouterMemory extends CreepMemory {
 
 const roleScouter = {
   run(creep: Scouter): void {
-    creep.moveTo(new RoomPosition(25, 25, RESERVE_TARGETS[0]), { visualizePathStyle: { stroke: '#ffaa00' } });
+    if (creep.memory.targetRoom) {
+      creep.moveTo(new RoomPosition(25, 25, creep.memory.targetRoom), { visualizePathStyle: { stroke: '#ffaa00' } });
+      if (creep.room.name == creep.memory.targetRoom) {
+        if (Memory.remoteOperations[creep.memory.targetRoom].stage < 1) {
+          Memory.remoteOperations[creep.memory.targetRoom].stage = 1;
+        }
+      }
+    }
   }
 };
 

@@ -6,6 +6,9 @@ import roleHauler, { Hauler } from 'roles/hauler';
 import roleClaimer, { Claimer } from 'roles/claimer';
 import roleScouter, { Scouter } from 'roles/scouter';
 import roleWaller, { Waller } from 'roles/waller';
+import roleRemoteHarvester, { remoteHarvester } from 'roles/remoteRoles/remoteHarvester';
+import roleRemoteBuilder, { remoteBuilder } from 'roles/remoteRoles/remoteBuilder';
+import roleRemoteHauler, { remoteHauler } from 'roles/remoteRoles/remoteHauler';
 
 function assignJobs(): void {
   Object.values(Game.creeps).forEach((creep) => {
@@ -47,6 +50,16 @@ function assignJobs(): void {
     }
     if (creep.memory.role === 'claimer') {
       roleClaimer.run(creep as Claimer);
+    }
+    if (creep.memory.role === 'remoteHarvester') {
+      roleRemoteHarvester.run(creep as remoteHarvester);
+    }
+    if (creep.memory.role === 'remoteBuilder') {
+      roleRemoteBuilder.run(creep as remoteBuilder);
+    }
+
+    if (creep.memory.role === 'remoteHauler') {
+      roleRemoteHauler.run(creep as remoteHauler);
     }
   });
 }

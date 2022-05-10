@@ -67,7 +67,12 @@ const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   hauler: HAULER_SCHEMA,
   runner: RUNNER_SCHEMA,
   claimer: CLAIMER_SCHEMA,
-  scouter: SCOUTER_SCHEMA
+  scouter: SCOUTER_SCHEMA,
+
+  //remote varients
+  remoteHarvester: HARVESTER_SCHEMA,
+  remoteBuilder: BUILDER_SCHEMA,
+  remoteHauler: HARVESTER_SCHEMA
 };
 
 const HOME_ROOM = 'W12N56';
@@ -76,7 +81,7 @@ const HOME_SPAWN = 'Spawn1';
 const FILL_PRIORITY = [STRUCTURE_SPAWN, STRUCTURE_TOWER, STRUCTURE_EXTENSION, STRUCTURE_CONTAINER, STRUCTURE_STORAGE];
 const RETRIEVE_PRIORITY = [STRUCTURE_STORAGE, STRUCTURE_CONTAINER];
 
-const RESERVE_TARGETS = ['W11N56'];
+const REMOTE_OPERATIONS_LIST = [{ roomName: 'W11N56', type: 'remoteMine' }];
 
 export {
   HARVESTER_SCHEMA,
@@ -94,5 +99,5 @@ export {
   HOME_SPAWN,
   FILL_PRIORITY,
   RETRIEVE_PRIORITY,
-  RESERVE_TARGETS
+  REMOTE_OPERATIONS_LIST
 };

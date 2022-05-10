@@ -2,8 +2,9 @@ import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
 import { spawnCreeps } from './spawning';
 import { storeSourcesInMemory } from './roomCatalog';
-import { HOME_ROOM, RESERVE_TARGETS } from './constants';
+import { HOME_ROOM, REMOTE_OPERATIONS_LIST } from './constants';
 import { assignJobs } from 'taskAssignment';
+import { remoteOperations } from 'remoteOperations';
 
 declare global {
   interface CreepMemory {
@@ -33,7 +34,7 @@ function unwrappedLoop(): void {
 
   //Catalog Room
   Object.values(Game.rooms).forEach((room) => {
-    if (room.controller?.my) {
+    if (room.controller?.my || room.controller?.reservation?.username === Game.spawns[0].owner.username) {
       storeSourcesInMemory(room);
     }
   });
@@ -41,9 +42,12 @@ function unwrappedLoop(): void {
   //Job Assignment
   assignJobs();
 
+  //Handle remote operations
+  remoteOperations('Spawn1', REMOTE_OPERATIONS_LIST);
+
   //emergency return to base
   Object.values(Game.creeps).forEach((creep) => {
-    if (!RESERVE_TARGETS.includes(creep.pos.roomName) && creep.pos.roomName != HOME_ROOM) {
+    if (!creep.memory.isRemote && creep.pos.roomName != HOME_ROOM) {
       creep.moveTo(Game.flags['HOME_FLAG'].pos, { visualizePathStyle: { stroke: '#ffaa00' } });
     }
   });

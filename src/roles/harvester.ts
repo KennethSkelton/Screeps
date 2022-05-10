@@ -2,7 +2,7 @@ export interface Harvester extends Creep {
   memory: HarvesterMemory;
 }
 
-interface HarvesterMemory extends CreepMemory {
+export interface HarvesterMemory extends CreepMemory {
   role: 'harvester';
   sourceId?: Id<Source>;
 }

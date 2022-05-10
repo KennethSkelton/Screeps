@@ -138,20 +138,44 @@ function schemaLevel(spawnName: string): number {
   return schemaNumber;
 }
 
-function spawnFromQuota(spawnName: string, quotaList: Record<string, number>) {
+function spawnFromQuota(
+  spawnName: string,
+  quotaList: Record<string, number>[],
+  isRemoteCreeps: boolean,
+  targetRoom?: string
+): void {
   const schemaNumber = schemaLevel(spawnName);
+  console.log();
   const homeRoomName = Game.spawns[spawnName].room.name;
   for (const [role, quota] of Object.entries(quotaList)) {
-    const numberOfCreep = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == role);
+    const numberOfCreep = _.filter(
+      Game.creeps,
+      (creep: Creep) => creep.memory.role == role && creep.memory.targetRoom == targetRoom
+    );
     console.log(`${role}s: ${numberOfCreep.length}`);
 
-    if (quota != -1 && numberOfCreep.length < quota) {
+    if (numberOfCreep.length < quota.number) {
       const newName = `${role}_${schemaNumber} ${Game.time}`;
-      Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[role][schemaNumber], newName, {
-        memory: { role: role, homeroom: homeRoomName, isRemote: false }
-      });
+      if (isRemoteCreeps) {
+        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[role][schemaNumber], newName, {
+          memory: { role: role, homeroom: homeRoomName, isRemote: true, targetRoom: targetRoom }
+        });
+      } else {
+        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[role][schemaNumber], newName, {
+          memory: { role: role, homeroom: homeRoomName, isRemote: false }
+        });
+      }
     }
+  }
+  if (Game.spawns[spawnName].spawning) {
+    const spawningCreep = Game.creeps[Game.spawns[spawnName].spawning!.name];
+    Game.spawns[spawnName].room.visual.text(
+      '🛠️' + spawningCreep.memory.role,
+      Game.spawns[spawnName].pos.x + 1,
+      Game.spawns[spawnName].pos.y,
+      { align: 'left', opacity: 0.8 }
+    );
   }
 }
 
-export { spawnCreeps, schemaLevel };
+export { spawnCreeps, schemaLevel, spawnFromQuota };
