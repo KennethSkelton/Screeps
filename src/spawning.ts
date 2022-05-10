@@ -4,6 +4,7 @@ import {
   FLOATER_SCHEMA,
   HARVESTER_SCHEMA,
   HAULER_SCHEMA,
+  SCOUTER_SCHEMA,
   UPGRADER_SCHEMA
 } from './constants';
 
@@ -26,10 +27,19 @@ function spawnCreeps(spawnName: string): void {
   console.log(`repairer: ${repairers.length}`);
 
   const haulers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'hauler');
-  console.log(`hauler: ${haulers.length}`);
+  console.log(`haulers: ${haulers.length}`);
 
   const claimers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'claimer');
-  console.log(`hauler: ${claimers.length}`);
+  console.log(`claimers: ${claimers.length}`);
+
+  const scouters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'scouter');
+  console.log(`scouters: ${claimers.length}`);
+
+  if (scouters.length < 1) {
+    const newName = `Scouter_${0} ${Game.time}`;
+    console.log('Spawning new Scouter: ' + newName);
+    Game.spawns[spawnName].spawnCreep(SCOUTER_SCHEMA[0], newName, { memory: { role: 'scouter' } });
+  }
 
   if (claimers.length < 1) {
     const newName = `Claimer_${0} ${Game.time}`;
