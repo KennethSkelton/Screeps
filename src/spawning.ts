@@ -22,7 +22,7 @@ function spawnCreeps(spawnName: string): void {
   console.log(`Harvesters: ${harvesters.length}`);
 
   const wallers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'waller');
-  console.log(`Upgraders: ${wallers.length}`);
+  console.log(`Wallers: ${wallers.length}`);
 
   const upgraders = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'upgrader');
   console.log(`Upgraders: ${upgraders.length}`);
