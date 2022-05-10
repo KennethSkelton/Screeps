@@ -34,10 +34,8 @@ function unwrappedLoop(): void {
 
   //Catalog Room
   Object.values(Game.rooms).forEach((room) => {
-    if (room.controller?.my || room.controller?.reservation?.username === Game.spawns[HOME_SPAWN].owner.username) {
-      console.log(room);
-      storeSourcesInMemory(room);
-    }
+    console.log(room);
+    storeSourcesInMemory(room);
   });
 
   //Job Assignment
