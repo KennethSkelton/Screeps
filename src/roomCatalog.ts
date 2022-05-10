@@ -12,18 +12,16 @@ declare global {
 }
 
 function storeSourcesInMemory(room: Room): void {
-  if (!room.memory.sources) {
-    room.memory.sources = {};
-  }
-  if (!room.memory) {
+  if (!Memory.rooms[room.name]) {
     const sources = room.find(FIND_SOURCES);
     sources.forEach((source) => {
-      const object: SourceInfo = { workerSpots: oneOrTwoOrThree(schemaLevel(room.find(FIND_MY_SPAWNS)[0].name)) };
-      room.memory.sources[source.id] = object;
+      const object: SourceInfo = { workerSpots: 1 };
+      Memory.rooms[room.name].sources[source.id] = object;
     });
   }
 }
 
+/*
 function oneOrTwoOrThree(schemaLevel: number) {
   if (schemaLevel < 1) {
     return 3;
@@ -32,7 +30,7 @@ function oneOrTwoOrThree(schemaLevel: number) {
   } else {
     return 1;
   }
-}
+}*/
 
 /*
 function numberOfClearAjacentSquares(object: RoomObject): number{
