@@ -71,7 +71,11 @@ const roleRemoteHauler = {
             }
           }
         } else {
-          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
+          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
+            filter: function (object: Resource) {
+              return object.amount >= 50;
+            }
+          });
           // eslint-disable-next-line max-len
           droppedResources.sort(
             (a, b) =>
