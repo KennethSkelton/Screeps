@@ -1,8 +1,8 @@
-interface remoteHarvester extends Creep {
+export interface remoteHarvester extends Creep {
   memory: remoteHarvesterMemory;
 }
 
-interface remoteHarvesterMemory extends CreepMemory {
+export interface remoteHarvesterMemory extends CreepMemory {
   role: 'remoteHarvester';
   sourceId?: Id<Source>;
 }
