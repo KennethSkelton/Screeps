@@ -151,7 +151,10 @@ function spawnFromQuota(
   const schemaNumber = schemaLevel(spawnName);
   console.log();
   const homeRoomName = Game.spawns[spawnName].room.name;
+  console.log(JSON.stringify(quotaList));
   for (const [role, quota] of Object.entries(quotaList)) {
+    console.log(`role is: ${role}`);
+    console.log(`quota is: ${JSON.stringify(quota)}`);
     const numberOfCreep = _.filter(
       Game.creeps,
       (creep: Creep) => creep.memory.role == role && creep.memory.targetRoom == targetRoom
