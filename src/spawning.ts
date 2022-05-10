@@ -33,7 +33,7 @@ function spawnCreeps(spawnName: string): void {
 
   if (claimers.length < 1) {
     const newName = `Claimer_${0} ${Game.time}`;
-    console.log('Spawning new upgrader: ' + newName);
+    console.log('Spawning new Claimer: ' + newName);
     Game.spawns[spawnName].spawnCreep(CLAIMER_SCHEMA[schemaNumber], newName, { memory: { role: 'claimer' } });
   }
 
