@@ -1,5 +1,3 @@
-import { schemaLevel } from 'spawning';
-
 declare global {
   interface RoomMemory {
     sources: { [id: Id<Source>]: SourceInfo };

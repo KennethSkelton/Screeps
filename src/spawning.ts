@@ -163,12 +163,13 @@ function spawnFromQuota(
 
     if (numberOfCreep.length < quota.amount) {
       const newName = `${quota.role}_${schemaNumber} ${Game.time}`;
+      console.log(`Spawning a: ${quota.role.toUpperCase()}_SCHEMA`);
       if (isRemoteCreeps) {
-        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[quota.role][schemaNumber], newName, {
+        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[`${quota.role.toUpperCase()}_SCHEMA`][schemaNumber], newName, {
           memory: { role: quota.role, homeroom: homeRoomName, isRemote: true, targetRoom: targetRoom }
         });
       } else {
-        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[quota.role][schemaNumber], newName, {
+        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[`${quota.role.toUpperCase()}_SCHEMA`][schemaNumber], newName, {
           memory: { role: quota.role, homeroom: homeRoomName, isRemote: false }
         });
       }
