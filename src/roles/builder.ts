@@ -30,7 +30,6 @@ const roleBuilder = {
       }
     } else {
       const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-      console.log(JSON.stringify(targets, null, 4));
       let target: Structure = Game.spawns[HOME_SPAWN];
       if (targets.length > 0) {
         const groupedTargets = _.groupBy(targets, function (n) {

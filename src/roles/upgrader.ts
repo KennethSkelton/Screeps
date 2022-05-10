@@ -1,12 +1,12 @@
-import { HOME_SPAWN } from "../constants";
-import { RETRIEVE_PRIORITY } from "../constants";
+import { HOME_SPAWN } from '../constants';
+import { RETRIEVE_PRIORITY } from '../constants';
 
 export interface Upgrader extends Creep {
   memory: UpgraderMemory;
 }
 
 interface UpgraderMemory extends CreepMemory {
-  role: "upgrader";
+  role: 'upgrader';
   upgrading: boolean;
 }
 
@@ -14,22 +14,21 @@ const roleUpgrader = {
   run(creep: Upgrader): void {
     if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] === 0) {
       creep.memory.upgrading = false;
-      creep.say("🔄 harvest");
+      creep.say('🔄 harvest');
     }
     if (!creep.memory.upgrading && creep.store.getFreeCapacity() === 0) {
       creep.memory.upgrading = true;
-      creep.say("⚡ upgrade");
+      creep.say('⚡ upgrade');
     }
 
     if (creep.memory.upgrading) {
       if (creep.room.controller) {
         if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: "#ffffff" } });
+          creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
         }
       }
     } else {
       const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-      console.log(JSON.stringify(targets, null, 4));
       let target: Structure = Game.spawns[HOME_SPAWN];
       if (targets.length > 0) {
         const groupedTargets = _.groupBy(targets, function (n) {
@@ -45,12 +44,11 @@ const roleUpgrader = {
                 PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
             );
             target = groupedTargets[type][0];
-            console.log(`Target is ${JSON.stringify(target, null, 4)}`);
             break;
           }
         }
         if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, { visualizePathStyle: { stroke: "#ffffff" } });
+          creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
         }
       } else {
         const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
@@ -63,7 +61,7 @@ const roleUpgrader = {
 
         if (droppedResources.length != 0) {
           if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: "#ffaa00" } });
+            creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
           }
         }
       }
