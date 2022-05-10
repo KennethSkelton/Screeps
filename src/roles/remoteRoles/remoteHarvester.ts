@@ -43,8 +43,13 @@ const roleRemoteHarvester = {
         if (source) {
           if (source.energy == 0) {
             delete creep.memory.sourceId;
-          } else if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
+          } else {
+            const harvestResult = creep.harvest(source);
+            if (harvestResult === ERR_NOT_IN_RANGE) {
+              creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
+            } else if (harvestResult === OK) {
+              creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
+            }
           }
         }
       }

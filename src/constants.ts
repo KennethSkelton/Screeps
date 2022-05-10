@@ -80,7 +80,7 @@ const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   //remote varients
   remoteHarvester: HARVESTER_SCHEMA,
   remoteBuilder: BUILDER_SCHEMA,
-  remoteHauler: HARVESTER_SCHEMA
+  remoteHauler: HAULER_SCHEMA
 };
 
 const HOME_ROOM = 'W12N56';
