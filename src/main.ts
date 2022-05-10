@@ -2,7 +2,7 @@ import ErrorMapper from 'utils/ErrorMapper';
 import { runTower } from './tower';
 import { spawnCreeps } from './spawning';
 import { storeSourcesInMemory } from './roomCatalog';
-import { HOME_ROOM, REMOTE_OPERATIONS_LIST } from './constants';
+import { HOME_ROOM, HOME_SPAWN, REMOTE_OPERATIONS_LIST } from './constants';
 import { assignJobs } from 'taskAssignment';
 import { remoteOperations } from 'remoteOperations';
 
@@ -34,7 +34,7 @@ function unwrappedLoop(): void {
 
   //Catalog Room
   Object.values(Game.rooms).forEach((room) => {
-    if (room.controller?.my || room.controller?.reservation?.username === Game.spawns[0].owner.username) {
+    if (room.controller?.my || room.controller?.reservation?.username === Game.spawns[HOME_SPAWN].owner.username) {
       storeSourcesInMemory(room);
     }
   });
