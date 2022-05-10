@@ -5,7 +5,6 @@ export interface Hauler extends Creep {
 }
 
 interface HaulerMemory extends CreepMemory {
-  building: boolean;
   role: 'hauler';
 }
 

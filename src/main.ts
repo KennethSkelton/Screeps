@@ -8,6 +8,7 @@ import { runTower } from './tower';
 import { spawnCreeps } from './spawning';
 import { storeSourcesInMemory } from './roomCatalog';
 import { HOME_ROOM } from './constants';
+import { Claimer, roleClaimer } from 'roles/claimer';
 
 declare global {
   interface CreepMemory {
@@ -69,6 +70,9 @@ function unwrappedLoop(): void {
       } else {
         roleUpgrader.run(creep as Upgrader);
       }
+    }
+    if (creep.memory.role === 'claimer') {
+      roleClaimer.run(creep as Claimer);
     }
   });
 
