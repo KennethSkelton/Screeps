@@ -1,38 +1,38 @@
-import { schemaLevel } from "spawning"
+import { schemaLevel } from 'spawning';
 
 declare global {
-    interface RoomMemory {
-         sources : {[id: Id<Source>]: SourceInfo}
-    }
+  interface RoomMemory {
+    sources: { [id: Id<Source>]: SourceInfo };
+  }
 }
 declare global {
-    interface SourceInfo {
-        workerSpots : number,
-    }
+  interface SourceInfo {
+    workerSpots: number;
+  }
 }
 
 function storeSourcesInMemory(room: Room): void {
-    if(!(room.memory.sources)){
-        const sources = room.find(FIND_SOURCES)
-        room.memory.sources = {}
-        sources.forEach(source => {
-            const object: SourceInfo = {workerSpots : oneOrTwoOrThree(schemaLevel(room.find(FIND_MY_SPAWNS)[0].name))}
-            room.memory.sources[source.id] = object
-        })
-    }
+  if (!room.memory.sources) {
+    room.memory.sources = {};
+  }
+  if (!room.memory) {
+    const sources = room.find(FIND_SOURCES);
+    sources.forEach((source) => {
+      const object: SourceInfo = { workerSpots: oneOrTwoOrThree(schemaLevel(room.find(FIND_MY_SPAWNS)[0].name)) };
+      room.memory.sources[source.id] = object;
+    });
+  }
 }
-
 
 function oneOrTwoOrThree(schemaLevel: number) {
-    if(schemaLevel < 1){
-        return 3
-    }else if(schemaLevel < 2){
-        return 2
-    }else{
-        return 1
-    }
+  if (schemaLevel < 1) {
+    return 3;
+  } else if (schemaLevel < 2) {
+    return 2;
+  } else {
+    return 1;
+  }
 }
-
 
 /*
 function numberOfClearAjacentSquares(object: RoomObject): number{
