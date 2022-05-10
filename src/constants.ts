@@ -52,10 +52,18 @@ const RUNNER_SCHEMA = [
 ];
 
 //claimer creeps
-const CLAIMER_SCHEMA = [[CLAIM, MOVE, MOVE]];
+const CLAIMER_SCHEMA = [
+  [CLAIM, MOVE, MOVE],
+  [CLAIM, MOVE, MOVE],
+  [CLAIM, MOVE, MOVE]
+];
 
 //scouter creeps
-const SCOUTER_SCHEMA = [[MOVE, MOVE]];
+const SCOUTER_SCHEMA = [
+  [MOVE, MOVE],
+  [MOVE, MOVE],
+  [MOVE, MOVE]
+];
 
 const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   harvester: HARVESTER_SCHEMA,
