@@ -37,22 +37,22 @@ function remoteMine(spawnName: string, roomName: string, stage: number): void {
 
   if (Game.rooms)
     if (stage > 1) {
-      const quota: Record<string, number>[] = [
-        { scout: 1 },
-        { claimer: 1 },
-        { harvester: Game.rooms[roomName].find(FIND_SOURCES).length },
-        { remoteBuilder: 2 }
+      const quota: { role: string; amount: number }[] = [
+        { role: 'scouter', amount: 1 },
+        { role: 'claimer', amount: 1 },
+        { role: 'remoteHarvester', amount: Game.rooms[roomName].find(FIND_SOURCES).length },
+        { role: 'remoteBuilder', amount: 2 }
       ];
       spawnFromQuota(spawnName, quota, true, roomName);
     } else if (stage > 0) {
-      const quota: Record<string, number>[] = [
-        { scout: 1 },
-        { claimer: 1 },
-        { remoteHarvester: Game.rooms[roomName].find(FIND_SOURCES).length }
+      const quota: { role: string; amount: number }[] = [
+        { role: 'scouter', amount: 1 },
+        { role: 'claimer', amount: 1 },
+        { role: 'remoteHarvester', amount: Game.rooms[roomName].find(FIND_SOURCES).length }
       ];
       spawnFromQuota(spawnName, quota, true, roomName);
     } else {
-      const quota: Record<string, number>[] = [{ scouter: 1 }];
+      const quota: { role: string; amount: number }[] = [{ role: 'scouter', amount: 1 }];
       spawnFromQuota(spawnName, quota, true, roomName);
     }
 }

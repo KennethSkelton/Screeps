@@ -144,7 +144,7 @@ function schemaLevel(spawnName: string): number {
 
 function spawnFromQuota(
   spawnName: string,
-  quotaList: Record<string, number>[],
+  quotaList: { role: string; amount: number }[],
   isRemoteCreeps: boolean,
   targetRoom?: string
 ): void {
@@ -152,24 +152,24 @@ function spawnFromQuota(
   console.log();
   const homeRoomName = Game.spawns[spawnName].room.name;
   console.log(JSON.stringify(quotaList));
-  for (const [role, quota] of Object.entries(quotaList)) {
-    console.log(`role is: ${role}`);
-    console.log(`quota is: ${JSON.stringify(quota)}`);
+  for (const quota of quotaList) {
+    console.log(`role is: ${quota.role}`);
+    console.log(`quota is: ${JSON.stringify(quota.amount)}`);
     const numberOfCreep = _.filter(
       Game.creeps,
-      (creep: Creep) => creep.memory.role == role && creep.memory.targetRoom == targetRoom
+      (creep: Creep) => creep.memory.role == quota.role && creep.memory.targetRoom == targetRoom
     );
-    console.log(`${role}s: ${numberOfCreep.length}`);
+    console.log(`${quota.role}s: ${numberOfCreep.length}`);
 
-    if (numberOfCreep.length < quota.number) {
-      const newName = `${role}_${schemaNumber} ${Game.time}`;
+    if (numberOfCreep.length < quota.amount) {
+      const newName = `${quota.role}_${schemaNumber} ${Game.time}`;
       if (isRemoteCreeps) {
-        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[role][schemaNumber], newName, {
-          memory: { role: role, homeroom: homeRoomName, isRemote: true, targetRoom: targetRoom }
+        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[quota.role][schemaNumber], newName, {
+          memory: { role: quota.role, homeroom: homeRoomName, isRemote: true, targetRoom: targetRoom }
         });
       } else {
-        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[role][schemaNumber], newName, {
-          memory: { role: role, homeroom: homeRoomName, isRemote: false }
+        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[quota.role][schemaNumber], newName, {
+          memory: { role: quota.role, homeroom: homeRoomName, isRemote: false }
         });
       }
     }
