@@ -23,21 +23,8 @@ const roleHarvester = {
           //break;
         }
       }
-
-      // eslint-disable-next-line max-len
-      potentialSources.sort(
-        (a, b) =>
-          PathFinder.search(creep.pos, { pos: Game.getObjectById(a)!.pos, range: 1 }).path.length -
-          PathFinder.search(creep.pos, { pos: Game.getObjectById(b)!.pos, range: 1 }).path.length
-      );
-
       let source = Game.getObjectById(potentialSources[0]);
-      for (const nonZeroSourceId of potentialSources) {
-        const nonZeroSource = Game.getObjectById(nonZeroSourceId);
-        if (nonZeroSource && nonZeroSource.energy > 0) {
-          source = nonZeroSource;
-        }
-      }
+
       if (!source) {
         source = creep.room.find(FIND_SOURCES)[0];
       }
