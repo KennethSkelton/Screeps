@@ -5,6 +5,7 @@ import roleRepairer, { Repairer } from 'roles/repairer';
 import roleHauler, { Hauler } from 'roles/hauler';
 import roleClaimer, { Claimer } from 'roles/claimer';
 import roleScouter, { Scouter } from 'roles/scouter';
+import roleWaller, { Waller } from 'roles/waller';
 
 function assignJobs(): void {
   Object.values(Game.creeps).forEach((creep) => {
@@ -23,6 +24,9 @@ function assignJobs(): void {
     }
     if (creep.memory.role === 'repairer') {
       roleRepairer.run(creep as Repairer);
+    }
+    if (creep.memory.role === 'waller') {
+      roleWaller.run(creep as Waller);
     }
     if (creep.memory.role === 'hauler') {
       roleHauler.run(creep as Hauler);
