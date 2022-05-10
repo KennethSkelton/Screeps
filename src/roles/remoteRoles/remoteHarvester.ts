@@ -1,4 +1,4 @@
-export interface remoteHarvester extends Creep {
+interface remoteHarvester extends Creep {
   memory: remoteHarvesterMemory;
 }
 
