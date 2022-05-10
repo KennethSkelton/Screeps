@@ -10,7 +10,8 @@ interface ScouterMemory extends CreepMemory {
 
 const roleScouter = {
   run(creep: Scouter): void {
-    creep.moveTo(RoomPosition(25, 25, 'W11N56'));
+    creep.moveTo(49, 33);
+    //creep.moveTo(RoomPosition(25, 25, 'W11N56'));
   }
 };
 
