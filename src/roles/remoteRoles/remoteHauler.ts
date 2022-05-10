@@ -11,10 +11,10 @@ interface remoteHaulerMemory extends CreepMemory {
 
 const roleRemoteHauler = {
   run(creep: remoteHauler): void {
-    if (creep.store.getFreeCapacity() > 0) {
-      creep.memory.haulingHome = false;
-    } else {
+    if (creep.store.getFreeCapacity() == 0) {
       creep.memory.haulingHome = true;
+    } else if (creep.store.getUsedCapacity() == 0) {
+      creep.memory.haulingHome = false;
     }
 
     if (creep.memory.haulingHome) {
