@@ -39,7 +39,6 @@ const roleRepairer = {
       }
     } else {
       const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-      console.log(JSON.stringify(targets, null, 4));
       let target: Structure = Game.spawns[HOME_SPAWN];
       if (targets.length > 0) {
         const groupedTargets = _.groupBy(targets, function (n) {
@@ -55,7 +54,6 @@ const roleRepairer = {
                 PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
             );
             target = groupedTargets[type][0];
-            console.log(`Target is ${JSON.stringify(target, null, 4)}`);
             break;
           }
         }
