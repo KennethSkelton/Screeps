@@ -1,12 +1,12 @@
-import { RETRIEVE_PRIORITY } from "../constants";
-import { HOME_SPAWN } from "../constants";
+import { RETRIEVE_PRIORITY } from '../constants';
+import { HOME_SPAWN } from '../constants';
 
 export interface Repairer extends Creep {
   memory: RepairerMemory;
 }
 
 interface RepairerMemory extends CreepMemory {
-  role: "repairer";
+  role: 'repairer';
   repairing: boolean;
 }
 
@@ -16,21 +16,25 @@ const roleRepairer = {
     //work
     if (creep.memory.repairing && creep.store[RESOURCE_ENERGY] == 0) {
       creep.memory.repairing = false;
-      creep.say("🔄 harvest");
+      creep.say('🔄 harvest');
     }
     if (!creep.memory.repairing && creep.store.getFreeCapacity() == 0) {
       creep.memory.repairing = true;
-      creep.say("⚡ repairing");
+      creep.say('⚡ repairing');
     }
 
     if (creep.memory.repairing) {
-      const targets = creep.room.find(FIND_STRUCTURES, { filter: isDamaged });
+      const targets = creep.room.find(FIND_STRUCTURES, {
+        filter: function (n: Structure) {
+          return !(n instanceof StructureWall) && isDamaged(n);
+        }
+      });
 
       targets.sort((a, b) => a.hits - b.hits);
 
       if (targets.length > 0) {
         if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-          creep.moveTo(targets[0], { visualizePathStyle: { stroke: "#ffaa00" } });
+          creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffaa00' } });
         }
       }
     } else {
@@ -56,7 +60,7 @@ const roleRepairer = {
           }
         }
         if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, { visualizePathStyle: { stroke: "#ffffff" } });
+          creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
         }
       } else {
         const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
@@ -69,7 +73,7 @@ const roleRepairer = {
 
         if (droppedResources.length != 0) {
           if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: "#ffaa00" } });
+            creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
           }
         }
       }
