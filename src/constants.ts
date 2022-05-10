@@ -41,8 +41,8 @@ const RUNNER_SCHEMA = [
 ];
 
 //claimer creeps
-const CLAIMER_SCHEMA = [[CLAIM, MOVE]];
-const SCOUTER_SCHEMA = [[MOVE]];
+const CLAIMER_SCHEMA = [[CLAIM, MOVE, MOVE]];
+const SCOUTER_SCHEMA = [[MOVE, MOVE]];
 
 const HOME_ROOM = 'W12N56';
 const HOME_SPAWN = 'Spawn1';
