@@ -9,7 +9,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking'
   ],
   rules: {
-    'arrow-parens': ['error', 'as-needed'],
+    //'arrow-parens': ['error', 'as-needed'],
     'comma-dangle': ['error', 'never'],
     'import/no-unresolved': ['off'],
     'linebreak-style': 'off',
