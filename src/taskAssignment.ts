@@ -19,7 +19,7 @@ function assignJobs(): void {
     }
     if (creep.memory.role === 'upgrader') {
       if (harvesters < 2) {
-        roleHarvester.run(creep as Harvester);
+        roleHauler.run(creep as Hauler);
       } else {
         roleRepairer.run(creep as Repairer);
       }
