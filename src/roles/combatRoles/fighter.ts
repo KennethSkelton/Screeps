@@ -34,6 +34,7 @@ const roleFighter = {
         if (!creep.memory.favorsBuildings) {
           console.log('Start favors enemies');
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
+          console.log(JSON.stringify(enemies));
           if (enemies) {
             enemies.sort(
               (a, b) =>
