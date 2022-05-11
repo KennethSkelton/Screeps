@@ -26,13 +26,16 @@ const roleRemoteBuilder = {
 
       if (creep.memory.building) {
         const targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+
         console.log(`Targets: ${JSON.stringify(targets)}`);
-        if (targets.length > 1) {
-          targets.sort(
-            (a, b) =>
-              PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-              PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-          );
+        if (targets) {
+          if (targets.length > 1) {
+            targets.sort(
+              (a, b) =>
+                PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
+                PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
+            );
+          }
           if (creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
             creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
           }
