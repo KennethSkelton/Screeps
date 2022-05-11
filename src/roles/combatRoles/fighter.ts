@@ -12,6 +12,7 @@ const roleFighter = {
     if (creep.memory.targetRoom) {
       if (creep.memory.targetRoom == creep.room.name) {
         if (creep.memory.favorsBuildings) {
+          console.log('Start favors buildings');
           const structures = creep.room.find(FIND_HOSTILE_STRUCTURES);
           if (structures) {
             structures.sort(
@@ -23,12 +24,15 @@ const roleFighter = {
               creep.moveTo(structures[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
           } else {
+            console.log('Favors buildings switch to false');
             creep.memory.favorsBuildings = false;
           }
+          console.log('End favors buildings');
           return;
         }
 
         if (!creep.memory.favorsBuildings) {
+          console.log('Start favors enemies');
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
           if (enemies) {
             enemies.sort(
@@ -40,8 +44,10 @@ const roleFighter = {
               creep.moveTo(enemies[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
           } else {
+            console.log('Favors enemies switch to false');
             creep.memory.favorsBuildings = true;
           }
+          console.log('End favors enemies');
           return;
         }
       } else {
