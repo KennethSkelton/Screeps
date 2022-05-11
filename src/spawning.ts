@@ -1,15 +1,4 @@
-import {
-  BUILDER_SCHEMA,
-  CLAIMER_SCHEMA,
-  CREEP_SCHEMA,
-  FLOATER_SCHEMA,
-  HARVESTER_SCHEMA,
-  HAULER_SCHEMA,
-  REPAIRER_SCHEMA,
-  SCOUTER_SCHEMA,
-  UPGRADER_SCHEMA,
-  WALLER_SCHEMA
-} from './constants';
+import { CREEP_SCHEMA } from './constants';
 
 function spawnCreeps(spawnName: string): void {
   //const schemaNumber = schemaLevel(spawnName);
@@ -158,9 +147,15 @@ function spawnFromQuota(
   spawnName: string,
   quotaList: { role: string; amount: number }[],
   isRemoteCreeps: boolean,
-  targetRoom?: string
+  targetRoom?: string,
+  forcedLevel?: number
 ): void {
-  const schemaNumber = schemaLevel(spawnName);
+  let schemaNumber;
+  if (forcedLevel) {
+    schemaNumber = forcedLevel;
+  } else {
+    schemaNumber = schemaLevel(spawnName);
+  }
   const homeRoomName = Game.spawns[spawnName].room.name;
   console.log(JSON.stringify(quotaList));
   for (const quota of quotaList) {
