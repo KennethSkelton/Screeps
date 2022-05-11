@@ -117,8 +117,8 @@ const FILL_PRIORITY = [STRUCTURE_SPAWN, STRUCTURE_TOWER, STRUCTURE_EXTENSION, ST
 const RETRIEVE_PRIORITY = [STRUCTURE_STORAGE, STRUCTURE_CONTAINER];
 
 const REMOTE_OPERATIONS_LIST = [
-  { roomName: 'W11N56', type: 'remoteMine' },
-  { roomName: 'W13N56', type: 'remoteRaid' }
+  { roomName: 'W11N56', type: 'remoteMine' }
+  //{ roomName: 'W13N56', type: 'remoteRaid' }
 ];
 
 export {
