@@ -11,12 +11,18 @@ import roleRemoteBuilder, { remoteBuilder } from 'roles/remoteRoles/remoteBuilde
 import roleRemoteHauler, { remoteHauler } from 'roles/remoteRoles/remoteHauler';
 
 function assignJobs(): void {
+  const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester').length;
+
   Object.values(Game.creeps).forEach((creep) => {
     if (creep.memory.role === 'harvester') {
       roleHarvester.run(creep as Harvester);
     }
     if (creep.memory.role === 'upgrader') {
-      roleHarvester.run(creep as Harvester);
+      if (harvesters < 2) {
+        roleHarvester.run(creep as Harvester);
+      } else {
+        roleRepairer.run(creep as Repairer);
+      }
     }
     if (creep.memory.role === 'builder') {
       if (creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0) {
@@ -26,16 +32,24 @@ function assignJobs(): void {
       }
     }
     if (creep.memory.role === 'repairer') {
-      roleRepairer.run(creep as Repairer);
+      if (harvesters < 2) {
+        roleHarvester.run(creep as Harvester);
+      } else {
+        roleRepairer.run(creep as Repairer);
+      }
     }
     if (creep.memory.role === 'waller') {
-      roleWaller.run(creep as Waller);
+      if (harvesters < 2) {
+        roleHarvester.run(creep as Harvester);
+      } else {
+        roleWaller.run(creep as Waller);
+      }
     }
     if (creep.memory.role === 'hauler') {
       roleHauler.run(creep as Hauler);
     }
     if (creep.memory.role === 'floater') {
-      if (_.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester').length < 2) {
+      if (harvesters < 2) {
         roleHarvester.run(creep as Harvester);
       } else if (creep.room.energyAvailable < creep.room.energyCapacityAvailable) {
         roleHauler.run(creep as Hauler);
