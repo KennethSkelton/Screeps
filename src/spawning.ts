@@ -120,15 +120,23 @@ function spawnCreeps(spawnName: string): void {
   }*/
 
   const numberOfSources = Game.rooms[homeRoomName].find(FIND_SOURCES).length;
-  const quota: { role: string; amount: number }[] = [
-    { role: 'harvester', amount: numberOfSources },
-    { role: 'hauler', amount: numberOfSources },
-    { role: 'floater', amount: 3 },
-    { role: 'repairer', amount: 2 },
-    { role: 'waller', amount: 1 },
-    { role: 'builder', amount: 2 },
-    { role: 'upgrader', amount: 2 }
-  ];
+  let quota: { role: string; amount: number }[];
+  if (_.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester').length < 2) {
+    quota = [
+      { role: 'harvester', amount: numberOfSources },
+      { role: 'hauler', amount: numberOfSources }
+    ];
+  } else {
+    quota = [
+      { role: 'harvester', amount: numberOfSources },
+      { role: 'hauler', amount: numberOfSources },
+      { role: 'floater', amount: 3 },
+      { role: 'repairer', amount: 2 },
+      { role: 'waller', amount: 1 },
+      { role: 'builder', amount: 2 },
+      { role: 'upgrader', amount: 2 }
+    ];
+  }
 
   spawnFromQuota(spawnName, quota, false);
 }
