@@ -16,7 +16,7 @@ function assignJobs(): void {
       roleHarvester.run(creep as Harvester);
     }
     if (creep.memory.role === 'upgrader') {
-      roleUpgrader.run(creep as Upgrader);
+      roleHarvester.run(creep as Harvester);
     }
     if (creep.memory.role === 'builder') {
       if (creep.room.find(FIND_MY_CONSTRUCTION_SITES).length != 0) {
