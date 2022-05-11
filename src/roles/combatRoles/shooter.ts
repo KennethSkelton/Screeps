@@ -12,7 +12,9 @@ const roleShooter = {
     if (creep.memory.targetRoom) {
       if (creep.memory.targetRoom == creep.room.name) {
         if (creep.memory.favorsCreeps) {
-          const structures = creep.room.find(FIND_HOSTILE_STRUCTURES);
+          const structures = creep.room.find(FIND_HOSTILE_STRUCTURES, {
+            filter: { structuretype: !STRUCTURE_CONTROLLER }
+          });
           if (structures.length > 0) {
             structures.sort(
               (a, b) =>
