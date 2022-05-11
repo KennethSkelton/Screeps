@@ -14,20 +14,17 @@ declare global {
 }
 
 function remoteOperations(spawnName: string, operationList: { roomName: string; type: string }[]): void {
-  if (!Memory.remoteOperations) {
-    Memory.remoteOperations = {};
-  }
-
-  for (const operation of operationList) {
-    if (!Memory.remoteOperations[operation.roomName]) {
-      Memory.remoteOperations[operation.roomName] = { stage: 0, type: operation.type };
-    } else {
-      const operationInfo = Memory.remoteOperations[operation.roomName];
-      if (
-        _.filter(Game.creeps, (creep: Creep) => creep.memory.homeroom == Game.spawns[spawnName].room.name).length < 4
-      ) {
-        console.log('Emergency romeOperation postponed');
+  if (Game.spawns[spawnName].room.find(FIND_MY_CREEPS).length < 4) {
+    console.log('Emergency roomOperation postponed');
+  } else {
+    if (!Memory.remoteOperations) {
+      Memory.remoteOperations = {};
+    }
+    for (const operation of operationList) {
+      if (!Memory.remoteOperations[operation.roomName]) {
+        Memory.remoteOperations[operation.roomName] = { stage: 0, type: operation.type };
       } else {
+        const operationInfo = Memory.remoteOperations[operation.roomName];
         if (operationInfo.type === 'remoteMine') {
           remoteMine(spawnName, operation.roomName, operationInfo.stage);
         } else if (operationInfo.type === 'remoteRaid') {
