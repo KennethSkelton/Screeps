@@ -3,7 +3,10 @@ function runTower(tower: StructureTower): void {
 
   if (closestHostile) {
     tower.attack(closestHostile);
-  } else if (tower.room.energyAvailable / tower.room.energyCapacityAvailable > 0.5) {
+  } else if (
+    tower.room.energyAvailable / tower.room.energyCapacityAvailable > 0.5 &&
+    tower.store.getUsedCapacity(RESOURCE_ENERGY) > tower.store.getCapacity(RESOURCE_ENERGY) / 2
+  ) {
     const targets = tower.room.find(FIND_STRUCTURES, { filter: isDamaged });
     targets.sort((a, b) => a.hits - b.hits);
     if (targets.length > 0) {
