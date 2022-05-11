@@ -23,10 +23,16 @@ function remoteOperations(spawnName: string, operationList: { roomName: string; 
       Memory.remoteOperations[operation.roomName] = { stage: 0, type: operation.type };
     } else {
       const operationInfo = Memory.remoteOperations[operation.roomName];
-      if (operationInfo.type === 'remoteMine') {
-        remoteMine(spawnName, operation.roomName, operationInfo.stage);
-      } else if (operationInfo.type === 'remoteRaid') {
-        remoteRaid(spawnName, operation.roomName, operationInfo.stage);
+      if (
+        _.filter(Game.creeps, (creep: Creep) => creep.memory.homeroom == Game.spawns[spawnName].room.name).length < 4
+      ) {
+        console.log('Emergency romeOperation postponed');
+      } else {
+        if (operationInfo.type === 'remoteMine') {
+          remoteMine(spawnName, operation.roomName, operationInfo.stage);
+        } else if (operationInfo.type === 'remoteRaid') {
+          remoteRaid(spawnName, operation.roomName, operationInfo.stage);
+        }
       }
     }
   }
