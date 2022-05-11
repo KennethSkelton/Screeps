@@ -25,8 +25,27 @@ function remoteOperations(spawnName: string, operationList: { roomName: string; 
       const operationInfo = Memory.remoteOperations[operation.roomName];
       if (operationInfo.type === 'remoteMine') {
         remoteMine(spawnName, operation.roomName, operationInfo.stage);
+      } else if (operationInfo.type === 'remoteRaid') {
+        remoteRaid(spawnName, operation.roomName, operationInfo.stage);
       }
     }
+  }
+}
+
+function remoteRaid(spawnName: string, roomName: string, stage: number) {
+  if (!Game.flags[`${roomName}_Staging_Area`]) {
+    Game.rooms[roomName].createFlag(25, 25, `${roomName}_Staging_Area`);
+  }
+  if (stage > 0) {
+    const quota: { role: string; amount: number }[] = [
+      { role: 'scouter', amount: 1 },
+      { role: 'fighter', amount: 3 },
+      { role: 'shooter', amount: 3 }
+    ];
+    spawnFromQuota(spawnName, quota, true, roomName);
+  } else {
+    const quota: { role: string; amount: number }[] = [{ role: 'scouter', amount: 1 }];
+    spawnFromQuota(spawnName, quota, true, roomName);
   }
 }
 

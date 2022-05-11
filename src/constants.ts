@@ -65,6 +65,22 @@ const SCOUTER_SCHEMA = [
   [MOVE, MOVE]
 ];
 
+/* COMBAT CREEPS */
+
+//fighter creeps
+const FIGHTER_SCHEMA = [
+  [ATTACK, ATTACK, MOVE, MOVE],
+  [ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE],
+  [ATTACK, ATTACK, ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE, MOVE, MOVE]
+];
+
+//shooter creeps
+const SHOOTER_SCHEMA = [
+  [RANGED_ATTACK, MOVE],
+  [RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE],
+  [RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE, MOVE]
+];
+
 const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   harvester: HARVESTER_SCHEMA,
   upgrader: UPGRADER_SCHEMA,
@@ -76,6 +92,10 @@ const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   runner: RUNNER_SCHEMA,
   claimer: CLAIMER_SCHEMA,
   scouter: SCOUTER_SCHEMA,
+
+  //Combat creeps
+  fighter: FIGHTER_SCHEMA,
+  shooter: SHOOTER_SCHEMA,
 
   //remote varients
   remoteHarvester: HARVESTER_SCHEMA,
@@ -89,7 +109,10 @@ const HOME_SPAWN = 'Spawn1';
 const FILL_PRIORITY = [STRUCTURE_SPAWN, STRUCTURE_TOWER, STRUCTURE_EXTENSION, STRUCTURE_CONTAINER, STRUCTURE_STORAGE];
 const RETRIEVE_PRIORITY = [STRUCTURE_STORAGE, STRUCTURE_CONTAINER];
 
-const REMOTE_OPERATIONS_LIST = [{ roomName: 'W11N56', type: 'remoteMine' }];
+const REMOTE_OPERATIONS_LIST = [
+  { roomName: 'W11N56', type: 'remoteMine' },
+  { roomName: 'W13N56', type: 'remoteRaid' }
+];
 
 export {
   HARVESTER_SCHEMA,
@@ -102,6 +125,8 @@ export {
   RUNNER_SCHEMA,
   CLAIMER_SCHEMA,
   SCOUTER_SCHEMA,
+  FIGHTER_SCHEMA,
+  SHOOTER_SCHEMA,
   CREEP_SCHEMA,
   HOME_ROOM,
   HOME_SPAWN,
