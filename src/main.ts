@@ -34,7 +34,6 @@ function unwrappedLoop(): void {
 
   //Catalog Room
   Object.values(Game.rooms).forEach((room) => {
-    console.log(room);
     storeSourcesInMemory(room);
   });
 
