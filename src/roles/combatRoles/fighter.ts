@@ -12,7 +12,6 @@ const roleFighter = {
     if (creep.memory.targetRoom) {
       if (creep.memory.targetRoom == creep.room.name) {
         if (creep.memory.favorsBuildings) {
-          console.log('Start favors buildings');
           const structures = creep.room.find(FIND_HOSTILE_STRUCTURES);
           if (structures.length > 0) {
             structures.sort(
@@ -23,18 +22,11 @@ const roleFighter = {
             if (creep.attack(structures[0]) === ERR_NOT_IN_RANGE) {
               creep.moveTo(structures[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
-          } else if (creep.room.controller) {
-            if (creep.attackController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-              creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
-            }
           } else {
-            console.log('Favors buildings switch to false');
             creep.memory.favorsBuildings = false;
           }
-          console.log('End favors buildings');
           return;
         } else if (!creep.memory.favorsBuildings) {
-          console.log('Start favors enemies');
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
           console.log(JSON.stringify(enemies));
           if (enemies.length > 0) {
@@ -52,10 +44,10 @@ const roleFighter = {
                 creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
               }
             }
-            console.log('Favors enemies switch to false');
+
             creep.memory.favorsBuildings = true;
           }
-          console.log('End favors enemies');
+
           return;
         }
       } else {

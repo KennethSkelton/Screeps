@@ -82,9 +82,9 @@ const SHOOTER_SCHEMA = [
 ];
 
 const STUNNER_SCHEMA = [
-  [ATTACK, MOVE],
-  [ATTACK, ATTACK, MOVE, MOVE],
-  [ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE]
+  [CLAIM, MOVE, MOVE],
+  [CLAIM, MOVE, MOVE],
+  [CLAIM, MOVE, MOVE]
 ];
 
 const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
