@@ -33,9 +33,7 @@ const roleFighter = {
           }
           console.log('End favors buildings');
           return;
-        }
-
-        if (!creep.memory.favorsBuildings) {
+        } else if (!creep.memory.favorsBuildings) {
           console.log('Start favors enemies');
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
           console.log(JSON.stringify(enemies));
@@ -49,6 +47,11 @@ const roleFighter = {
               creep.moveTo(enemies[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
           } else {
+            if (creep.room.controller) {
+              if (creep.attackController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
+              }
+            }
             console.log('Favors enemies switch to false');
             creep.memory.favorsBuildings = true;
           }
