@@ -19,6 +19,10 @@ declare global {
 function unwrappedLoop(): void {
   console.log(`Current game tick is ${Game.time}`);
 
+  if (Game.spawns['Spawn1'].hits < Game.spawns['Spawn1'].hitsMax) {
+    Game.spawns['Spawn1'].room.controller?.activateSafeMode();
+  }
+
   Object.values(Game.rooms).forEach((room) => {
     if (room.controller?.my) {
       const towers = room.find<StructureTower>(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
