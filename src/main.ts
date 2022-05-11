@@ -5,7 +5,6 @@ import { storeSourcesInMemory } from './roomCatalog';
 import { HOME_ROOM, HOME_SPAWN, REMOTE_OPERATIONS_LIST } from './constants';
 import { assignJobs } from 'taskAssignment';
 import { remoteOperations } from 'remoteOperations';
-import { enable, profiler } from './node_modules/screeps-profiler/screeps-profiler.js';
 
 declare global {
   interface CreepMemory {
@@ -17,9 +16,7 @@ declare global {
   }
 }
 
-profiler.enable();
-
-profiler.wrap(function unwrappedLoop(): void {
+function unwrappedLoop(): void {
   console.log(`Current game tick is ${Game.time}`);
 
   if (Game.spawns['Spawn1'].hits < Game.spawns['Spawn1'].hitsMax) {
@@ -61,7 +58,7 @@ profiler.wrap(function unwrappedLoop(): void {
   Object.keys(Memory.creeps)
     .filter((name) => !(name in Game.creeps))
     .forEach((name) => delete Memory.creeps[name]);
-});
+}
 
 // When compiling TS to JS and bundling with rollup, the line numbers and file names in error messages change
 // This utility uses source maps to get the line numbers and file names of the original, TS source code
