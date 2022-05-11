@@ -53,42 +53,42 @@ const roleRemoteBuilder = {
           }
         }
       } else {
-        const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-        let target;
-        if (targets.length > 0) {
-          const groupedTargets = _.groupBy(targets, function (n) {
-            return n.structureType;
-          });
+        const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
+        // eslint-disable-next-line max-len
+        droppedResources.sort(
+          (a, b) =>
+            PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
+            PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
+        );
 
-          for (const type of RETRIEVE_PRIORITY) {
-            if (groupedTargets[type]) {
-              // eslint-disable-next-line max-len
-              groupedTargets[type].sort(
-                (a, b) =>
-                  PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-                  PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-              );
-              target = groupedTargets[type][0];
-              break;
-            }
-          }
-          if (target) {
-            if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-              creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
-            }
+        if (droppedResources.length != 0) {
+          if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
+            creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
           }
         } else {
-          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
-          // eslint-disable-next-line max-len
-          droppedResources.sort(
-            (a, b) =>
-              PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-              PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-          );
+          const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
+          let target;
+          if (targets.length > 0) {
+            const groupedTargets = _.groupBy(targets, function (n) {
+              return n.structureType;
+            });
 
-          if (droppedResources.length != 0) {
-            if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
-              creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+            for (const type of RETRIEVE_PRIORITY) {
+              if (groupedTargets[type]) {
+                // eslint-disable-next-line max-len
+                groupedTargets[type].sort(
+                  (a, b) =>
+                    PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
+                    PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
+                );
+                target = groupedTargets[type][0];
+                break;
+              }
+            }
+            if (target) {
+              if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+              }
             }
           }
         }
