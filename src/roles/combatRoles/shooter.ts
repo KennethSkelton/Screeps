@@ -22,10 +22,10 @@ const roleShooter = {
             if (creep.rangedAttack(structures[0]) === ERR_NOT_IN_RANGE) {
               creep.moveTo(structures[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
-          } else {
-            creep.memory.favorsBuildings = false;
           }
           return;
+        } else {
+          creep.memory.favorsBuildings = false;
         }
         if (!creep.memory.favorsBuildings) {
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
