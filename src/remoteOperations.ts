@@ -33,8 +33,10 @@ function remoteOperations(spawnName: string, operationList: { roomName: string; 
 }
 
 function remoteRaid(spawnName: string, roomName: string, stage: number) {
-  if (!Game.flags[`${roomName}_Staging_Area`]) {
-    Game.rooms[roomName].createFlag(25, 25, `${roomName}_Staging_Area`);
+  if (Game.rooms[roomName]) {
+    if (!Game.flags[`${roomName}_Staging_Area`]) {
+      Game.rooms[roomName].createFlag(25, 25, `${roomName}_Staging_Area`);
+    }
   }
   if (stage > 0) {
     const quota: { role: string; amount: number }[] = [
