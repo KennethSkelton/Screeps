@@ -81,6 +81,12 @@ const SHOOTER_SCHEMA = [
   [RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE, MOVE]
 ];
 
+const STUNNER_SCHEMA = [
+  [ATTACK, MOVE],
+  [ATTACK, ATTACK, MOVE, MOVE],
+  [ATTACK, ATTACK, ATTACK, MOVE, MOVE, MOVE]
+];
+
 const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   harvester: HARVESTER_SCHEMA,
   upgrader: UPGRADER_SCHEMA,
@@ -96,6 +102,7 @@ const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   //Combat creeps
   fighter: FIGHTER_SCHEMA,
   shooter: SHOOTER_SCHEMA,
+  stunner: STUNNER_SCHEMA,
 
   //remote varients
   remoteHarvester: HARVESTER_SCHEMA,
@@ -127,6 +134,7 @@ export {
   SCOUTER_SCHEMA,
   FIGHTER_SCHEMA,
   SHOOTER_SCHEMA,
+  STUNNER_SCHEMA,
   CREEP_SCHEMA,
   HOME_ROOM,
   HOME_SPAWN,
