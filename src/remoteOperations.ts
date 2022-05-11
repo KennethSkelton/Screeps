@@ -65,8 +65,8 @@ function remoteMine(spawnName: string, roomName: string, stage: number): void {
         { role: 'scouter', amount: 1 },
         { role: 'claimer', amount: 1 },
         { role: 'remoteHarvester', amount: amount },
-        { role: 'remoteHauler', amount: amount },
-        { role: 'remoteBuilder', amount: 2 }
+        { role: 'remoteHauler', amount: amount + 1 },
+        { role: 'remoteBuilder', amount: 1 }
       ];
       spawnFromQuota(spawnName, quota, true, roomName);
     } else if (stage > 0) {

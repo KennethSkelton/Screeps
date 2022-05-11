@@ -12,9 +12,10 @@ import {
 } from './constants';
 
 function spawnCreeps(spawnName: string): void {
-  const schemaNumber = schemaLevel(spawnName);
+  //const schemaNumber = schemaLevel(spawnName);
   const homeRoomName = Game.spawns[spawnName].room.name;
 
+  /*
   const floaters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'floater');
   console.log(`Floaters: ${floaters.length}`);
 
@@ -60,7 +61,7 @@ function spawnCreeps(spawnName: string): void {
       memory: { role: 'claimer', homeroom: homeRoomName, isRemote: false }
     });
   }
-  */
+
 
   if (upgraders.length < 2) {
     const newName = `Upgrader_${schemaNumber} ${Game.time}`;
@@ -116,7 +117,20 @@ function spawnCreeps(spawnName: string): void {
     Game.spawns[spawnName].spawnCreep(HARVESTER_SCHEMA[schemaNumber], newName, {
       memory: { role: 'harvester', homeroom: homeRoomName, isRemote: false }
     });
-  }
+  }*/
+
+  const numberOfSources = Game.rooms[Game.spawns[spawnName].name].find(FIND_SOURCES).length;
+  const quota: { role: string; amount: number }[] = [
+    { role: 'harvester', amount: numberOfSources },
+    { role: 'hauler', amount: numberOfSources },
+    { role: 'floater', amount: 1 },
+    { role: 'repairer', amount: 1 },
+    { role: 'waller', amount: 1 },
+    { role: 'builer', amount: 1 },
+    { role: 'upgrader', amount: 1 }
+  ];
+
+  spawnFromQuota(spawnName, quota, false);
 
   if (Game.spawns[spawnName].spawning) {
     const spawningCreep = Game.creeps[Game.spawns[spawnName].spawning!.name];
