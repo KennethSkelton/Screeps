@@ -50,8 +50,8 @@ function remoteRaid(spawnName: string, roomName: string, stage: number) {
   if (stage > 0) {
     const quota: { role: string; amount: number }[] = [
       { role: 'scouter', amount: 1 },
-      { role: 'fighter', amount: 2 },
-      { role: 'shooter', amount: 1 },
+      { role: 'fighter', amount: 3 },
+      { role: 'shooter', amount: 2 },
       { role: 'stunner', amount: 1 }
     ];
     spawnFromQuota(spawnName, quota, true, roomName);
