@@ -28,7 +28,6 @@ const roleFighter = {
           return;
         } else if (!creep.memory.favorsBuildings) {
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
-          console.log(JSON.stringify(enemies));
           if (enemies.length > 0) {
             enemies.sort(
               (a, b) =>
