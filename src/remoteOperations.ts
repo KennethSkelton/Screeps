@@ -19,7 +19,7 @@ function remoteOperations(spawnName: string, operationList: { roomName: string; 
       filter: function (creep: Creep) {
         return creep.memory.role == 'harvester';
       }
-    }).length < 4
+    }).length < 2
   ) {
     console.log('Emergency roomOperation postponed');
   } else {
