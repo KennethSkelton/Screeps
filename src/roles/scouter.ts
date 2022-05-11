@@ -15,7 +15,6 @@ const roleScouter = {
       if (creep.room.name == creep.memory.targetRoom) {
         if (Memory.remoteOperations[creep.memory.targetRoom].stage < 1) {
           Memory.remoteOperations[creep.memory.targetRoom].stage = 1;
-          creep.room.createFlag(25, 25, `${creep.memory.targetRoom}_Staging_Area`);
         }
       }
     }

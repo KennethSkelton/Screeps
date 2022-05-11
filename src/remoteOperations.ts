@@ -50,8 +50,10 @@ function remoteRaid(spawnName: string, roomName: string, stage: number) {
 }
 
 function remoteMine(spawnName: string, roomName: string, stage: number): void {
-  if (!Game.flags[`${roomName}_Staging_Area`]) {
-    Game.rooms[roomName].createFlag(25, 25, `${roomName}_Staging_Area`);
+  if (Game.rooms[roomName]) {
+    if (!Game.flags[`${roomName}_Staging_Area`]) {
+      Game.rooms[roomName].createFlag(25, 25, `${roomName}_Staging_Area`);
+    }
   }
 
   if (Game.rooms)
