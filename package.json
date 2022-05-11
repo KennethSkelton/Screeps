@@ -36,6 +36,7 @@
     "@types/lodash": "3.10.2",
     "@types/node": "^10.5.5",
     "@types/screeps": "^3.2.2",
+    "@types/screeps-profiler": "^1.2.2",
     "@typescript-eslint/eslint-plugin": "^4.31.0",
     "@typescript-eslint/parser": "^4.31.0",
     "eslint": "^7.32.0",
