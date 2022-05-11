@@ -11,7 +11,7 @@ const roleFighter = {
   run(creep: Fighter): void {
     if (creep.memory.targetRoom) {
       if (creep.memory.targetRoom == creep.room.name) {
-        if (creep.memory.favorsCreeps) {
+        if (!creep.memory.favorsCreeps) {
           const structures = creep.room.find(FIND_HOSTILE_STRUCTURES, {
             filter: function (structure) {
               return structure.structureType != STRUCTURE_CONTROLLER;
@@ -30,7 +30,7 @@ const roleFighter = {
             creep.memory.favorsCreeps = true;
           }
           return;
-        } else if (!creep.memory.favorsCreeps) {
+        } else if (creep.memory.favorsCreeps) {
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
           if (enemies.length > 0) {
             enemies.sort(
