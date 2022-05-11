@@ -23,6 +23,10 @@ const roleFighter = {
             if (creep.attack(structures[0]) === ERR_NOT_IN_RANGE) {
               creep.moveTo(structures[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
+          } else if (creep.room.controller) {
+            if (creep.attackController(creep.room.controller) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
+            }
           } else {
             console.log('Favors buildings switch to false');
             creep.memory.favorsBuildings = false;
