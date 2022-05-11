@@ -13,7 +13,9 @@ const roleFighter = {
       if (creep.memory.targetRoom == creep.room.name) {
         if (creep.memory.favorsCreeps) {
           const structures = creep.room.find(FIND_HOSTILE_STRUCTURES, {
-            filter: { structuretype: !STRUCTURE_CONTROLLER }
+            filter: function (structure) {
+              return structure.structureType != STRUCTURE_CONTROLLER;
+            }
           });
           if (structures.length > 0) {
             structures.sort(
