@@ -4,14 +4,14 @@ export interface Fighter extends Creep {
 
 interface FighterMemory extends CreepMemory {
   role: 'fighter';
-  favorsBuildings: boolean;
+  favorsCreeps: boolean;
 }
 
 const roleFighter = {
   run(creep: Fighter): void {
     if (creep.memory.targetRoom) {
       if (creep.memory.targetRoom == creep.room.name) {
-        if (creep.memory.favorsBuildings) {
+        if (creep.memory.favorsCreeps) {
           const structures = creep.room.find(FIND_HOSTILE_STRUCTURES);
           if (structures.length > 0) {
             structures.sort(
@@ -23,10 +23,10 @@ const roleFighter = {
               creep.moveTo(structures[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
           } else {
-            creep.memory.favorsBuildings = false;
+            creep.memory.favorsCreeps = true;
           }
           return;
-        } else if (!creep.memory.favorsBuildings) {
+        } else if (!creep.memory.favorsCreeps) {
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
           if (enemies.length > 0) {
             enemies.sort(
@@ -44,12 +44,15 @@ const roleFighter = {
               }
             }
 
-            creep.memory.favorsBuildings = true;
+            creep.memory.favorsCreeps = false;
           }
 
           return;
         }
       } else {
+        if (!creep.memory.favorsCreeps) {
+          creep.memory.favorsCreeps = true;
+        }
         const route = Game.map.findRoute(creep.room, creep.memory.targetRoom);
         if (route != ERR_NO_PATH && route.length > 0) {
           console.log('Now heading to room ' + route[0].room);
