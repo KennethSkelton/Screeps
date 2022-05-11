@@ -45,7 +45,9 @@ const roleRemoteHauler = {
       }
     } else {
       if (creep.memory.targetRoom && creep.memory.targetRoom != creep.room.name) {
-        creep.moveTo(Game.flags[`${creep.memory.targetRoom}_Staging_Area`].pos);
+        creep.moveTo(Game.flags[`${creep.memory.targetRoom}_Staging_Area`].pos, {
+          visualizePathStyle: { stroke: '#ffffff' }
+        });
       } else {
         const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
         if (targets.length > 0) {

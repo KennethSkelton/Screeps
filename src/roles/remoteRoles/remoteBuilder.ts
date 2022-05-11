@@ -13,7 +13,9 @@ interface remoteBuilderMemory extends CreepMemory {
 const roleRemoteBuilder = {
   run(creep: remoteBuilder): void {
     if (creep.memory.targetRoom != creep.room.name && creep.memory.targetRoom) {
-      creep.moveTo(Game.flags[`${creep.memory.targetRoom}_Staging_Area`].pos);
+      creep.moveTo(Game.flags[`${creep.memory.targetRoom}_Staging_Area`].pos, {
+        visualizePathStyle: { stroke: '#ffffff' }
+      });
     } else {
       if (creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
         creep.memory.building = false;
