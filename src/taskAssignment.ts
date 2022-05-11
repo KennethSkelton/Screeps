@@ -9,6 +9,9 @@ import roleWaller, { Waller } from 'roles/waller';
 import roleRemoteHarvester, { remoteHarvester } from 'roles/remoteRoles/remoteHarvester';
 import roleRemoteBuilder, { remoteBuilder } from 'roles/remoteRoles/remoteBuilder';
 import roleRemoteHauler, { remoteHauler } from 'roles/remoteRoles/remoteHauler';
+import roleShooter, { Shooter } from 'roles/combatRoles/shooter';
+import roleFighter, { Fighter } from 'roles/combatRoles/fighter';
+import roleStunner, { Stunner } from 'roles/combatRoles/stunner';
 
 function assignJobs(): void {
   const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester').length;
@@ -71,9 +74,17 @@ function assignJobs(): void {
     if (creep.memory.role === 'remoteBuilder') {
       roleRemoteBuilder.run(creep as remoteBuilder);
     }
-
     if (creep.memory.role === 'remoteHauler') {
       roleRemoteHauler.run(creep as remoteHauler);
+    }
+    if (creep.memory.role === 'shooter') {
+      roleShooter.run(creep as Shooter);
+    }
+    if (creep.memory.role === 'fighter') {
+      roleFighter.run(creep as Fighter);
+    }
+    if (creep.memory.role === 'stunner') {
+      roleStunner.run(creep as Stunner);
     }
   });
 }
