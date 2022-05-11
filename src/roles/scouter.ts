@@ -10,7 +10,7 @@ const roleScouter = {
   run(creep: Scouter): void {
     if (creep.memory.targetRoom) {
       if (creep.room.name == creep.memory.targetRoom) {
-        creep.moveTo(new RoomPosition(25, 25, creep.room.name));
+        creep.moveTo(new RoomPosition(25, 25, creep.room.name), { visualizePathStyle: { stroke: '#ffaa00' } });
         if (Memory.remoteOperations[creep.memory.targetRoom].stage < 1) {
           Memory.remoteOperations[creep.memory.targetRoom].stage = 1;
         }
@@ -20,7 +20,7 @@ const roleScouter = {
           console.log('Now heading to room ' + route[0].room);
           const exit = creep.pos.findClosestByRange(route[0].exit);
           if (exit) {
-            creep.moveTo(exit);
+            creep.moveTo(exit, { visualizePathStyle: { stroke: '#ffaa00' } });
           }
         }
       }
