@@ -13,7 +13,7 @@ const roleShooter = {
       if (creep.memory.targetRoom == creep.room.name) {
         if (creep.memory.favorsBuildings) {
           const structures = creep.room.find(FIND_HOSTILE_STRUCTURES);
-          if (structures) {
+          if (structures.length > 0) {
             structures.sort(
               (a, b) =>
                 PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
@@ -29,7 +29,7 @@ const roleShooter = {
         }
         if (!creep.memory.favorsBuildings) {
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
-          if (enemies) {
+          if (enemies.length > 0) {
             enemies.sort(
               (a, b) =>
                 PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -

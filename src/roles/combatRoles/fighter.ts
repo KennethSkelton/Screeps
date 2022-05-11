@@ -14,7 +14,7 @@ const roleFighter = {
         if (creep.memory.favorsBuildings) {
           console.log('Start favors buildings');
           const structures = creep.room.find(FIND_HOSTILE_STRUCTURES);
-          if (structures) {
+          if (structures.length > 0) {
             structures.sort(
               (a, b) =>
                 PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
@@ -35,7 +35,7 @@ const roleFighter = {
           console.log('Start favors enemies');
           const enemies = creep.room.find(FIND_HOSTILE_CREEPS);
           console.log(JSON.stringify(enemies));
-          if (enemies) {
+          if (enemies.length > 0) {
             enemies.sort(
               (a, b) =>
                 PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
