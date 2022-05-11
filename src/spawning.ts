@@ -158,10 +158,16 @@ function spawnFromQuota(
   for (const quota of quotaList) {
     console.log(`role is: ${quota.role}`);
     console.log(`quota is: ${JSON.stringify(quota.amount)}`);
-    const numberOfCreep = _.filter(
-      Game.creeps,
-      (creep: Creep) => creep.memory.role == quota.role && creep.memory.targetRoom == targetRoom
-    );
+    let numberOfCreep = [];
+    if (targetRoom) {
+      numberOfCreep = _.filter(
+        Game.creeps,
+        (creep: Creep) => creep.memory.role == quota.role && creep.memory.targetRoom == targetRoom
+      );
+    } else {
+      numberOfCreep = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == quota.role);
+    }
+
     console.log(`${quota.role}s: ${numberOfCreep.length}`);
 
     if (numberOfCreep.length < quota.amount) {
