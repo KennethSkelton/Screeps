@@ -1,3 +1,4 @@
+import roleRepairer, { Repairer } from 'roles/repairer';
 import { RETRIEVE_PRIORITY } from '../../constants';
 
 export interface remoteBuilder extends Creep {
@@ -25,6 +26,7 @@ const roleRemoteBuilder = {
 
       if (creep.memory.building) {
         const targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+        console.log(JSON.stringify(targets));
         if (targets.length > 1) {
           targets.sort(
             (a, b) =>
@@ -33,6 +35,20 @@ const roleRemoteBuilder = {
           );
           if (creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
             creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+          }
+        } else {
+          const targets = creep.room.find(FIND_STRUCTURES, {
+            filter: function (n: Structure) {
+              return !(n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n);
+            }
+          });
+
+          targets.sort((a, b) => a.hits / a.hitsMax - b.hits / b.hitsMax);
+
+          if (targets.length > 0) {
+            if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
+              creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+            }
           }
         }
       } else {
@@ -79,6 +95,10 @@ const roleRemoteBuilder = {
     }
   }
 };
+
+function isDamaged(structure: Structure): boolean {
+  return structure.hits < structure.hitsMax;
+}
 
 function hasEnergy(structure: Structure): boolean {
   if (
