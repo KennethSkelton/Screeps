@@ -14,7 +14,13 @@ declare global {
 }
 
 function remoteOperations(spawnName: string, operationList: { roomName: string; type: string }[]): void {
-  if (Game.spawns[spawnName].room.find(FIND_MY_CREEPS).length < 4) {
+  if (
+    Game.spawns[spawnName].room.find(FIND_MY_CREEPS, {
+      filter: function (creep: Creep) {
+        return creep.memory.role == 'harvester';
+      }
+    }).length < 4
+  ) {
     console.log('Emergency roomOperation postponed');
   } else {
     if (!Memory.remoteOperations) {
