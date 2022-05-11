@@ -60,10 +60,11 @@ function isToBeFilled(structure: Structure): boolean {
     structure.structureType === STRUCTURE_EXTENSION ||
     structure.structureType === STRUCTURE_SPAWN ||
     structure.structureType === STRUCTURE_TOWER ||
-    structure.structureType === STRUCTURE_CONTAINER
+    structure.structureType === STRUCTURE_CONTAINER ||
+    structure.structureType === STRUCTURE_STORAGE
   ) {
-    const s = structure as StructureExtension | StructureSpawn | StructureTower | StructureContainer;
-    if (s instanceof StructureContainer) {
+    const s = structure as StructureExtension | StructureSpawn | StructureTower | StructureContainer | StructureStorage;
+    if (s instanceof StructureContainer || s instanceof StructureStorage) {
       return s.store.getFreeCapacity() > 0;
     } else {
       return s.energy < s.energyCapacity;
