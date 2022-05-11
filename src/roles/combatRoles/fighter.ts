@@ -22,6 +22,8 @@ const roleFighter = {
             if (creep.attack(structures[0]) === ERR_NOT_IN_RANGE) {
               creep.moveTo(structures[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
+          } else {
+            creep.memory.favorsBuildings = false;
           }
           return;
         }
@@ -36,6 +38,8 @@ const roleFighter = {
             if (creep.attack(enemies[0]) === ERR_NOT_IN_RANGE) {
               creep.moveTo(enemies[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
+          } else {
+            creep.memory.favorsBuildings = true;
           }
           return;
         }

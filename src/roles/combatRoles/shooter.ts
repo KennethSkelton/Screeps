@@ -22,6 +22,8 @@ const roleShooter = {
             if (creep.rangedAttack(structures[0]) === ERR_NOT_IN_RANGE) {
               creep.moveTo(structures[0], { visualizePathStyle: { stroke: '#ffffff' } });
             }
+          } else {
+            creep.memory.favorsBuildings = false;
           }
           return;
         }
@@ -38,6 +40,8 @@ const roleShooter = {
             }
           }
           return;
+        } else {
+          creep.memory.favorsBuildings = true;
         }
       } else {
         const route = Game.map.findRoute(creep.room, creep.memory.targetRoom);
