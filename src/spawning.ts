@@ -119,7 +119,7 @@ function spawnCreeps(spawnName: string): void {
     });
   }*/
 
-  const numberOfSources = Game.rooms[Game.spawns[spawnName].name].find(FIND_SOURCES).length;
+  const numberOfSources = Game.rooms[homeRoomName].find(FIND_SOURCES).length;
   const quota: { role: string; amount: number }[] = [
     { role: 'harvester', amount: numberOfSources },
     { role: 'hauler', amount: numberOfSources },
