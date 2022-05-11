@@ -70,19 +70,11 @@ const roleUpgrader = {
 };
 
 function hasEnergy(structure: Structure): boolean {
-  if (
-    structure.structureType === STRUCTURE_EXTENSION ||
-    structure.structureType === STRUCTURE_SPAWN ||
-    structure.structureType === STRUCTURE_TOWER ||
-    structure.structureType === STRUCTURE_CONTAINER ||
-    structure.structureType === STRUCTURE_STORAGE
-  ) {
+  if (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE) {
     // eslint-disable-next-line max-len
-    const s = structure as StructureExtension | StructureSpawn | StructureTower | StructureContainer | StructureStorage;
+    const s = structure as StructureContainer | StructureStorage;
     if (s instanceof StructureContainer || s instanceof StructureStorage) {
       return s.store.getUsedCapacity() > 0;
-    } else {
-      return s.energy > 0;
     }
   }
   return false;
