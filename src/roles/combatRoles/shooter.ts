@@ -36,7 +36,7 @@ function attackCreepsBeforeStructures(creep: Creep) {
     if (structures.length > 0) {
       attackNearestHostileStructure(creep, structures);
     } else {
-      creep.moveTo(25, 25);
+      creep.moveTo(25, 25, { visualizePathStyle: { stroke: '#ffffff' } });
     }
   }
 }
@@ -54,7 +54,7 @@ function attackStructuresBeforeCreeps(creep: Creep) {
     if (enemies.length > 0) {
       attackNearestHostileCreep(creep, enemies);
     } else {
-      creep.moveTo(25, 25);
+      creep.moveTo(25, 25, { visualizePathStyle: { stroke: '#ffffff' } });
     }
   }
 }
