@@ -1,3 +1,4 @@
+import { drop } from 'lodash';
 import { FILL_PRIORITY, HOME_SPAWN, RETRIEVE_PRIORITY } from '../../constants';
 
 export interface remoteHauler extends Creep {
@@ -7,6 +8,8 @@ export interface remoteHauler extends Creep {
 interface remoteHaulerMemory extends CreepMemory {
   role: 'hauler';
   depositing: boolean;
+  target?: Id<_HasId>;
+  path?: string;
 }
 
 const roleRemoteHauler = {
@@ -18,9 +21,32 @@ const roleRemoteHauler = {
     }
 
     if (creep.memory.depositing) {
-      if (Game.spawns[HOME_SPAWN].room) {
-        const targets = Game.rooms[Game.spawns[HOME_SPAWN].room.name].find(FIND_STRUCTURES, { filter: isToBeFilled });
-        let target: Structure = Game.spawns[HOME_SPAWN];
+      if (creep.memory.target) {
+        const target = Game.getObjectById(creep.memory.target);
+        if (target instanceof Structure) {
+          if (creep.room.name == target.room.name) {
+            if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+              if (creep.memory.path) {
+                creep.moveByPath(creep.memory.path);
+              } else {
+                creep.memory.path = Room.serializePath(creep.room.findPath(creep.pos, target.pos));
+              }
+            }
+          } else {
+            const route = Game.map.findRoute(creep.room, target.room);
+            if (route != ERR_NO_PATH && route.length > 0) {
+              console.log('Now heading to room ' + route[0].room);
+              const exit = creep.pos.findClosestByRange(route[0].exit);
+              if (exit) {
+                creep.moveTo(exit, { visualizePathStyle: { stroke: '#ffaa00' } });
+              }
+            }
+          }
+        } else {
+          delete creep.memory.target;
+        }
+      } else {
+        const targets = creep.room.find(FIND_STRUCTURES, { filter: isToBeFilled });
         if (targets.length > 0) {
           const groupedTargets = _.groupBy(targets, function (n) {
             return n.structureType;
@@ -28,62 +54,55 @@ const roleRemoteHauler = {
 
           for (const type of FILL_PRIORITY) {
             if (groupedTargets[type]) {
-              // eslint-disable-next-line max-len
-              groupedTargets[type].sort(
-                (a, b) =>
-                  PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-                  PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-              );
-              target = groupedTargets[type][0];
-              break;
+              const target = creep.pos.findClosestByPath(groupedTargets[type]);
+              if (target) {
+                delete creep.memory.path;
+                creep.memory.target = target.id;
+              }
             }
-          }
-          if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
           }
         }
       }
     } else {
-      if (creep.memory.targetRoom && creep.memory.targetRoom != creep.room.name) {
-        creep.moveTo(Game.flags[`${creep.memory.targetRoom}_Staging_Area`].pos, {
-          visualizePathStyle: { stroke: '#ffffff' }
-        });
-      } else {
-        const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-        if (targets.length > 0) {
-          const groupedTargets = _.groupBy(targets, function (n) {
-            return n.structureType;
-          });
-          let target;
-          for (const type of RETRIEVE_PRIORITY) {
-            if (groupedTargets[type]) {
-              // eslint-disable-next-line max-len
-              groupedTargets[type].sort(
-                (a, b) =>
-                  PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-                  PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-              );
-              target = groupedTargets[type][0];
-              break;
+      if (creep.memory.target) {
+        const target = Game.getObjectById(creep.memory.target);
+        if (target instanceof Resource) {
+          if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
+            if (creep.memory.path) {
+              creep.moveByPath(creep.memory.path);
+            } else {
+              creep.memory.path = Room.serializePath(creep.room.findPath(creep.pos, target.pos));
             }
           }
-          if (target) {
-            if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-              creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+        } else if (target instanceof Structure) {
+          if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            if (creep.memory.path) {
+              creep.moveByPath(creep.memory.path);
+            } else {
+              creep.memory.path = Room.serializePath(creep.room.findPath(creep.pos, target.pos));
             }
           }
         } else {
-          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
-            filter: function (object: Resource) {
-              return object.amount >= 50;
-            }
-          });
-          // eslint-disable-next-line max-len
-          const target = creep.pos.findClosestByRange(droppedResources);
+          delete creep.memory.target;
+        }
+      } else {
+        const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
+          filter: function (object: Resource) {
+            return object.amount >= 50;
+          }
+        });
+        if (droppedResources.length > 0) {
+          const target = creep.pos.findClosestByPath(droppedResources);
           if (target) {
-            if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
-              creep.moveTo(target, { visualizePathStyle: { stroke: '#ffaa00' } });
-            }
+            delete creep.memory.path;
+            creep.memory.target = target.id;
+          }
+        } else {
+          const containers = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
+          const target = creep.pos.findClosestByPath(containers);
+          if (target) {
+            delete creep.memory.path;
+            creep.memory.target = target.id;
           }
         }
       }
