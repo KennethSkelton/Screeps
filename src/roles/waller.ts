@@ -24,15 +24,31 @@ const roleWaller = {
     }
 
     if (creep.memory.walling) {
-      const targets = creep.room.find(FIND_STRUCTURES, {
+      const allWallsAndRamparts = creep.room.find(FIND_STRUCTURES, {
         filter: function (n: Structure) {
           return (n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n);
         }
       });
+      if (allWallsAndRamparts.length > 0) {
+        let averageStrength = 0;
+        allWallsAndRamparts.forEach(function (target) {
+          averageStrength += target.hits;
+        });
+        averageStrength / allWallsAndRamparts.length;
 
-      targets.sort((a, b) => a.hits / a.hitsMax - b.hits / b.hitsMax);
-
-      if (targets.length > 0) {
+        const targetStength = averageStrength * 1.05;
+        const targets = creep.room.find(FIND_STRUCTURES, {
+          filter: function (n: Structure) {
+            return (
+              (n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n) && n.hits < targetStength
+            );
+          }
+        });
+        targets.sort(
+          (a, b) =>
+            PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
+            PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
+        );
         if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
           creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffaa00' } });
         }
