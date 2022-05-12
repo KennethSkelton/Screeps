@@ -68,6 +68,12 @@ const roleHauler = {
 };
 function move(creep: Hauler, target: RoomObject) {
   if (creep.memory.path && creep.memory.path.length > 0) {
+    creep.room.visual.poly(creep.memory.path, {
+      stroke: '#fff',
+      strokeWidth: 0.15,
+      opacity: 0.2,
+      lineStyle: 'dashed'
+    });
     if (creep.pos != creep.memory.path[0]) {
       const path = creep.memory.path;
       const pathStep = path.shift();
@@ -87,12 +93,6 @@ function move(creep: Hauler, target: RoomObject) {
       const pathStep = path.shift();
       if (pathStep) {
         creep.move(creep.pos.getDirectionTo(pathStep.x, pathStep.y));
-        creep.room.visual.poly(creep.memory.path, {
-          stroke: '#fff',
-          strokeWidth: 0.15,
-          opacity: 0.2,
-          lineStyle: 'dashed'
-        });
         creep.memory.path = newPath;
       }
     }
@@ -139,6 +139,12 @@ function move(creep: Hauler, target: RoomObject) {
         return costs;
       }
     }).path;
+    creep.room.visual.poly(creep.memory.path, {
+      stroke: '#fff',
+      strokeWidth: 0.15,
+      opacity: 0.2,
+      lineStyle: 'dashed'
+    });
   }
 }
 
