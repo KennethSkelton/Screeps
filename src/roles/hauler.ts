@@ -39,9 +39,7 @@ const roleHauler = {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof Structure) {
           if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            if (creep.memory.path) {
-              move(creep, target);
-            }
+            move(creep, target);
           }
         } else {
           delete creep.memory.target;
