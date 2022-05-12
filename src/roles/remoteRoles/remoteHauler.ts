@@ -22,7 +22,7 @@ const roleRemoteHauler = {
       if (creep.memory.target) {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof Structure) {
-          if (creep.room.name == target.room.name) {
+          if (creep.room.name == creep.memory.homeroom) {
             if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
               if (creep.memory.path) {
                 creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
@@ -69,7 +69,7 @@ const roleRemoteHauler = {
         const target = Game.getObjectById(creep.memory.target);
         if (target) {
           if (target instanceof Resource) {
-            if (target.room!.name == creep.room.name) {
+            if (creep.memory.targetRoom == creep.room.name) {
               if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
               }
