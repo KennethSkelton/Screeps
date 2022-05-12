@@ -73,6 +73,12 @@ function move(creep: Hauler, target: RoomObject) {
       const pathStep = path.shift();
       if (pathStep) {
         creep.move(creep.pos.getDirectionTo(pathStep.x, pathStep.y));
+        creep.room.visual.poly(creep.memory.path, {
+          stroke: '#fff',
+          strokeWidth: 0.15,
+          opacity: 0.2,
+          lineStyle: 'dashed'
+        });
       }
     } else {
       const path = creep.memory.path;
@@ -81,6 +87,12 @@ function move(creep: Hauler, target: RoomObject) {
       const pathStep = path.shift();
       if (pathStep) {
         creep.move(creep.pos.getDirectionTo(pathStep.x, pathStep.y));
+        creep.room.visual.poly(creep.memory.path, {
+          stroke: '#fff',
+          strokeWidth: 0.15,
+          opacity: 0.2,
+          lineStyle: 'dashed'
+        });
         creep.memory.path = newPath;
       }
     }
