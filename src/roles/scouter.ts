@@ -10,7 +10,9 @@ const roleScouter = {
   run(creep: Scouter): void {
     if (creep.memory.targetRoom) {
       if (creep.room.name == creep.memory.targetRoom) {
-        creep.moveTo(new RoomPosition(25, 25, creep.room.name), { visualizePathStyle: { stroke: '#ffaa00' } });
+        if (creep.pos.x != 25 || creep.pos.y != 25) {
+          creep.moveTo(new RoomPosition(25, 25, creep.room.name), { visualizePathStyle: { stroke: '#ffaa00' } });
+        }
         if (Memory.remoteOperations[creep.memory.targetRoom].stage < 1) {
           Memory.remoteOperations[creep.memory.targetRoom].stage = 1;
         }
