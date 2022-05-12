@@ -1,16 +1,16 @@
 /*
-export interface role extends Creep {
-    memory: roleMemory;
+export interface Role extends Creep {
+    memory: RoleMemory;
   }
 
-  interface roleMemory extends CreepMemory {
+  interface RoleMemory extends CreepMemory {
     role: 'role';
   }
 
   const roleRole = {
-    run(creep: role): void {
+    run(creep: Role): void {
     }
   };
 
-  export default role;
+  export default roleRole;
   */
