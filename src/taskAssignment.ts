@@ -15,13 +15,14 @@ import roleStunner, { Stunner } from 'roles/combatRoles/stunner';
 
 function assignJobs(): void {
   const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester').length;
+  const haulers = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester').length;
 
   Object.values(Game.creeps).forEach((creep) => {
     if (creep.memory.role === 'harvester') {
       roleHarvester.run(creep as Harvester);
     }
     if (creep.memory.role === 'upgrader') {
-      if (harvesters < 2) {
+      if (haulers < 2) {
         roleHauler.run(creep as Hauler);
       } else {
         roleUpgrader.run(creep as Upgrader);
