@@ -110,7 +110,12 @@ function spawnCreeps(spawnName: string): void {
 
   const numberOfSources = Game.rooms[homeRoomName].find(FIND_SOURCES).length;
   let quota: { role: string; amount: number }[];
-  if (_.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester').length < 2) {
+
+  // eslint-disable-next-line max-len
+  if (
+    _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester' || creep.memory.role == 'hauler').length <
+    4
+  ) {
     quota = [
       { role: 'harvester', amount: numberOfSources },
       { role: 'hauler', amount: numberOfSources }
