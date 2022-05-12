@@ -17,10 +17,14 @@ const roleUpgrader = {
     if (creep.memory.upgrading && creep.store[RESOURCE_ENERGY] === 0) {
       creep.memory.upgrading = false;
       creep.say('🔄 harvest');
+      delete creep.memory.target;
+      delete creep.memory.path;
     }
     if (!creep.memory.upgrading && creep.store.getFreeCapacity() === 0) {
       creep.memory.upgrading = true;
       creep.say('⚡ upgrade');
+      delete creep.memory.target;
+      delete creep.memory.path;
     }
 
     if (creep.memory.upgrading) {
