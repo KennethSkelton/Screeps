@@ -18,8 +18,11 @@ const roleHauler = {
         if (target instanceof Resource) {
           if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
             if (creep.memory.path) {
-              creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
               creep.room.visual.poly(creep.memory.path);
+              const step = creep.memory.path.shift();
+              if (step) {
+                creep.move(creep.pos.getDirectionTo(step));
+              }
             } else {
               creep.memory.path = PathFinder.search(creep.pos, target.pos).path;
             }
@@ -45,10 +48,11 @@ const roleHauler = {
         if (target instanceof Structure) {
           if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
             if (creep.memory.path) {
-              creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
               creep.room.visual.poly(creep.memory.path);
-              creep.memory.path.shift();
-              creep.memory.path = creep.memory.path;
+              const step = creep.memory.path.shift();
+              if (step) {
+                creep.move(creep.pos.getDirectionTo(step));
+              }
             } else {
               creep.memory.path = PathFinder.search(creep.pos, target.pos).path;
             }
