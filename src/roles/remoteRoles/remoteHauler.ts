@@ -6,18 +6,18 @@ export interface remoteHauler extends Creep {
 
 interface remoteHaulerMemory extends CreepMemory {
   role: 'hauler';
-  haulingHome: boolean;
+  depositing: boolean;
 }
 
 const roleRemoteHauler = {
   run(creep: remoteHauler): void {
     if (creep.store.getFreeCapacity() == 0) {
-      creep.memory.haulingHome = true;
+      creep.memory.depositing = true;
     } else if (creep.store.getUsedCapacity() == 0) {
-      creep.memory.haulingHome = false;
+      creep.memory.depositing = false;
     }
 
-    if (creep.memory.haulingHome) {
+    if (creep.memory.depositing) {
       if (Game.spawns[HOME_SPAWN].room) {
         const targets = Game.rooms[Game.spawns[HOME_SPAWN].room.name].find(FIND_STRUCTURES, { filter: isToBeFilled });
         let target: Structure = Game.spawns[HOME_SPAWN];
