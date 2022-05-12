@@ -22,7 +22,7 @@ const roleHauler = {
                 console.log('MOVE 1');
                 console.log(`Path object is: ${JSON.stringify(creep.memory.path[0])} `);
                 console.log(`Direction is ${creep.pos.getDirectionTo(creep.memory.path[0].x, creep.memory.path[0].y)}`);
-                console.log(creep.move(creep.pos.getDirectionTo(creep.memory.path[0])));
+                console.log(creep.move(creep.pos.getDirectionTo(creep.memory.path[0].x, creep.memory.path[0].y)));
               } else {
                 delete creep.memory.path;
               }
