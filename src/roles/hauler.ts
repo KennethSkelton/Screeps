@@ -20,7 +20,7 @@ const roleHauler = {
             if (creep.memory.path) {
               if (creep.memory.path[0]) {
                 console.log('MOVE 1');
-                creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
+                console.log(creep.move(creep.pos.getDirectionTo(creep.memory.path[0])));
               } else {
                 delete creep.memory.path;
               }
