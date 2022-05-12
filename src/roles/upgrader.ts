@@ -38,6 +38,7 @@ const roleUpgrader = {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof Structure) {
           if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            console.log('Try to move');
             move(creep, target);
           } else {
             delete creep.memory.target;
@@ -45,7 +46,7 @@ const roleUpgrader = {
           }
         } else if (target instanceof Resource) {
           if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(target, { visualizePathStyle: { stroke: '#ffaa00' } });
+            move(creep, target);
           } else {
             delete creep.memory.target;
             delete creep.memory.path;
@@ -54,28 +55,29 @@ const roleUpgrader = {
           delete creep.memory.target;
           delete creep.memory.path;
         }
-      }
-      const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-      if (targets.length > 0) {
-        const groupedTargets = _.groupBy(targets, function (n) {
-          return n.structureType;
-        });
-        for (const type of RETRIEVE_PRIORITY) {
-          if (groupedTargets[type]) {
-            const target = creep.pos.findClosestByPath(groupedTargets[type]);
-            if (target) {
-              delete creep.memory.path;
-              creep.memory.target = target.id;
-              break;
+      } else {
+        const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
+        if (targets.length > 0) {
+          const groupedTargets = _.groupBy(targets, function (n) {
+            return n.structureType;
+          });
+          for (const type of RETRIEVE_PRIORITY) {
+            if (groupedTargets[type]) {
+              const target = creep.pos.findClosestByPath(groupedTargets[type]);
+              if (target) {
+                delete creep.memory.path;
+                creep.memory.target = target.id;
+                break;
+              }
             }
           }
-        }
-      } else {
-        const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
-        const droppedResource = creep.pos.findClosestByPath(droppedResources);
-        if (droppedResource) {
-          delete creep.memory.path;
-          creep.memory.target = droppedResource.id;
+        } else {
+          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
+          const droppedResource = creep.pos.findClosestByPath(droppedResources);
+          if (droppedResource) {
+            delete creep.memory.path;
+            creep.memory.target = droppedResource.id;
+          }
         }
       }
     }
