@@ -154,7 +154,7 @@ function isToBeFilled(structure: Structure): boolean {
     if (s instanceof StructureContainer || s instanceof StructureStorage) {
       return s.store.getFreeCapacity() > 0;
     } else if (s instanceof StructureTower) {
-      return s.store.getFreeCapacity(RESOURCE_ENERGY) / s.store.getCapacity(RESOURCE_ENERGY) > 0.5;
+      return s.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
     } else {
       return s.energy < s.energyCapacity;
     }
