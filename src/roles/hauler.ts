@@ -20,8 +20,11 @@ const roleHauler = {
             if (creep.memory.path) {
               creep.room.visual.poly(creep.memory.path);
               const step = creep.memory.path.shift();
+              console.log(`step is ${JSON.stringify(step)}`);
               if (step) {
                 creep.move(creep.pos.getDirectionTo(step));
+              } else {
+                delete creep.memory.path;
               }
             } else {
               creep.memory.path = PathFinder.search(creep.pos, target.pos).path;
