@@ -6,45 +6,68 @@ export interface Hauler extends Creep {
 
 interface HaulerMemory extends CreepMemory {
   role: 'hauler';
+  target?: Id<_HasId>;
+  path?: string;
 }
 
 const roleHauler = {
   run(creep: Hauler): void {
     if (creep.store.getUsedCapacity() == 0) {
-      const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
-        filter: function (object: Resource) {
-          return object.amount >= 50;
+      if (creep.memory.target) {
+        const target = Game.getObjectById(creep.memory.target);
+        if (target instanceof Resource) {
+          if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
+            if (creep.memory.path) {
+              creep.moveByPath(creep.memory.path);
+            } else {
+              creep.memory.path = Room.serializePath(creep.room.findPath(creep.pos, target.pos));
+            }
+          }
+        } else {
+          delete creep.memory.target;
         }
-      });
-
-      const target = creep.pos.findClosestByRange(droppedResources);
-      if (target) {
-        if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, { visualizePathStyle: { stroke: '#ffaa00' } });
+      } else {
+        const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
+          filter: function (object: Resource) {
+            return object.amount >= 50;
+          }
+        });
+        const target = creep.pos.findClosestByPath(droppedResources);
+        if (target) {
+          delete creep.memory.path;
+          creep.memory.target = target.id;
         }
       }
     } else {
-      const targets = creep.room.find(FIND_STRUCTURES, { filter: isToBeFilled });
-      let target: Structure = Game.spawns[HOME_SPAWN];
-      if (targets.length > 0) {
-        const groupedTargets = _.groupBy(targets, function (n) {
-          return n.structureType;
-        });
-
-        for (const type of FILL_PRIORITY) {
-          if (groupedTargets[type]) {
-            // eslint-disable-next-line max-len
-            groupedTargets[type].sort(
-              (a, b) =>
-                PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-                PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-            );
-            target = groupedTargets[type][0];
-            break;
+      if (creep.memory.target) {
+        const target = Game.getObjectById(creep.memory.target);
+        if (target instanceof Structure) {
+          if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            if (creep.memory.path) {
+              creep.moveByPath(creep.memory.path);
+            } else {
+              creep.memory.path = Room.serializePath(creep.room.findPath(creep.pos, target.pos));
+            }
           }
+        } else {
+          delete creep.memory.target;
         }
-        if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+      } else {
+        const targets = creep.room.find(FIND_STRUCTURES, { filter: isToBeFilled });
+        if (targets.length > 0) {
+          const groupedTargets = _.groupBy(targets, function (n) {
+            return n.structureType;
+          });
+
+          for (const type of FILL_PRIORITY) {
+            if (groupedTargets[type]) {
+              const target = creep.pos.findClosestByPath(groupedTargets[type]);
+              if (target) {
+                delete creep.memory.path;
+                creep.memory.target = target.id;
+              }
+            }
+          }
         }
       }
     }
