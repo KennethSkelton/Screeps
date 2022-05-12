@@ -97,4 +97,4 @@ function attackNearestHostileCreep(creep: Creep, enemies: Creep[]) {
     }
   }
 }
-export { roleShooter };
+export default roleShooter;
