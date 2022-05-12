@@ -66,7 +66,7 @@ const roleHauler = {
   }
 };
 function move(creep: Hauler, target: RoomObject) {
-  if (creep.memory.path) {
+  if (creep.memory.path && creep.memory.path.length > 0) {
     if (creep.pos != creep.memory.path[0]) {
       const path = creep.memory.path;
       const pathStep = path.shift();
