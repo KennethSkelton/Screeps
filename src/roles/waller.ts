@@ -35,8 +35,9 @@ const roleWaller = {
           averageStrength += target.hits;
         });
         averageStrength / allWallsAndRamparts.length;
-
         const targetStength = averageStrength * 1.05;
+        console.log(`Average wall strength: ${averageStrength}`);
+        console.log(`Target wall strength: ${targetStength}`);
         const targets = creep.room.find(FIND_STRUCTURES, {
           filter: function (n: Structure) {
             return (
