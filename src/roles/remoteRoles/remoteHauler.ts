@@ -79,15 +79,10 @@ const roleRemoteHauler = {
             }
           });
           // eslint-disable-next-line max-len
-          droppedResources.sort(
-            (a, b) =>
-              PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-              PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-          );
-
-          if (droppedResources.length != 0) {
-            if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
-              creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+          const target = creep.pos.findClosestByRange(droppedResources);
+          if (target) {
+            if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
+              creep.moveTo(target, { visualizePathStyle: { stroke: '#ffaa00' } });
             }
           }
         }
