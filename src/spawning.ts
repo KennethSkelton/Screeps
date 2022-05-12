@@ -159,6 +159,7 @@ function spawnFromQuota(
   const homeRoomName = Game.spawns[spawnName].room.name;
   console.log(JSON.stringify(quotaList));
   for (const quota of quotaList) {
+    let schemaNumberClone = schemaNumber;
     console.log(`role is: ${quota.role}`);
     console.log(`quota is: ${JSON.stringify(quota.amount)}`);
     let numberOfCreep = [];
@@ -175,12 +176,15 @@ function spawnFromQuota(
 
     if (numberOfCreep.length < quota.amount) {
       const newName = `${quota.role}_${schemaNumber} ${Game.time}`;
+      if (schemaNumberClone > CREEP_SCHEMA[quota.role].length) {
+        schemaNumberClone = CREEP_SCHEMA[quota.role].length;
+      }
       if (isRemoteCreeps) {
-        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[quota.role][schemaNumber], newName, {
+        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[quota.role][schemaNumberClone], newName, {
           memory: { role: quota.role, homeroom: homeRoomName, isRemote: true, targetRoom: targetRoom }
         });
       } else {
-        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[quota.role][schemaNumber], newName, {
+        Game.spawns[spawnName].spawnCreep(CREEP_SCHEMA[quota.role][schemaNumberClone], newName, {
           memory: { role: quota.role, homeroom: homeRoomName, isRemote: false }
         });
       }
