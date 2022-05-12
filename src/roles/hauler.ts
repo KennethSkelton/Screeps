@@ -19,6 +19,7 @@ const roleHauler = {
           if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
             if (creep.memory.path) {
               if (creep.memory.path[0]) {
+                console.log('MOVE 2');
                 creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
               } else {
                 delete creep.memory.path;
@@ -81,6 +82,7 @@ const roleHauler = {
           if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
             if (creep.memory.path) {
               if (creep.memory.path[0]) {
+                console.log('MOVE 2');
                 creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
               } else {
                 delete creep.memory.path;
