@@ -7,7 +7,7 @@ export interface Hauler extends Creep {
 interface HaulerMemory extends CreepMemory {
   role: 'hauler';
   target?: Id<_HasId>;
-  path?: string;
+  path?: RoomPosition[];
 }
 
 const roleHauler = {
@@ -18,9 +18,12 @@ const roleHauler = {
         if (target instanceof Resource) {
           if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
             if (creep.memory.path) {
-              creep.moveByPath(creep.memory.path);
+              creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
+              creep.room.visual.poly(creep.memory.path);
+              creep.memory.path.shift();
+              creep.memory.path = creep.memory.path;
             } else {
-              creep.memory.path = Room.serializePath(creep.room.findPath(creep.pos, target.pos));
+              creep.memory.path = PathFinder.search(creep.pos, target.pos).path;
             }
           }
         } else {
@@ -44,9 +47,12 @@ const roleHauler = {
         if (target instanceof Structure) {
           if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
             if (creep.memory.path) {
-              creep.moveByPath(creep.memory.path);
+              creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
+              creep.room.visual.poly(creep.memory.path);
+              creep.memory.path.shift();
+              creep.memory.path = creep.memory.path;
             } else {
-              creep.memory.path = Room.serializePath(creep.room.findPath(creep.pos, target.pos));
+              creep.memory.path = PathFinder.search(creep.pos, target.pos).path;
             }
           }
         } else {
