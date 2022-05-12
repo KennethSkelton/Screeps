@@ -99,6 +99,15 @@ function move(creep: Hauler, target: RoomObject) {
         if (!room) return false;
         const costs = new PathFinder.CostMatrix();
 
+        const terrain = room.getTerrain();
+        for (let x = 0; x < 50; x++) {
+          for (let y = 0; y < 50; y++) {
+            if (terrain.get(x, y) == 1) {
+              costs.set(x, y, Infinity);
+            }
+          }
+        }
+
         room.find(FIND_STRUCTURES).forEach(function (struct) {
           if (struct.structureType === STRUCTURE_ROAD) {
             // Favor roads over plain tiles
