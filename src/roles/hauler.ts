@@ -57,6 +57,7 @@ const roleHauler = {
               if (target) {
                 delete creep.memory.path;
                 creep.memory.target = target.id;
+                break;
               }
             }
           }
