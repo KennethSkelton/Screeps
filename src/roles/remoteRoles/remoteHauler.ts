@@ -25,10 +25,18 @@ const roleRemoteHauler = {
           if (target instanceof Structure) {
             if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
               if (creep.memory.path) {
-                creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
                 creep.room.visual.poly(creep.memory.path);
-                creep.memory.path.shift();
-                creep.memory.path = creep.memory.path;
+                const path = creep.memory.path;
+                console.log(`path before shift ${JSON.stringify(path)}`);
+                const step = path.shift();
+                console.log(`path after shift ${JSON.stringify(path)}`);
+                console.log(`step is ${JSON.stringify(step)}`);
+                if (step) {
+                  creep.move(creep.pos.getDirectionTo(step));
+                  creep.memory.path = path;
+                } else {
+                  delete creep.memory.path;
+                }
               } else {
                 creep.memory.path = PathFinder.search(creep.pos, target.pos).path;
               }
@@ -77,10 +85,18 @@ const roleRemoteHauler = {
             } else if (target instanceof Structure) {
               if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 if (creep.memory.path) {
-                  creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
                   creep.room.visual.poly(creep.memory.path);
-                  creep.memory.path.shift();
-                  creep.memory.path = creep.memory.path;
+                  const path = creep.memory.path;
+                  console.log(`path before shift ${JSON.stringify(path)}`);
+                  const step = path.shift();
+                  console.log(`path after shift ${JSON.stringify(path)}`);
+                  console.log(`step is ${JSON.stringify(step)}`);
+                  if (step) {
+                    creep.move(creep.pos.getDirectionTo(step));
+                    creep.memory.path = path;
+                  } else {
+                    delete creep.memory.path;
+                  }
                 } else {
                   creep.memory.path = PathFinder.search(creep.pos, target.pos).path;
                 }
