@@ -103,7 +103,7 @@ function move(creep: Hauler, target: RoomObject) {
         for (let x = 0; x < 50; x++) {
           for (let y = 0; y < 50; y++) {
             if (terrain.get(x, y) == 1) {
-              costs.set(x, y, Infinity);
+              costs.set(x, y, 20);
             }
           }
         }
