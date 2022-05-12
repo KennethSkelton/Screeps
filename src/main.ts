@@ -49,7 +49,7 @@ function main(): void {
   assignJobs();
 
   //Handle remote operations
-  remoteOperations('Spawn1', REMOTE_OPERATIONS_LIST);
+  //remoteOperations('Spawn1', REMOTE_OPERATIONS_LIST);
 
   //emergency return to base
   Object.values(Game.creeps).forEach((creep) => {
