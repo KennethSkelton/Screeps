@@ -134,7 +134,9 @@ function schemaLevel(spawnName: string): number {
   const energyCapacityAvailable = Game.spawns[spawnName].room.energyCapacityAvailable;
   const energyAvailable = Game.spawns[spawnName].room.energyAvailable;
   let schemaNumber = 0;
-
+  if (energyCapacityAvailable >= 1300 && energyAvailable >= 1150) {
+    schemaNumber = 3;
+  }
   if (energyCapacityAvailable >= 800 && energyAvailable >= 650) {
     schemaNumber = 2;
   } else if (energyCapacityAvailable >= 500 && energyAvailable >= 400) {
