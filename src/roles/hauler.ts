@@ -19,10 +19,12 @@ const roleHauler = {
           if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
             if (creep.memory.path) {
               creep.room.visual.poly(creep.memory.path);
-              const step = creep.memory.path.shift();
+              const path = creep.memory.path;
+              const step = path.shift();
               console.log(`step is ${JSON.stringify(step)}`);
               if (step) {
                 creep.move(creep.pos.getDirectionTo(step));
+                creep.memory.path = path;
               } else {
                 delete creep.memory.path;
               }
