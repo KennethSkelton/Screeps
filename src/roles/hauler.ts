@@ -18,11 +18,15 @@ const roleHauler = {
         if (target instanceof Resource) {
           if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
             if (creep.memory.path) {
-              if (creep.memory.path[0]) {
+              const path = creep.memory.path;
+              const pathStep = path.shift();
+              if (pathStep) {
                 console.log('MOVE 1');
-                console.log(`Path object is: ${JSON.stringify(creep.memory.path[0])} `);
-                console.log(`Direction is ${creep.pos.getDirectionTo(creep.memory.path[0].x, creep.memory.path[0].y)}`);
-                console.log(creep.move(creep.pos.getDirectionTo(creep.memory.path[0].x, creep.memory.path[0].y)));
+                console.log(`Path object is: ${JSON.stringify(pathStep)} `);
+                console.log(`Direction is ${creep.pos.getDirectionTo(pathStep.x, pathStep.y)}`);
+                if (creep.move(creep.pos.getDirectionTo(pathStep.x, pathStep.y)) == OK) {
+                  creep.memory.path = path;
+                }
               } else {
                 delete creep.memory.path;
               }
