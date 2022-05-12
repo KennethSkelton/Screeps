@@ -8,6 +8,7 @@ interface HaulerMemory extends CreepMemory {
   role: 'hauler';
   target?: Id<_HasId>;
   path?: RoomPosition[];
+  lastTickPosition?: RoomPosition;
 }
 
 const roleHauler = {
@@ -17,7 +18,7 @@ const roleHauler = {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof Resource) {
           if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
-            if (creep.memory.path) {
+            if (creep.memory.path && creep.pos != creep.memory.lastTickPosition) {
               const path = creep.memory.path;
               const pathStep = path.shift();
               if (pathStep) {
@@ -86,7 +87,7 @@ const roleHauler = {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof Structure) {
           if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            if (creep.memory.path) {
+            if (creep.memory.path && creep.pos != creep.memory.lastTickPosition) {
               if (creep.memory.path) {
                 const path = creep.memory.path;
                 const pathStep = path.shift();
@@ -161,6 +162,7 @@ const roleHauler = {
         }
       }
     }
+    creep.memory.lastTickPosition = creep.pos;
   }
 };
 
