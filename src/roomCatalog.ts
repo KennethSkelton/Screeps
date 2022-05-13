@@ -1,9 +1,9 @@
 function storeSourcesInMemory(room: Room): void {
-  if (!room.memory) {
+  if (!Memory.rooms[room.name]) {
     const roomSources = room.find(FIND_SOURCES);
     roomSources.forEach((source) => {
       const info: SourceInfo[] = [{ id: source.id, workerSpots: 1 }];
-      room.memory = { sources: info };
+      Memory.rooms[room.name] = { sources: info };
     });
   }
 }
