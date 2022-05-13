@@ -1,4 +1,5 @@
 import { move } from 'functions';
+import profiler from 'screeps-profiler';
 import { RETRIEVE_PRIORITY } from '../constants';
 
 export interface Upgrader extends Creep {
@@ -96,5 +97,6 @@ function hasEnergy(structure: Structure): boolean {
   }
   return false;
 }
+profiler.registerObject(roleUpgrader, 'role.upgrader');
 
 export default roleUpgrader;

@@ -1,4 +1,5 @@
 import { move } from 'functions';
+import profiler from 'screeps-profiler';
 import { RETRIEVE_PRIORITY } from '../constants';
 
 export interface Repairer extends Creep {
@@ -116,5 +117,7 @@ function hasEnergy(structure: Structure): boolean {
 function isDamaged(structure: Structure): boolean {
   return structure.hits < structure.hitsMax;
 }
+
+profiler.registerObject(roleRepairer, 'role.repairer');
 
 export default roleRepairer;

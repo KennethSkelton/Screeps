@@ -90,7 +90,6 @@ function assignJobs(): void {
     }
   });
 }
-
-profiler.registerFN(assignJobs, 'Job assignment');
+profiler.registerFN(assignJobs, 'JobAssignment');
 
 export { assignJobs };

@@ -1,4 +1,5 @@
 import { move } from 'functions';
+import profiler from 'screeps-profiler';
 
 export interface Harvester extends Creep {
   memory: HarvesterMemory;
@@ -47,4 +48,7 @@ const roleHarvester = {
     }
   }
 };
+
+profiler.registerObject(roleHarvester, 'role.harvester');
+
 export default roleHarvester;

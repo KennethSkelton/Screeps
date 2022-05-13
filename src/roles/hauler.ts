@@ -1,4 +1,5 @@
 import { move } from 'functions';
+import profiler from 'screeps-profiler';
 import { FILL_PRIORITY } from '../constants';
 
 export interface Hauler extends Creep {
@@ -86,5 +87,7 @@ function isToBeFilled(structure: Structure): boolean {
   }
   return false;
 }
+
+profiler.registerObject(roleHauler, 'role.hauler');
 
 export default roleHauler;
