@@ -1,5 +1,4 @@
 import { RETRIEVE_PRIORITY } from '../constants';
-import { HOME_SPAWN } from '../constants';
 import { move } from '../functions';
 
 export interface Builder extends Creep {
@@ -58,23 +57,24 @@ const roleBuilder = {
         if (target instanceof Structure) {
           const error = creep.withdraw(target, RESOURCE_ENERGY);
           if (error === ERR_NOT_IN_RANGE) {
-            creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+            move(creep, target.pos);
           } else {
             delete creep.memory.target;
-            delete creep.memory.target;
+            delete creep.memory.path;
           }
+        } else {
+          delete creep.memory.target;
+          delete creep.memory.path;
         }
       } else {
         const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-        let target: Structure | null = Game.spawns[HOME_SPAWN];
         if (targets.length > 0) {
           const groupedTargets = _.groupBy(targets, function (n) {
             return n.structureType;
           });
           for (const type of RETRIEVE_PRIORITY) {
             if (groupedTargets[type]) {
-              // eslint-disable-next-line max-len
-              target = creep.pos.findClosestByRange(groupedTargets[type]);
+              const target = creep.pos.findClosestByRange(groupedTargets[type]);
               if (target) {
                 creep.memory.target = target?.id;
                 move(creep, target.pos);
@@ -93,6 +93,9 @@ const roleBuilder = {
             delete creep.memory.path;
             creep.memory.target = target.id;
             move(creep, target.pos);
+          } else {
+            delete creep.memory.target;
+            delete creep.memory.path;
           }
         }
       }
