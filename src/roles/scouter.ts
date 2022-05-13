@@ -15,6 +15,7 @@ const roleScouter = {
     if (creep.memory.targetRoom) {
       if (creep.room.name == creep.memory.targetRoom) {
         if (creep.pos.x != 25 || creep.pos.y != 25) {
+          console.log('MOVE');
           creep.move(creep.pos.getDirectionTo(25, 25));
         }
         if (Memory.remoteOperations[creep.memory.targetRoom].stage < 1) {
