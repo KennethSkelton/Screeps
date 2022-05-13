@@ -28,16 +28,21 @@ const roleRepairer = {
       if (creep.memory.target) {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof Structure) {
-          const repairResult = creep.repair(target);
-          if (repairResult === ERR_NOT_IN_RANGE) {
-            move(creep, target.pos);
-          } else if (repairResult != OK) {
-            creep.memory.target;
-            creep.memory.path;
+          if (target.hits < target.hitsMax) {
+            const repairResult = creep.repair(target);
+            if (repairResult === ERR_NOT_IN_RANGE) {
+              move(creep, target.pos);
+            } else if (repairResult != OK) {
+              delete creep.memory.target;
+              delete creep.memory.path;
+            }
+          } else {
+            delete creep.memory.target;
+            delete creep.memory.path;
           }
         } else {
-          creep.memory.target;
-          creep.memory.path;
+          delete creep.memory.target;
+          delete creep.memory.path;
         }
       } else {
         const targets = creep.room.find(FIND_STRUCTURES, {
