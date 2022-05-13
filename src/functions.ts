@@ -66,7 +66,8 @@ function move(
     | Harvester
     | RemoteHarvester
     | Stunner,
-  target: RoomPosition
+  target: RoomPosition,
+  range?: number
 ): void {
   if (creep.memory.path && creep.memory.path.length > 0) {
     if (creep.fatigue == 0) {
@@ -106,9 +107,15 @@ function move(
       }
     }
   } else {
+    let givenRange;
+    if (!range) {
+      givenRange = 1;
+    } else {
+      givenRange = range;
+    }
     creep.memory.path = PathFinder.search(
       creep.pos,
-      { pos: target, range: 1 },
+      { pos: target, range: givenRange },
       {
         // We need to set the defaults costs higher so that we
         // can set the road cost lower in `roomCallback`

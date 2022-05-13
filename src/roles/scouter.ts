@@ -26,7 +26,7 @@ const roleScouter = {
           console.log('Now heading to room ' + route[0].room);
           const exit = creep.pos.findClosestByRange(route[0].exit);
           if (exit) {
-            move(creep, exit);
+            move(creep, exit, 0);
           }
         }
       }
