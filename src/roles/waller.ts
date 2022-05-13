@@ -30,7 +30,7 @@ const roleWaller = {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof StructureRampart || target instanceof StructureWall) {
           const repairResult = creep.repair(target);
-          if (repairResult == ERR_NOT_IN_RANGE) {
+          if (repairResult === ERR_NOT_IN_RANGE) {
             move(creep, target.pos);
           } else if (repairResult != OK) {
             delete creep.memory.target;
