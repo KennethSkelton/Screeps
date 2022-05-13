@@ -143,9 +143,13 @@ function move(
   }
 }
 
-function moveToRoom(creep: Creep): void {
-  if (creep.memory.targetRoom) {
-    const route = Game.map.findRoute(creep.room, creep.memory.targetRoom);
+function moveToRoom(creep: Creep, roomname?: string): void {
+  let targetRoom = creep.memory.targetRoom;
+  if (roomname) {
+    targetRoom = roomname;
+  }
+  if (targetRoom) {
+    const route = Game.map.findRoute(creep.room, targetRoom);
     if (route != ERR_NO_PATH && route.length > 0) {
       console.log('Now heading to room ' + route[0].room);
       const exit = creep.pos.findClosestByRange(route[0].exit);

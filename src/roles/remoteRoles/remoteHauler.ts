@@ -77,7 +77,7 @@ const roleRemoteHauler = {
       }
     } else {
       if (creep.room.name != creep.memory.homeroom) {
-        moveToRoom(creep);
+        moveToRoom(creep, creep.memory.homeroom);
       } else {
         if (creep.memory.target) {
           const target = Game.getObjectById(creep.memory.target);
