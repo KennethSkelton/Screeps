@@ -1,4 +1,4 @@
-import { move } from 'functions';
+import { move, moveToRoom } from 'functions';
 import { RETRIEVE_PRIORITY } from '../../constants';
 
 export interface RemoteBuilder extends Creep {
@@ -15,7 +15,7 @@ interface RemoteBuilderMemory extends CreepMemory {
 const roleRemoteBuilder = {
   run(creep: RemoteBuilder): void {
     if (creep.memory.targetRoom != creep.room.name && creep.memory.targetRoom) {
-      move(creep, Game.flags[`${creep.memory.targetRoom}_Staging_Area`].pos);
+      moveToRoom(creep);
     } else {
       if (creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
         creep.memory.building = false;
