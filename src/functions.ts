@@ -12,12 +12,6 @@ import { Upgrader } from 'roles/upgrader';
 import { Waller } from 'roles/waller';
 import profiler from 'screeps-profiler';
 
-declare global {
-  interface RoomMemory {
-    matrix: number[];
-  }
-}
-
 function createCostMatrix(roomName: string): CostMatrix | boolean {
   const room = Game.rooms[roomName];
   // In this example `room` will always exist, but since

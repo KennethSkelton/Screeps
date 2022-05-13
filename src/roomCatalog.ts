@@ -1,10 +1,6 @@
 declare global {
-  interface RoomMemory {
-    sources: { [id: Id<Source>]: SourceInfo };
-  }
-}
-declare global {
   interface SourceInfo {
+    id: Id<_HasId>;
     workerSpots: number;
   }
 }
@@ -13,8 +9,8 @@ function storeSourcesInMemory(room: Room): void {
   if (!Memory.rooms[room.name]) {
     const roomSources = room.find(FIND_SOURCES);
     roomSources.forEach((source) => {
-      const info: SourceInfo = { workerSpots: 1 };
-      Memory.rooms[room.name] = { sources: { [source.id]: info } };
+      const info: SourceInfo = { id: source.id, workerSpots: 1 };
+      Memory.rooms[room.name].sources?.push(info);
     });
   }
 }
