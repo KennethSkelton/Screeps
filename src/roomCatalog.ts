@@ -11,12 +11,14 @@ declare global {
 }
 
 function storeSourcesInMemory(room: Room): void {
-  if (!Memory.rooms[room.name].sources) {
+  if (!Memory.rooms[room.name] || !Memory.rooms[room.name].sources) {
     const roomSources = room.find(FIND_SOURCES);
-    roomSources.forEach((source) => {
-      const info: SourceInfo = { workerSpots: 1 };
-      Memory.rooms[room.name] = { sources: { [source.id]: info } };
-    });
+    if (roomSources) {
+      roomSources.forEach((source) => {
+        const info: SourceInfo = { workerSpots: 1 };
+        Memory.rooms[room.name] = { sources: { [source.id]: info } };
+      });
+    }
   }
 }
 
