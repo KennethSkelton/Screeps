@@ -1,3 +1,4 @@
+import profiler from 'screeps-profiler';
 import { RETRIEVE_PRIORITY } from '../constants';
 import { move } from '../functions';
 
@@ -113,5 +114,7 @@ function hasEnergy(structure: Structure): boolean {
   }
   return false;
 }
+
+profiler.registerObject(roleBuilder, 'role.builder');
 
 export default roleBuilder;
