@@ -50,6 +50,8 @@ const roleWaller = {
             PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
             PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
         );
+        console.log(`current target has: ${targets[0].hits}`);
+        console.log(targets[0].hits < targetStength);
         if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
           creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffaa00' } });
         }
