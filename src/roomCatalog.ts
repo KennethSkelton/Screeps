@@ -1,12 +1,42 @@
+declare global {
+  interface RoomMemory {
+    sources: { [id: Id<Source>]: SourceInfo };
+  }
+}
+declare global {
+  interface SourceInfo {
+    workerSpots: number;
+  }
+}
+
 function storeSourcesInMemory(room: Room): void {
   if (!Memory.rooms[room.name]) {
     const roomSources = room.find(FIND_SOURCES);
     roomSources.forEach((source) => {
-      const info: SourceInfo[] = [{ id: source.id, workerSpots: 1 }];
-      Memory.rooms[room.name] = { sources: info };
+      const info: SourceInfo = { workerSpots: 1 };
+      Memory.rooms[room.name] = { sources: { [source.id]: info } };
     });
   }
 }
+
+/*
+function storeSourcesInMemory(room: Room): void {
+  if (!Memory.rooms[room.name]) {
+    const roomSources = room.find(FIND_SOURCES);
+    const info: SourceInfo[] = [];
+    roomSources.forEach((source) => {
+      info.push({ id: source.id, workerSpots: 1 });
+    });
+
+    Memory.rooms = { [name]: room.name : info }
+  }
+}
+
+export { storeSourcesInMemory };
+
+
+
+*/
 
 /*
 function oneOrTwoOrThree(schemaLevel: number) {
