@@ -1,4 +1,3 @@
-import { HOME_SPAWN } from '../constants';
 import { RETRIEVE_PRIORITY } from '../constants';
 
 export interface Upgrader extends Creep {
@@ -115,6 +114,7 @@ function move(creep: Upgrader, target: RoomObject) {
       }
     }
   } else {
+    console.log('Upgrader path finding');
     creep.memory.path = PathFinder.search(creep.pos, target.pos, {
       // We need to set the defaults costs higher so that we
       // can set the road cost lower in `roomCallback`
@@ -157,6 +157,7 @@ function move(creep: Upgrader, target: RoomObject) {
         return costs;
       }
     }).path;
+    console.log(JSON.stringify(creep.memory.path));
     creep.room.visual.poly(creep.memory.path, {
       stroke: '#fff',
       strokeWidth: 0.15,
