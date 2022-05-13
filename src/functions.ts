@@ -109,8 +109,9 @@ function move(
         plainCost: 2,
         swampCost: 10,
         roomCallback: function () {
-          if (Memory.rooms[creep.room.name].matrix) {
-            PathFinder.CostMatrix.deserialize(Memory.rooms[creep.room.name].matrix);
+          const matrix = Memory.rooms[creep.room.name].matrix;
+          if (matrix) {
+            PathFinder.CostMatrix.deserialize(matrix);
           }
           return createCostMatrix(creep.room.name);
         }
