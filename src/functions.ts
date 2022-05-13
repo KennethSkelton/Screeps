@@ -69,38 +69,40 @@ function move(
   target: RoomPosition
 ): void {
   if (creep.memory.path && creep.memory.path.length > 0) {
-    creep.room.visual.poly(creep.memory.path, {
-      stroke: '#fff',
-      strokeWidth: 0.15,
-      opacity: 0.2,
-      lineStyle: 'dashed'
-    });
-    if (creep.pos != creep.memory.path[0]) {
-      const path = creep.memory.path;
-      const pathStep = path.shift();
-      if (pathStep) {
-        creep.move(creep.pos.getDirectionTo(pathStep.x, pathStep.y));
-        creep.room.visual.poly(creep.memory.path, {
-          stroke: '#fff',
-          strokeWidth: 0.15,
-          opacity: 0.2,
-          lineStyle: 'dashed'
-        });
-      }
-    } else {
-      const path = creep.memory.path;
-      path.shift();
-      const newPath = path;
-      const pathStep = path.shift();
-      if (pathStep) {
-        creep.move(creep.pos.getDirectionTo(pathStep.x, pathStep.y));
-        creep.room.visual.poly(creep.memory.path, {
-          stroke: '#fff',
-          strokeWidth: 0.15,
-          opacity: 0.2,
-          lineStyle: 'dashed'
-        });
-        creep.memory.path = newPath;
+    if (creep.fatigue == 0) {
+      creep.room.visual.poly(creep.memory.path, {
+        stroke: '#fff',
+        strokeWidth: 0.15,
+        opacity: 0.2,
+        lineStyle: 'dashed'
+      });
+      if (creep.pos != creep.memory.path[0]) {
+        const path = creep.memory.path;
+        const pathStep = path.shift();
+        if (pathStep) {
+          creep.move(creep.pos.getDirectionTo(pathStep.x, pathStep.y));
+          creep.room.visual.poly(creep.memory.path, {
+            stroke: '#fff',
+            strokeWidth: 0.15,
+            opacity: 0.2,
+            lineStyle: 'dashed'
+          });
+        }
+      } else {
+        const path = creep.memory.path;
+        path.shift();
+        const newPath = path;
+        const pathStep = path.shift();
+        if (pathStep) {
+          creep.move(creep.pos.getDirectionTo(pathStep.x, pathStep.y));
+          creep.room.visual.poly(creep.memory.path, {
+            stroke: '#fff',
+            strokeWidth: 0.15,
+            opacity: 0.2,
+            lineStyle: 'dashed'
+          });
+          creep.memory.path = newPath;
+        }
       }
     }
   } else {
