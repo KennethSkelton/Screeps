@@ -1,3 +1,4 @@
+import profiler from 'screeps-profiler';
 import roleBuilder, { Builder } from 'roles/builder';
 import roleHarvester, { Harvester } from 'roles/harvester';
 import roleUpgrader, { Upgrader } from 'roles/upgrader';
@@ -89,5 +90,7 @@ function assignJobs(): void {
     }
   });
 }
+
+profiler.registerFN(assignJobs, 'Job assignment');
 
 export { assignJobs };
