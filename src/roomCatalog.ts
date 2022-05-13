@@ -6,11 +6,11 @@ declare global {
 }
 
 function storeSourcesInMemory(room: Room): void {
-  if (!Memory.rooms[room.name]) {
+  if (!room.memory.sources) {
     const roomSources = room.find(FIND_SOURCES);
     roomSources.forEach((source) => {
       const info: SourceInfo[] = [{ id: source.id, workerSpots: 1 }];
-      Memory.rooms[room.name].sources = info;
+      room.memory.sources = info;
     });
   }
 }
