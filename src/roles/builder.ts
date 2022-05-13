@@ -34,7 +34,7 @@ const roleBuilder = {
         if (target instanceof ConstructionSite) {
           const buildResult = creep.build(target);
           if (buildResult === ERR_NOT_IN_RANGE) {
-            move(creep, target);
+            move(creep, target.pos);
           } else if (buildResult != OK) {
             delete creep.memory.target;
             delete creep.memory.path;
@@ -49,7 +49,7 @@ const roleBuilder = {
         if (target) {
           delete creep.memory.path;
           creep.memory.target = target.id;
-          move(creep, target);
+          move(creep, target.pos);
         }
       }
     } else {
@@ -77,7 +77,7 @@ const roleBuilder = {
               target = creep.pos.findClosestByRange(groupedTargets[type]);
               if (target) {
                 creep.memory.target = target?.id;
-                move(creep, target);
+                move(creep, target.pos);
                 break;
               }
             }
@@ -92,7 +92,7 @@ const roleBuilder = {
           if (target) {
             delete creep.memory.path;
             creep.memory.target = target.id;
-            move(creep, target);
+            move(creep, target.pos);
           }
         }
       }

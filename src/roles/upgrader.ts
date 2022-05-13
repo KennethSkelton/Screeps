@@ -39,14 +39,14 @@ const roleUpgrader = {
         if (target instanceof Structure) {
           if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
             console.log('Try to move');
-            move(creep, target);
+            move(creep, target.pos);
           } else {
             delete creep.memory.target;
             delete creep.memory.path;
           }
         } else if (target instanceof Resource) {
           if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
-            move(creep, target);
+            move(creep, target.pos);
           } else {
             delete creep.memory.target;
             delete creep.memory.path;
@@ -67,7 +67,7 @@ const roleUpgrader = {
               if (target) {
                 delete creep.memory.path;
                 creep.memory.target = target.id;
-                move(creep, target);
+                move(creep, target.pos);
                 break;
               }
             }

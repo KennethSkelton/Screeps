@@ -17,7 +17,7 @@ const roleHauler = {
       if (creep.memory.target) {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof Resource && creep.pickup(target) === ERR_NOT_IN_RANGE) {
-          move(creep, target);
+          move(creep, target.pos);
         } else {
           delete creep.memory.target;
           delete creep.memory.path;
@@ -32,14 +32,14 @@ const roleHauler = {
         if (target) {
           delete creep.memory.path;
           creep.memory.target = target.id;
-          move(creep, target);
+          move(creep, target.pos);
         }
       }
     } else {
       if (creep.memory.target) {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof Structure && creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          move(creep, target);
+          move(creep, target.pos);
         } else {
           delete creep.memory.target;
           delete creep.memory.path;
@@ -56,7 +56,7 @@ const roleHauler = {
               if (target) {
                 delete creep.memory.path;
                 creep.memory.target = target.id;
-                move(creep, target);
+                move(creep, target.pos);
                 break;
               }
             }

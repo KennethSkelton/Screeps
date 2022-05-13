@@ -1,5 +1,5 @@
+import { move } from 'functions';
 import { RETRIEVE_PRIORITY } from '../constants';
-import { HOME_SPAWN } from '../constants';
 
 export interface Waller extends Creep {
   memory: WallerMemory;
@@ -8,6 +8,8 @@ export interface Waller extends Creep {
 interface WallerMemory extends CreepMemory {
   role: 'waller';
   walling: boolean;
+  target?: Id<_HasId>;
+  path?: RoomPosition[];
 }
 
 const roleWaller = {
@@ -24,74 +26,77 @@ const roleWaller = {
     }
 
     if (creep.memory.walling) {
-      const allWallsAndRamparts = creep.room.find(FIND_STRUCTURES, {
-        filter: function (n: Structure) {
-          return (n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n);
+      if (creep.memory.target) {
+        const target = Game.getObjectById(creep.memory.target);
+        if (target instanceof StructureRampart || target instanceof StructureWall) {
+          const repairResult = creep.repair(target);
+          if (repairResult == ERR_NOT_IN_RANGE) {
+            move(creep, target.pos);
+          } else if (repairResult != OK) {
+            delete creep.memory.target;
+            delete creep.memory.path;
+          }
+        } else {
+          delete creep.memory.target;
+          delete creep.memory.path;
         }
-      });
-      if (allWallsAndRamparts.length > 0) {
-        let averageStrength = 0;
-        allWallsAndRamparts.forEach(function (target) {
-          averageStrength += target.hits;
-        });
-        averageStrength = averageStrength / allWallsAndRamparts.length;
-        const targetStength = averageStrength * 1.05;
-        console.log(`Average wall strength: ${averageStrength}`);
-        console.log(`Target wall strength: ${targetStength}`);
-        const targets = creep.room.find(FIND_STRUCTURES, {
+      } else {
+        const allWallsAndRamparts = creep.room.find(FIND_STRUCTURES, {
           filter: function (n: Structure) {
-            return (
-              (n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n) && n.hits < targetStength
-            );
+            return (n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n);
           }
         });
-        targets.sort(
-          (a, b) =>
-            PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-            PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-        );
-        console.log(`current target has: ${targets[0].hits}`);
-        console.log(targets[0].hits < targetStength);
-        if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-          creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+        if (allWallsAndRamparts.length > 0) {
+          let averageStrength = 0;
+          allWallsAndRamparts.forEach(function (target) {
+            averageStrength += target.hits;
+          });
+          averageStrength = averageStrength / allWallsAndRamparts.length;
+          const targetStength = averageStrength * 1.05;
+          const targets = creep.room.find(FIND_STRUCTURES, {
+            filter: function (n: Structure) {
+              return (
+                (n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n) && n.hits < targetStength
+              );
+            }
+          });
+          if (targets.length > 0) {
+            const target = creep.pos.findClosestByPath(targets);
+            if (target) {
+              delete creep.memory.path;
+              creep.memory.target = target.id;
+              move(creep, target.pos);
+            }
+          }
+        } else {
+          delete creep.memory.target;
+          delete creep.memory.path;
         }
       }
     } else {
       const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-      let target: Structure = Game.spawns[HOME_SPAWN];
       if (targets.length > 0) {
         const groupedTargets = _.groupBy(targets, function (n) {
           return n.structureType;
         });
-
         for (const type of RETRIEVE_PRIORITY) {
           if (groupedTargets[type]) {
-            // eslint-disable-next-line max-len
-            groupedTargets[type].sort(
-              (a, b) =>
-                PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-                PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-            );
-            target = groupedTargets[type][0];
-            break;
+            const target = creep.pos.findClosestByPath(groupedTargets[type]);
+            if (target) {
+              delete creep.memory.path;
+              creep.memory.target = target.id;
+              move(creep, target.pos);
+              break;
+            }
           }
-        }
-        if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
         }
       } else {
         const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
-        // eslint-disable-next-line max-len
-        droppedResources.sort(
-          (a, b) =>
-            PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-            PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-        );
-
-        if (droppedResources.length != 0) {
-          if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
-          }
+        const target = creep.pos.findClosestByPath(droppedResources);
+        if (target) {
+          delete creep.memory.path;
+          creep.memory.target = target.id;
+          move(creep, target.pos);
         }
       }
     }

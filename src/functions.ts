@@ -1,9 +1,11 @@
 import { Builder } from 'roles/builder';
 import { Hauler } from 'roles/hauler';
 import { Repairer } from 'roles/repairer';
+import { Scouter } from 'roles/scouter';
 import { Upgrader } from 'roles/upgrader';
+import { Waller } from 'roles/waller';
 
-function createCostMatrix(roomName: string) {
+function createCostMatrix(roomName: string): CostMatrix | boolean {
   const room = Game.rooms[roomName];
   // In this example `room` will always exist, but since
   // PathFinder supports searches which span multiple rooms
@@ -44,7 +46,7 @@ function createCostMatrix(roomName: string) {
   return costs;
 }
 
-function move(creep: Builder | Upgrader | Hauler | Repairer, target: RoomObject): void {
+function move(creep: Builder | Upgrader | Hauler | Repairer | Waller | Scouter, target: RoomPosition): void {
   if (creep.memory.path && creep.memory.path.length > 0) {
     creep.room.visual.poly(creep.memory.path, {
       stroke: '#fff',
@@ -77,7 +79,7 @@ function move(creep: Builder | Upgrader | Hauler | Repairer, target: RoomObject)
   } else {
     creep.memory.path = PathFinder.search(
       creep.pos,
-      { pos: target.pos, range: 1 },
+      { pos: target, range: 1 },
       {
         // We need to set the defaults costs higher so that we
         // can set the road cost lower in `roomCallback`
@@ -98,7 +100,7 @@ function move(creep: Builder | Upgrader | Hauler | Repairer, target: RoomObject)
   }
 }
 
-function moveToRoom(creep: Creep) {
+function moveToRoom(creep: Creep): void {
   if (creep.memory.targetRoom) {
     const route = Game.map.findRoute(creep.room, creep.memory.targetRoom);
     if (route != ERR_NO_PATH && route.length > 0) {

@@ -29,7 +29,7 @@ const roleRepairer = {
         if (target instanceof Structure) {
           const repairResult = creep.repair(target);
           if (repairResult === ERR_NOT_IN_RANGE) {
-            move(creep, target);
+            move(creep, target.pos);
           } else if (repairResult != OK) {
             creep.memory.target;
             creep.memory.path;
@@ -48,21 +48,21 @@ const roleRepairer = {
 
         delete creep.memory.path;
         creep.memory.target = targets[0].id;
-        move(creep, targets[0]);
+        move(creep, targets[0].pos);
       }
     } else {
       if (creep.memory.target) {
         const target = Game.getObjectById(creep.memory.target);
         if (target instanceof Structure) {
           if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-            move(creep, target);
+            move(creep, target.pos);
           } else {
             delete creep.memory.target;
             delete creep.memory.path;
           }
         } else if (target instanceof Resource) {
           if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
-            move(creep, target);
+            move(creep, target.pos);
           } else {
             delete creep.memory.target;
             delete creep.memory.path;
@@ -83,7 +83,7 @@ const roleRepairer = {
               if (target) {
                 delete creep.memory.path;
                 creep.memory.target = target.id;
-                move(creep, target);
+                move(creep, target.pos);
                 break;
               }
             }
@@ -94,7 +94,7 @@ const roleRepairer = {
           if (target) {
             delete creep.memory.path;
             creep.memory.target = target.id;
-            move(creep, target);
+            move(creep, target.pos);
           }
         }
       }
