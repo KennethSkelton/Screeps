@@ -1,5 +1,6 @@
 import { RETRIEVE_PRIORITY } from '../constants';
 import { HOME_SPAWN } from '../constants';
+import { move } from '../functions';
 
 export interface Builder extends Creep {
   memory: BuilderMemory;
@@ -8,6 +9,8 @@ export interface Builder extends Creep {
 interface BuilderMemory extends CreepMemory {
   building: boolean;
   role: 'builder';
+  target?: Id<_HasId>;
+  path?: RoomPosition[];
 }
 
 const roleBuilder = {
@@ -15,54 +18,81 @@ const roleBuilder = {
     if (creep.memory.building && creep.store[RESOURCE_ENERGY] === 0) {
       creep.memory.building = false;
       creep.say('🔄 harvest');
+      delete creep.memory.target;
+      delete creep.memory.path;
     }
     if (!creep.memory.building && creep.store.getFreeCapacity() === 0) {
       creep.memory.building = true;
       creep.say('🚧 build');
+      delete creep.memory.target;
+      delete creep.memory.path;
     }
 
     if (creep.memory.building) {
-      const targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-      if (targets.length) {
-        if (creep.build(targets[0]) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(targets[0], { visualizePathStyle: { stroke: '#ffffff' } });
+      if (creep.memory.target) {
+        const target = Game.getObjectById(creep.memory.target);
+        if (target instanceof ConstructionSite) {
+          const buildResult = creep.build(target);
+          if (buildResult === ERR_NOT_IN_RANGE) {
+            move(creep, target);
+          } else if (buildResult != OK) {
+            delete creep.memory.target;
+            delete creep.memory.path;
+          }
+        } else {
+          delete creep.memory.target;
+          delete creep.memory.path;
+        }
+      } else {
+        const targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+        const target = creep.pos.findClosestByPath(targets);
+        if (target) {
+          delete creep.memory.path;
+          creep.memory.target = target.id;
+          move(creep, target);
         }
       }
     } else {
-      const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-      let target: Structure = Game.spawns[HOME_SPAWN];
-      if (targets.length > 0) {
-        const groupedTargets = _.groupBy(targets, function (n) {
-          return n.structureType;
-        });
-
-        for (const type of RETRIEVE_PRIORITY) {
-          if (groupedTargets[type]) {
-            // eslint-disable-next-line max-len
-            groupedTargets[type].sort(
-              (a, b) =>
-                PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-                PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-            );
-            target = groupedTargets[type][0];
-            break;
+      if (creep.memory.target) {
+        const target = Game.getObjectById(creep.memory.target);
+        if (target instanceof Structure) {
+          const error = creep.withdraw(target, RESOURCE_ENERGY);
+          if (error === ERR_NOT_IN_RANGE) {
+            creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
+          } else {
+            delete creep.memory.target;
+            delete creep.memory.target;
           }
         }
-        if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(target, { visualizePathStyle: { stroke: '#ffffff' } });
-        }
       } else {
-        const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
-        // eslint-disable-next-line max-len
-        droppedResources.sort(
-          (a, b) =>
-            PathFinder.search(creep.pos, { pos: a.pos, range: 1 }).path.length -
-            PathFinder.search(creep.pos, { pos: b.pos, range: 1 }).path.length
-        );
-
-        if (droppedResources.length != 0) {
-          if (creep.pickup(droppedResources[0]) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(droppedResources[0], { visualizePathStyle: { stroke: '#ffaa00' } });
+        const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
+        let target: Structure | null = Game.spawns[HOME_SPAWN];
+        if (targets.length > 0) {
+          const groupedTargets = _.groupBy(targets, function (n) {
+            return n.structureType;
+          });
+          for (const type of RETRIEVE_PRIORITY) {
+            if (groupedTargets[type]) {
+              // eslint-disable-next-line max-len
+              target = creep.pos.findClosestByRange(groupedTargets[type]);
+              if (target) {
+                creep.memory.target = target?.id;
+                move(creep, target);
+                break;
+              }
+            }
+          }
+        } else {
+          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
+            filter: function (object: Resource) {
+              return object.amount >= 50;
+            }
+          });
+          const target = creep.pos.findClosestByPath(droppedResources);
+          if (target) {
+            delete creep.memory.path;
+            creep.memory.target = target.id;
+            move(creep, target);
           }
         }
       }
