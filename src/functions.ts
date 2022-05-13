@@ -49,7 +49,6 @@ function createCostMatrix(roomName: string): CostMatrix | boolean {
   room.find(FIND_CREEPS).forEach(function (creep) {
     costs.set(creep.pos.x, creep.pos.y, 0xff);
   });
-  Memory.rooms[roomName].matrix = costs.serialize();
   return costs;
 }
 
@@ -108,10 +107,6 @@ function move(
         plainCost: 2,
         swampCost: 10,
         roomCallback: function () {
-          const matrix = Memory.rooms[creep.room.name].matrix;
-          if (matrix) {
-            PathFinder.CostMatrix.deserialize(matrix);
-          }
           return createCostMatrix(creep.room.name);
         }
       }
