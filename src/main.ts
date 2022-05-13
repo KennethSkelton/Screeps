@@ -20,8 +20,15 @@ declare global {
 
 declare global {
   interface RoomMemory {
-    sources?: SourceInfo[];
+    sources: SourceInfo[];
     matrix?: number[];
+  }
+}
+
+declare global {
+  interface SourceInfo {
+    id: Id<_HasId>;
+    workerSpots: number;
   }
 }
 
