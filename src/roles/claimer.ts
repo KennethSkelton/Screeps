@@ -1,4 +1,4 @@
-import { move } from 'functions';
+import { move, moveToRoom } from 'functions';
 
 export interface Claimer extends Creep {
   memory: ClaimerMemory;
@@ -24,6 +24,8 @@ const roleClaimer = {
           }
         }
       }
+    } else {
+      moveToRoom(creep);
     }
   }
 };
