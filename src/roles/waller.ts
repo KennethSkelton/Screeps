@@ -61,7 +61,12 @@ const roleWaller = {
             }
           });
           if (targets.length > 0) {
-            const target = creep.pos.findClosestByPath(targets);
+            let target = targets[0];
+            targets.forEach(function (structure) {
+              if (structure.hits < target.hits) {
+                target = structure;
+              }
+            });
             if (target) {
               delete creep.memory.path;
               creep.memory.target = target.id;
