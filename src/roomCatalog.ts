@@ -1,6 +1,7 @@
 declare global {
   interface RoomMemory {
     sources: { [id: Id<Source>]: SourceInfo };
+    costMatrix?: CostMatrix;
   }
 }
 declare global {
