@@ -34,7 +34,7 @@ const roleWaller = {
         allWallsAndRamparts.forEach(function (target) {
           averageStrength += target.hits;
         });
-        averageStrength / allWallsAndRamparts.length;
+        averageStrength = averageStrength / allWallsAndRamparts.length;
         const targetStength = averageStrength * 1.05;
         console.log(`Average wall strength: ${averageStrength}`);
         console.log(`Target wall strength: ${targetStength}`);
@@ -44,10 +44,6 @@ const roleWaller = {
               (n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n) && n.hits < targetStength
             );
           }
-        });
-        targets.forEach((target) => {
-          console.log(JSON.stringify(target));
-          console.log(JSON.stringify(target.hits));
         });
         targets.sort(
           (a, b) =>
