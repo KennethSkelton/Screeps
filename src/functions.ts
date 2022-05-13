@@ -10,7 +10,6 @@ import { Repairer } from 'roles/repairer';
 import { Scouter } from 'roles/scouter';
 import { Upgrader } from 'roles/upgrader';
 import { Waller } from 'roles/waller';
-import profiler from 'screeps-profiler';
 
 function createCostMatrix(roomName: string): CostMatrix | boolean {
   const room = Game.rooms[roomName];
@@ -139,9 +138,5 @@ function moveToRoom(creep: Creep): void {
     }
   }
 }
-
-profiler.registerFN(moveToRoom, 'moveToRoom');
-profiler.registerFN(move, 'My Move');
-profiler.registerFN(createCostMatrix, 'Cost matrix');
 
 export { createCostMatrix, move, moveToRoom };
