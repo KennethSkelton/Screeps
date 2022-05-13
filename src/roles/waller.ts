@@ -74,29 +74,44 @@ const roleWaller = {
         }
       }
     } else {
-      const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-      if (targets.length > 0) {
-        const groupedTargets = _.groupBy(targets, function (n) {
-          return n.structureType;
-        });
-        for (const type of RETRIEVE_PRIORITY) {
-          if (groupedTargets[type]) {
-            const target = creep.pos.findClosestByPath(groupedTargets[type]);
-            if (target) {
-              delete creep.memory.path;
-              creep.memory.target = target.id;
-              move(creep, target.pos);
-              break;
-            }
+      if (creep.memory.target) {
+        const target = Game.getObjectById(creep.memory.target);
+        if (!(target instanceof StructureWall || target instanceof StructureRampart) && target instanceof Structure) {
+          if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            move(creep, target.pos);
+          } else {
+            delete creep.memory.target;
+            delete creep.memory.path;
           }
+        } else {
+          delete creep.memory.target;
+          delete creep.memory.path;
         }
       } else {
-        const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
-        const target = creep.pos.findClosestByPath(droppedResources);
-        if (target) {
-          delete creep.memory.path;
-          creep.memory.target = target.id;
-          move(creep, target.pos);
+        const targets = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
+        if (targets.length > 0) {
+          const groupedTargets = _.groupBy(targets, function (n) {
+            return n.structureType;
+          });
+          for (const type of RETRIEVE_PRIORITY) {
+            if (groupedTargets[type]) {
+              const target = creep.pos.findClosestByPath(groupedTargets[type]);
+              if (target) {
+                delete creep.memory.path;
+                creep.memory.target = target.id;
+                move(creep, target.pos);
+                break;
+              }
+            }
+          }
+        } else {
+          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES);
+          const target = creep.pos.findClosestByPath(droppedResources);
+          if (target) {
+            delete creep.memory.path;
+            creep.memory.target = target.id;
+            move(creep, target.pos);
+          }
         }
       }
     }
@@ -105,7 +120,6 @@ const roleWaller = {
 
 function hasEnergy(structure: Structure): boolean {
   if (structure.structureType === STRUCTURE_CONTAINER || structure.structureType === STRUCTURE_STORAGE) {
-    // eslint-disable-next-line max-len
     const s = structure as StructureContainer | StructureStorage;
     if (s instanceof StructureContainer || s instanceof StructureStorage) {
       return s.store.getUsedCapacity() > 0;
