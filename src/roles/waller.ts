@@ -40,6 +40,8 @@ const roleWaller = {
         console.log(`Target wall strength: ${targetStength}`);
         const targets = creep.room.find(FIND_STRUCTURES, {
           filter: function (n: Structure) {
+            console.log(JSON.stringify(n));
+            console.log(n.hits);
             return (
               (n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n) && n.hits < targetStength
             );
