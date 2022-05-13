@@ -1,5 +1,6 @@
 import { Builder } from 'roles/builder';
 import { Hauler } from 'roles/hauler';
+import { Repairer } from 'roles/repairer';
 import { Upgrader } from 'roles/upgrader';
 
 function createCostMatrix(roomName: string) {
@@ -43,7 +44,7 @@ function createCostMatrix(roomName: string) {
   return costs;
 }
 
-function move(creep: Builder | Upgrader | Hauler, target: RoomObject): void {
+function move(creep: Builder | Upgrader | Hauler | Repairer, target: RoomObject): void {
   if (creep.memory.path && creep.memory.path.length > 0) {
     creep.room.visual.poly(creep.memory.path, {
       stroke: '#fff',
@@ -97,4 +98,17 @@ function move(creep: Builder | Upgrader | Hauler, target: RoomObject): void {
   }
 }
 
-export { createCostMatrix, move };
+function moveToRoom(creep: Creep) {
+  if (creep.memory.targetRoom) {
+    const route = Game.map.findRoute(creep.room, creep.memory.targetRoom);
+    if (route != ERR_NO_PATH && route.length > 0) {
+      console.log('Now heading to room ' + route[0].room);
+      const exit = creep.pos.findClosestByRange(route[0].exit);
+      if (exit) {
+        creep.moveTo(exit, { visualizePathStyle: { stroke: '#ffaa00' } });
+      }
+    }
+  }
+}
+
+export { createCostMatrix, move, moveToRoom };

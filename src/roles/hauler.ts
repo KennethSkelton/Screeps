@@ -16,12 +16,11 @@ const roleHauler = {
     if (creep.store.getUsedCapacity() == 0) {
       if (creep.memory.target) {
         const target = Game.getObjectById(creep.memory.target);
-        if (target instanceof Resource) {
-          if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
-            move(creep, target);
-          }
+        if (target instanceof Resource && creep.pickup(target) === ERR_NOT_IN_RANGE) {
+          move(creep, target);
         } else {
           delete creep.memory.target;
+          delete creep.memory.path;
         }
       } else {
         const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
@@ -43,6 +42,7 @@ const roleHauler = {
           move(creep, target);
         } else {
           delete creep.memory.target;
+          delete creep.memory.path;
         }
       } else {
         const targets = creep.room.find(FIND_STRUCTURES, { filter: isToBeFilled });

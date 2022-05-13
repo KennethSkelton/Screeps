@@ -1,3 +1,5 @@
+import { moveToRoom } from 'functions';
+
 export interface Shooter extends Creep {
   memory: ShooterMemory;
 }
@@ -55,19 +57,6 @@ function attackStructuresBeforeCreeps(creep: Creep) {
       attackNearestHostileCreep(creep, enemies);
     } else {
       creep.moveTo(25, 25, { visualizePathStyle: { stroke: '#ffffff' } });
-    }
-  }
-}
-
-function moveToRoom(creep: Creep) {
-  if (creep.memory.targetRoom) {
-    const route = Game.map.findRoute(creep.room, creep.memory.targetRoom);
-    if (route != ERR_NO_PATH && route.length > 0) {
-      console.log('Now heading to room ' + route[0].room);
-      const exit = creep.pos.findClosestByRange(route[0].exit);
-      if (exit) {
-        creep.moveTo(exit, { visualizePathStyle: { stroke: '#ffaa00' } });
-      }
     }
   }
 }

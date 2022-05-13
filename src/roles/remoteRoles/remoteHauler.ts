@@ -1,3 +1,4 @@
+import { move, moveToRoom } from 'functions';
 import { FILL_PRIORITY } from '../../constants';
 
 export interface remoteHauler extends Creep {
@@ -13,38 +14,78 @@ interface remoteHaulerMemory extends CreepMemory {
 
 const roleRemoteHauler = {
   run(creep: remoteHauler): void {
-    if (creep.store.getFreeCapacity() == 0) {
-      creep.memory.depositing = true;
-    } else if (creep.store.getUsedCapacity() == 0) {
+    if (creep.memory.depositing && creep.store.getUsedCapacity() == 0) {
       creep.memory.depositing = false;
+      delete creep.memory.target;
+      delete creep.memory.path;
+    } else if (!creep.memory.depositing && creep.store.getFreeCapacity() == 0) {
+      creep.memory.depositing = true;
+      delete creep.memory.target;
+      delete creep.memory.path;
     }
-    if (creep.memory.depositing) {
-      if (creep.room.name == creep.memory.homeroom) {
+    if (!creep.memory.depositing) {
+      if (creep.room.name != creep.memory.targetRoom) {
+        moveToRoom(creep);
+      } else {
         if (creep.memory.target) {
           const target = Game.getObjectById(creep.memory.target);
-          if (target instanceof Structure) {
-            if (creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-              if (creep.memory.path) {
-                creep.room.visual.poly(creep.memory.path);
-                /*
-                const path = creep.memory.path;
-                console.log(`path before shift ${JSON.stringify(path)}`);
-                const step = path.shift();
-                console.log(`path after shift ${JSON.stringify(path)}`);
-                console.log(`step is ${JSON.stringify(step)}`);
-                */
-                if (creep.memory.path[0]) {
-                  creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
-                  //creep.memory.path = path;
-                } else {
-                  delete creep.memory.path;
-                }
-              } else {
-                creep.memory.path = PathFinder.search(creep.pos, target.pos).path;
-              }
+          if (target instanceof Resource) {
+            if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
+              move(creep, target);
+            } else {
+              delete creep.memory.target;
+              delete creep.memory.path;
+            }
+          } else if (target instanceof Structure) {
+            if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+              move(creep, target);
+            } else {
+              delete creep.memory.target;
+              delete creep.memory.path;
             }
           } else {
             delete creep.memory.target;
+            delete creep.memory.path;
+          }
+        } else {
+          const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
+            filter: function (object: Resource) {
+              return object.amount >= 50;
+            }
+          });
+          if (droppedResources.length > 0) {
+            const target = creep.pos.findClosestByPath(droppedResources);
+            if (target) {
+              delete creep.memory.path;
+              creep.memory.target = target.id;
+              move(creep, target);
+            }
+          } else {
+            const targets = creep.room.find(FIND_STRUCTURES, {
+              filter: function (structure) {
+                return structure.structureType == STRUCTURE_CONTAINER && hasEnergy(structure);
+              }
+            });
+            const target = creep.pos.findClosestByPath(targets);
+            if (target) {
+              delete creep.memory.path;
+              creep.memory.target = target.id;
+              move(creep, target);
+            }
+          }
+        }
+      }
+    } else {
+      if (creep.room.name != creep.memory.homeroom) {
+        moveToRoom(creep);
+      } else {
+        if (creep.memory.target) {
+          const target = Game.getObjectById(creep.memory.target);
+          if (target instanceof Structure && creep.transfer(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            move(creep, target);
+          } else {
+            delete creep.memory.target;
+            delete creep.memory.path;
           }
         } else {
           const targets = creep.room.find(FIND_STRUCTURES, { filter: isToBeFilled });
@@ -58,85 +99,11 @@ const roleRemoteHauler = {
                 if (target) {
                   delete creep.memory.path;
                   creep.memory.target = target.id;
+                  move(creep, target);
+                  break;
                 }
               }
             }
-          }
-        }
-      } else {
-        const route = Game.map.findRoute(creep.room, creep.memory.homeroom);
-        if (route != ERR_NO_PATH && route.length > 0) {
-          console.log('Now heading to room ' + route[0].room);
-          const exit = creep.pos.findClosestByRange(route[0].exit);
-          if (exit) {
-            creep.moveTo(exit, { visualizePathStyle: { stroke: '#ffaa00' } });
-          }
-        }
-      }
-    } else {
-      if (creep.room.name == creep.memory.targetRoom) {
-        if (creep.memory.target) {
-          const target = Game.getObjectById(creep.memory.target);
-          if (target) {
-            if (target instanceof Resource) {
-              if (creep.memory.targetRoom == creep.room.name) {
-                if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
-                  creep.moveTo(target);
-                }
-              }
-            } else if (target instanceof Structure) {
-              if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
-                if (creep.memory.path) {
-                  creep.room.visual.poly(creep.memory.path);
-                  /*
-                  const path = creep.memory.path;
-                  console.log(`path before shift ${JSON.stringify(path)}`);
-                  const step = path.shift();
-                  console.log(`path after shift ${JSON.stringify(path)}`);
-                  console.log(`step is ${JSON.stringify(step)}`);
-                  */
-                  if (creep.memory.path[0]) {
-                    creep.move(creep.pos.getDirectionTo(creep.memory.path[0]));
-                    //creep.memory.path = path;
-                  } else {
-                    delete creep.memory.path;
-                  }
-                } else {
-                  creep.memory.path = PathFinder.search(creep.pos, target.pos).path;
-                }
-              }
-            } else {
-              delete creep.memory.target;
-            }
-          } else {
-            const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
-              filter: function (object: Resource) {
-                return object.amount >= 50;
-              }
-            });
-            if (droppedResources.length > 0) {
-              const target = creep.pos.findClosestByPath(droppedResources);
-              if (target) {
-                delete creep.memory.path;
-                creep.memory.target = target.id;
-              }
-            } else {
-              const containers = creep.room.find(FIND_STRUCTURES, { filter: hasEnergy });
-              const target = creep.pos.findClosestByPath(containers);
-              if (target) {
-                delete creep.memory.path;
-                creep.memory.target = target.id;
-              }
-            }
-          }
-        }
-      } else {
-        const route = Game.map.findRoute(creep.room, creep.memory.targetRoom!);
-        if (route != ERR_NO_PATH && route.length > 0) {
-          console.log('Now heading to room ' + route[0].room);
-          const exit = creep.pos.findClosestByRange(route[0].exit);
-          if (exit) {
-            creep.moveTo(exit, { visualizePathStyle: { stroke: '#ffaa00' } });
           }
         }
       }
