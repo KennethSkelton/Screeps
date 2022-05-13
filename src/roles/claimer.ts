@@ -1,9 +1,12 @@
+import { move } from 'functions';
+
 export interface Claimer extends Creep {
   memory: ClaimerMemory;
 }
 
 interface ClaimerMemory extends CreepMemory {
   role: 'claimer';
+  path?: RoomPosition[];
 }
 
 const roleClaimer = {
@@ -13,7 +16,7 @@ const roleClaimer = {
         const target = Game.rooms[creep.memory.targetRoom].controller;
         if (target) {
           if (creep.reserveController(target) === ERR_NOT_IN_RANGE) {
-            creep.moveTo(target, { visualizePathStyle: { stroke: '#ffaa00' } });
+            move(creep, target.pos);
           } else {
             if (Memory.remoteOperations[creep.memory.targetRoom].stage < 2) {
               Memory.remoteOperations[creep.memory.targetRoom].stage = 2;

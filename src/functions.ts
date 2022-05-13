@@ -1,5 +1,8 @@
 import { Builder } from 'roles/builder';
+import { Claimer } from 'roles/claimer';
 import { Hauler } from 'roles/hauler';
+import { remoteBuilder } from 'roles/remoteRoles/remoteBuilder';
+import { remoteHauler } from 'roles/remoteRoles/remoteHauler';
 import { Repairer } from 'roles/repairer';
 import { Scouter } from 'roles/scouter';
 import { Upgrader } from 'roles/upgrader';
@@ -46,7 +49,10 @@ function createCostMatrix(roomName: string): CostMatrix | boolean {
   return costs;
 }
 
-function move(creep: Builder | Upgrader | Hauler | Repairer | Waller | Scouter, target: RoomPosition): void {
+function move(
+  creep: Builder | Upgrader | Hauler | Repairer | Waller | Scouter | Claimer | remoteHauler | remoteBuilder,
+  target: RoomPosition
+): void {
   if (creep.memory.path && creep.memory.path.length > 0) {
     creep.room.visual.poly(creep.memory.path, {
       stroke: '#fff',
