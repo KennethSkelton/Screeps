@@ -105,6 +105,13 @@ function move(
           creep.memory.path = newPath;
         }
       }
+    } else {
+      creep.room.visual.poly(creep.memory.path, {
+        stroke: '#fff',
+        strokeWidth: 0.15,
+        opacity: 0.2,
+        lineStyle: 'dashed'
+      });
     }
   } else {
     let givenRange;
