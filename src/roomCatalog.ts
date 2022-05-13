@@ -10,7 +10,7 @@ declare global {
 }
 
 function storeSourcesInMemory(room: Room): void {
-  if (!Memory.rooms[room.name]) {
+  if (!Memory.rooms) {
     const roomSources = room.find(FIND_SOURCES);
     roomSources.forEach((source) => {
       const info: SourceInfo = { workerSpots: 1 };
@@ -18,6 +18,25 @@ function storeSourcesInMemory(room: Room): void {
     });
   }
 }
+
+/*
+function storeSourcesInMemory(room: Room): void {
+  if (!Memory.rooms[room.name]) {
+    const roomSources = room.find(FIND_SOURCES);
+    const info: SourceInfo[] = [];
+    roomSources.forEach((source) => {
+      info.push({ id: source.id, workerSpots: 1 });
+    });
+
+    Memory.rooms = { [name]: room.name : info }
+  }
+}
+
+export { storeSourcesInMemory };
+
+
+
+*/
 
 /*
 function oneOrTwoOrThree(schemaLevel: number) {

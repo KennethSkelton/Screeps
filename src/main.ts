@@ -6,6 +6,7 @@ import { HOME_ROOM, HOME_SPAWN, REMOTE_OPERATIONS_LIST } from './constants';
 import { assignJobs } from 'taskAssignment';
 import { remoteOperations } from 'remoteOperations';
 import profiler from 'screeps-profiler';
+import { createCostMatrix } from 'functions';
 
 declare global {
   interface CreepMemory {
@@ -14,6 +15,20 @@ declare global {
     target?: string;
     isRemote: boolean;
     targetRoom?: string;
+  }
+}
+
+declare global {
+  interface RoomMemory {
+    //sources: SourceInfo[];
+    matrix?: number[];
+  }
+}
+
+declare global {
+  interface SourceInfo {
+    //id: Id<_HasId>;
+    workerSpots: number;
   }
 }
 
@@ -43,6 +58,7 @@ function main(): void {
   //Catalog Room
   Object.values(Game.rooms).forEach((room) => {
     storeSourcesInMemory(room);
+    createCostMatrix(room.name);
   });
 
   //Job Assignment
