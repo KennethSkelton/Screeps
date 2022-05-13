@@ -1,9 +1,12 @@
+import { move } from 'functions';
+
 export interface Stunner extends Creep {
   memory: StunnerMemory;
 }
 
 interface StunnerMemory extends CreepMemory {
   role: 'stunner';
+  path?: RoomPosition[];
 }
 
 const roleStunner = {
@@ -13,7 +16,7 @@ const roleStunner = {
         if (creep.room.controller) {
           if (!creep.room.controller?.my) {
             if (creep.attackController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-              creep.moveTo(creep.room.controller, { visualizePathStyle: { stroke: '#ffffff' } });
+              move(creep, creep.room.controller.pos);
             }
           }
         }

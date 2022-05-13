@@ -1,14 +1,17 @@
-export interface remoteHarvester extends Creep {
-  memory: remoteHarvesterMemory;
+import { move } from 'functions';
+
+export interface RemoteHarvester extends Creep {
+  memory: RemoteHarvesterMemory;
 }
 
-export interface remoteHarvesterMemory extends CreepMemory {
+export interface RemoteHarvesterMemory extends CreepMemory {
   role: 'remoteHarvester';
   sourceId?: Id<Source>;
+  path?: RoomPosition[];
 }
 
 const roleRemoteHarvester = {
-  run(creep: remoteHarvester): void {
+  run(creep: RemoteHarvester): void {
     if (creep.memory.targetRoom != creep.room.name && creep.memory.targetRoom) {
       creep.moveTo(Game.flags[`${creep.memory.targetRoom}_Staging_Area`].pos, {
         visualizePathStyle: { stroke: '#ffffff' }
@@ -16,8 +19,8 @@ const roleRemoteHarvester = {
     } else {
       if (!creep.memory.sourceId) {
         const potentialSources: Id<Source>[] = [];
-        const harvesters = _.filter(Game.creeps, (creep: remoteHarvester) => creep.memory.role == 'remoteHarvester');
-        const groupedHarvesters = _.groupBy(harvesters, function (n: remoteHarvester) {
+        const harvesters = _.filter(Game.creeps, (creep: RemoteHarvester) => creep.memory.role == 'remoteHarvester');
+        const groupedHarvesters = _.groupBy(harvesters, function (n: RemoteHarvester) {
           return n.memory.sourceId;
         });
 
@@ -35,7 +38,7 @@ const roleRemoteHarvester = {
         }
         const harvestResult = creep.harvest(source);
         if (harvestResult === ERR_NOT_IN_RANGE) {
-          creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
+          move(creep, source.pos);
         } else if (harvestResult === OK) {
           creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
         }
@@ -48,7 +51,7 @@ const roleRemoteHarvester = {
           } else {
             const harvestResult = creep.harvest(source);
             if (harvestResult === ERR_NOT_IN_RANGE) {
-              creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
+              move(creep, source.pos);
             } else if (harvestResult === OK) {
               creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
             }

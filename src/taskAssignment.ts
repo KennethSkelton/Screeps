@@ -7,9 +7,9 @@ import roleHauler, { Hauler } from 'roles/hauler';
 import roleClaimer, { Claimer } from 'roles/claimer';
 import roleScouter, { Scouter } from 'roles/scouter';
 import roleWaller, { Waller } from 'roles/waller';
-import roleRemoteHarvester, { remoteHarvester } from 'roles/remoteRoles/remoteHarvester';
-import roleRemoteBuilder, { remoteBuilder } from 'roles/remoteRoles/remoteBuilder';
-import roleRemoteHauler, { remoteHauler } from 'roles/remoteRoles/remoteHauler';
+import roleRemoteHarvester, { RemoteHarvester } from 'roles/remoteRoles/remoteHarvester';
+import roleRemoteBuilder, { RemoteBuilder } from 'roles/remoteRoles/remoteBuilder';
+import roleRemoteHauler, { RemoteHauler } from 'roles/remoteRoles/remoteHauler';
 import roleShooter, { Shooter } from 'roles/combatRoles/shooter';
 import roleFighter, { Fighter } from 'roles/combatRoles/fighter';
 import roleStunner, { Stunner } from 'roles/combatRoles/stunner';
@@ -71,13 +71,13 @@ function assignJobs(): void {
       roleClaimer.run(creep as Claimer);
     }
     if (creep.memory.role === 'remoteHarvester') {
-      roleRemoteHarvester.run(creep as remoteHarvester);
+      roleRemoteHarvester.run(creep as RemoteHarvester);
     }
     if (creep.memory.role === 'remoteBuilder') {
-      roleRemoteBuilder.run(creep as remoteBuilder);
+      roleRemoteBuilder.run(creep as RemoteBuilder);
     }
     if (creep.memory.role === 'remoteHauler') {
-      roleRemoteHauler.run(creep as remoteHauler);
+      roleRemoteHauler.run(creep as RemoteHauler);
     }
     if (creep.memory.role === 'shooter') {
       roleShooter.run(creep as Shooter);

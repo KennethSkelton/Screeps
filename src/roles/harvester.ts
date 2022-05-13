@@ -1,3 +1,5 @@
+import { move } from 'functions';
+
 export interface Harvester extends Creep {
   memory: HarvesterMemory;
 }
@@ -5,6 +7,7 @@ export interface Harvester extends Creep {
 export interface HarvesterMemory extends CreepMemory {
   role: 'harvester';
   sourceId?: Id<Source>;
+  path?: RoomPosition[];
 }
 
 const roleHarvester = {
@@ -29,7 +32,7 @@ const roleHarvester = {
         source = creep.room.find(FIND_SOURCES)[0];
       }
       if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-        creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
+        move(creep, source.pos);
       }
       creep.memory.sourceId = source.id;
     } else {
@@ -38,7 +41,7 @@ const roleHarvester = {
         if (source.energy == 0) {
           delete creep.memory.sourceId;
         } else if (creep.harvest(source) === ERR_NOT_IN_RANGE) {
-          creep.moveTo(source, { visualizePathStyle: { stroke: '#ffaa00' } });
+          move(creep, source.pos);
         }
       }
     }

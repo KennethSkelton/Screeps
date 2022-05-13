@@ -1,11 +1,11 @@
 import { move, moveToRoom } from 'functions';
 import { FILL_PRIORITY } from '../../constants';
 
-export interface remoteHauler extends Creep {
-  memory: remoteHaulerMemory;
+export interface RemoteHauler extends Creep {
+  memory: RemoteHaulerMemory;
 }
 
-interface remoteHaulerMemory extends CreepMemory {
+interface RemoteHaulerMemory extends CreepMemory {
   role: 'hauler';
   depositing: boolean;
   target?: Id<_HasId>;
@@ -13,7 +13,7 @@ interface remoteHaulerMemory extends CreepMemory {
 }
 
 const roleRemoteHauler = {
-  run(creep: remoteHauler): void {
+  run(creep: RemoteHauler): void {
     if (creep.memory.depositing && creep.store.getUsedCapacity() == 0) {
       creep.memory.depositing = false;
       delete creep.memory.target;

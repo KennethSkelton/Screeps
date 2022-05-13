@@ -30,7 +30,7 @@ const roleUpgrader = {
     if (creep.memory.upgrading) {
       if (creep.room.controller) {
         if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
-          move(creep, creep.room.controller);
+          move(creep, creep.room.controller.pos);
         }
       }
     } else {
@@ -78,7 +78,7 @@ const roleUpgrader = {
           if (droppedResource) {
             delete creep.memory.path;
             creep.memory.target = droppedResource.id;
-            move(creep, droppedResource);
+            move(creep, droppedResource.pos);
           }
         }
       }
