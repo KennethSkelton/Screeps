@@ -39,9 +39,9 @@ const roleRemoteHarvester = {
         const harvestResult = creep.harvest(source);
         if (harvestResult === ERR_NOT_IN_RANGE) {
           move(creep, source.pos);
-        } else if (harvestResult === OK) {
+        } /*else if (harvestResult === OK) {
           creep.room.createConstructionSite(creep.pos, STRUCTURE_CONTAINER);
-        }
+        }*/
         creep.memory.sourceId = source.id;
       } else {
         const source = Game.getObjectById(creep.memory.sourceId);

@@ -6,7 +6,7 @@ export interface RemoteHauler extends Creep {
 }
 
 interface RemoteHaulerMemory extends CreepMemory {
-  role: 'hauler';
+  role: 'remoteHauler';
   depositing: boolean;
   target?: Id<_HasId>;
   path?: RoomPosition[];
