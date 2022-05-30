@@ -62,6 +62,13 @@ const roleBuilder = {
             delete creep.memory.target;
             delete creep.memory.path;
           }
+        } else if (target instanceof Resource) {
+          if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
+            move(creep, target.pos);
+          } else {
+            delete creep.memory.target;
+            delete creep.memory.path;
+          }
         } else {
           delete creep.memory.target;
           delete creep.memory.path;
