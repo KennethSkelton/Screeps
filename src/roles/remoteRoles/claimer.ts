@@ -24,7 +24,13 @@ const roleClaimer = {
               Memory.remoteOperations[creep.memory.targetRoom].stage = 2;
             }
           }
+        } else {
+          delete creep.memory.target;
+          delete creep.memory.path;
         }
+      } else {
+        delete creep.memory.target;
+        delete creep.memory.path;
       }
     } else {
       moveToRoom(creep);
