@@ -12,24 +12,22 @@ interface ClaimerMemory extends CreepMemory {
 
 const roleClaimer = {
   run(creep: Claimer): void {
-    if (creep.memory.targetRoom) {
-      if (Game.rooms[creep.memory.targetRoom]) {
-        creep.memory.target = Game.rooms[creep.memory.targetRoom].controller?.id;
-        if (creep.memory.target) {
-          const target = Game.getObjectById(creep.memory.target);
-          if (target && target instanceof StructureController) {
-            if (creep.reserveController(target) === ERR_NOT_IN_RANGE) {
-              move(creep, target.pos);
-            } else {
-              if (Memory.remoteOperations[creep.memory.targetRoom].stage < 2) {
-                Memory.remoteOperations[creep.memory.targetRoom].stage = 2;
-              }
+    if (creep.memory.targetRoom != creep.room.name && creep.memory.targetRoom) {
+      creep.memory.target = Game.rooms[creep.memory.targetRoom].controller?.id;
+      if (creep.memory.target) {
+        const target = Game.getObjectById(creep.memory.target);
+        if (target && target instanceof StructureController) {
+          if (creep.reserveController(target) === ERR_NOT_IN_RANGE) {
+            move(creep, target.pos);
+          } else {
+            if (Memory.remoteOperations[creep.memory.targetRoom].stage < 2) {
+              Memory.remoteOperations[creep.memory.targetRoom].stage = 2;
             }
           }
         }
-      } else {
-        moveToRoom(creep);
       }
+    } else {
+      moveToRoom(creep);
     }
   }
 };
