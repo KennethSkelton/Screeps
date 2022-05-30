@@ -13,6 +13,7 @@ import roleRemoteHauler, { RemoteHauler } from 'roles/remoteRoles/remoteHauler';
 import roleShooter, { Shooter } from 'roles/combatRoles/shooter';
 import roleFighter, { Fighter } from 'roles/combatRoles/fighter';
 import roleStunner, { Stunner } from 'roles/combatRoles/stunner';
+import roleColonyBuilder, { ColonyBuilder } from 'roles/remoteRoles/colonyBuilder';
 
 function assignJobs(): void {
   const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester').length;
@@ -87,6 +88,9 @@ function assignJobs(): void {
     }
     if (creep.memory.role === 'stunner') {
       roleStunner.run(creep as Stunner);
+    }
+    if (creep.memory.role === 'colonyBuilder') {
+      roleColonyBuilder.run(creep as ColonyBuilder);
     }
   });
 }
