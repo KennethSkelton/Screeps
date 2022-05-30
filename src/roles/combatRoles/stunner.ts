@@ -14,7 +14,7 @@ const roleStunner = {
     if (creep.memory.targetRoom) {
       if (creep.memory.targetRoom == creep.room.name) {
         if (creep.room.controller) {
-          if (!creep.room.controller.my) {
+          if (!creep.room.controller.my && creep.room.controller.owner?.username != 'None') {
             if (creep.attackController(creep.room.controller) == ERR_NOT_IN_RANGE) {
               move(creep, creep.room.controller.pos);
             }
