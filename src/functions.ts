@@ -10,6 +10,7 @@ import { Repairer } from 'roles/repairer';
 import { Scouter } from 'roles/remoteRoles/scouter';
 import { Upgrader } from 'roles/upgrader';
 import { Waller } from 'roles/waller';
+import { ColonyBuilder } from 'roles/remoteRoles/colonyBuilder';
 
 function createCostMatrix(roomName: string): CostMatrix | boolean {
   const room = Game.rooms[roomName];
@@ -65,7 +66,8 @@ function move(
     | RemoteBuilder
     | Harvester
     | RemoteHarvester
-    | Stunner,
+    | Stunner
+    | ColonyBuilder,
   target: RoomPosition,
   range?: number
 ): void {

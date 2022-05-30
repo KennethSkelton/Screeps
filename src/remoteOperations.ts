@@ -61,6 +61,44 @@ function remoteRaid(spawnName: string, roomName: string, stage: number) {
   }
 }
 
+function colonize(spawnName: string, roomName: string, stage: number): void {
+  if (Game.rooms[roomName]) {
+    if (!Game.flags[`${roomName}_Staging_Area`]) {
+      Game.rooms[roomName].createFlag(25, 25, `${roomName}_Staging_Area`);
+    }
+  }
+
+  if (stage > 1) {
+    if (Game.rooms[roomName].controller?.my) {
+      if (!Game.rooms[roomName].lookForAt(LOOK_CONSTRUCTION_SITES, 26, 16).length) {
+        Game.rooms[roomName].createConstructionSite(26, 16, STRUCTURE_SPAWN, 'Spawn2');
+      }
+      const quota1: { role: string; amount: number }[] = [{ role: 'claimer', amount: 1 }];
+      const quota2: { role: string; amount: number }[] = [
+        { role: 'scouter', amount: 1 },
+        { role: 'colonyBuilder', amount: 2 }
+      ];
+      spawnFromQuota(spawnName, quota1, true, roomName, 2);
+      spawnFromQuota(spawnName, quota2, true, roomName);
+    } else {
+      Memory.remoteOperations[roomName].stage -= 1;
+    }
+  } else if (stage > 0) {
+    if (Game.rooms[roomName]) {
+      const quota: { role: string; amount: number }[] = [
+        { role: 'scouter', amount: 1 },
+        { role: 'claimer', amount: 1 }
+      ];
+      spawnFromQuota(spawnName, quota, true, roomName, 2);
+    } else {
+      Memory.remoteOperations[roomName].stage -= 1;
+    }
+  } else {
+    const quota: { role: string; amount: number }[] = [{ role: 'scouter', amount: 1 }];
+    spawnFromQuota(spawnName, quota, true, roomName);
+  }
+}
+
 function remoteMine(spawnName: string, roomName: string, stage: number): void {
   if (Game.rooms[roomName]) {
     if (!Game.flags[`${roomName}_Staging_Area`]) {
@@ -68,38 +106,37 @@ function remoteMine(spawnName: string, roomName: string, stage: number): void {
     }
   }
 
-  if (Game.rooms)
-    if (stage > 1) {
-      if (Game.rooms[roomName]) {
-        const amount = Game.rooms[roomName].find(FIND_SOURCES).length;
-        const quota: { role: string; amount: number }[] = [
-          { role: 'scouter', amount: 1 },
-          { role: 'claimer', amount: 1 },
-          { role: 'remoteHarvester', amount: amount },
-          { role: 'remoteHauler', amount: amount + 1 }
-          //{ role: 'remoteBuilder', amount: 1 }
-        ];
-        spawnFromQuota(spawnName, quota, true, roomName);
-      } else {
-        Memory.remoteOperations[roomName].stage -= 1;
-      }
-    } else if (stage > 0) {
-      if (Game.rooms[roomName]) {
-        const amount = Game.rooms[roomName].find(FIND_SOURCES).length;
-        const quota: { role: string; amount: number }[] = [
-          { role: 'scouter', amount: 1 },
-          { role: 'claimer', amount: 1 },
-          { role: 'remoteHarvester', amount: amount },
-          { role: 'remoteHauler', amount: amount }
-        ];
-        spawnFromQuota(spawnName, quota, true, roomName);
-      } else {
-        Memory.remoteOperations[roomName].stage -= 1;
-      }
-    } else {
-      const quota: { role: string; amount: number }[] = [{ role: 'scouter', amount: 1 }];
+  if (stage > 1) {
+    if (Game.rooms[roomName]) {
+      const amount = Game.rooms[roomName].find(FIND_SOURCES).length;
+      const quota: { role: string; amount: number }[] = [
+        { role: 'scouter', amount: 1 },
+        { role: 'claimer', amount: 1 },
+        { role: 'remoteHarvester', amount: amount },
+        { role: 'remoteHauler', amount: amount + 1 }
+        //{ role: 'remoteBuilder', amount: 1 }
+      ];
       spawnFromQuota(spawnName, quota, true, roomName);
+    } else {
+      Memory.remoteOperations[roomName].stage -= 1;
     }
+  } else if (stage > 0) {
+    if (Game.rooms[roomName]) {
+      const amount = Game.rooms[roomName].find(FIND_SOURCES).length;
+      const quota: { role: string; amount: number }[] = [
+        { role: 'scouter', amount: 1 },
+        { role: 'claimer', amount: 1 },
+        { role: 'remoteHarvester', amount: amount },
+        { role: 'remoteHauler', amount: amount }
+      ];
+      spawnFromQuota(spawnName, quota, true, roomName);
+    } else {
+      Memory.remoteOperations[roomName].stage -= 1;
+    }
+  } else {
+    const quota: { role: string; amount: number }[] = [{ role: 'scouter', amount: 1 }];
+    spawnFromQuota(spawnName, quota, true, roomName);
+  }
 }
 
 export { remoteMine, remoteOperations };

@@ -17,11 +17,21 @@ const roleClaimer = {
       if (creep.memory.target) {
         const target = Game.getObjectById(creep.memory.target);
         if (target && target instanceof StructureController) {
-          if (creep.reserveController(target) === ERR_NOT_IN_RANGE) {
-            move(creep, target.pos);
+          if (Memory.remoteOperations[creep.memory.targetRoom].type == 'colonize') {
+            if (creep.claimController(target) === ERR_NOT_IN_RANGE) {
+              move(creep, target.pos);
+            } else {
+              if (Memory.remoteOperations[creep.memory.targetRoom].stage < 2) {
+                Memory.remoteOperations[creep.memory.targetRoom].stage = 2;
+              }
+            }
           } else {
-            if (Memory.remoteOperations[creep.memory.targetRoom].stage < 2) {
-              Memory.remoteOperations[creep.memory.targetRoom].stage = 2;
+            if (creep.reserveController(target) === ERR_NOT_IN_RANGE) {
+              move(creep, target.pos);
+            } else {
+              if (Memory.remoteOperations[creep.memory.targetRoom].stage < 2) {
+                Memory.remoteOperations[creep.memory.targetRoom].stage = 2;
+              }
             }
           }
         } else {

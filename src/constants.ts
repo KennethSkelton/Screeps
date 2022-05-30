@@ -57,7 +57,7 @@ const RUNNER_SCHEMA = [
 const CLAIMER_SCHEMA = [
   [CLAIM, MOVE, MOVE],
   [CLAIM, MOVE, MOVE],
-  [CLAIM, MOVE, MOVE]
+  [CLAIM, CLAIM, MOVE, MOVE]
 ];
 
 //scouter creeps
@@ -83,6 +83,7 @@ const SHOOTER_SCHEMA = [
   [RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE, MOVE]
 ];
 
+//stunner creeps
 const STUNNER_SCHEMA = [
   [CLAIM, MOVE, MOVE],
   [CLAIM, CLAIM, MOVE, MOVE],
@@ -109,7 +110,10 @@ const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   //remote varients
   remoteHarvester: HARVESTER_SCHEMA,
   remoteBuilder: BUILDER_SCHEMA,
-  remoteHauler: HAULER_SCHEMA
+  remoteHauler: HAULER_SCHEMA,
+
+  //colony varients
+  colonyBuilder: BUILDER_SCHEMA
 };
 
 const HOME_ROOM = 'W12N56';
