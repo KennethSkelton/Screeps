@@ -30,13 +30,14 @@ const roleUpgrader = {
 
     if (creep.memory.upgrading) {
       if (creep.room.controller) {
-        if (creep.room.controller.sign?.text != "What doesn't grow dies, and what dies grows the Tarmogoyf")
+        if (creep.room.controller.sign?.text != "What doesn't grow dies, and what dies grows the Tarmogoyf") {
           if (
             creep.signController(creep.room.controller, "What doesn't grow dies, and what dies grows the Tarmogoyf") ==
             ERR_NOT_IN_RANGE
           ) {
             creep.moveTo(creep.room.controller);
           }
+        }
         if (creep.upgradeController(creep.room.controller) === ERR_NOT_IN_RANGE) {
           move(creep, creep.room.controller.pos);
         }
