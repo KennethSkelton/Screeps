@@ -139,4 +139,4 @@ function remoteMine(spawnName: string, roomName: string, stage: number): void {
   }
 }
 
-export { remoteMine, remoteOperations };
+export { remoteMine, remoteOperations, colonize };
