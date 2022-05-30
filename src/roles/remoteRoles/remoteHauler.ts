@@ -50,7 +50,7 @@ const roleRemoteHauler = {
         } else {
           const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
             filter: function (object: Resource) {
-              return object.amount >= 50;
+              return object.amount >= creep.store.getFreeCapacity();
             }
           });
           if (droppedResources.length > 0) {
