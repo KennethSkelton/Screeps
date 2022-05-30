@@ -54,7 +54,7 @@ function main(): void {
 
   //emergency return to base
   Object.values(Game.creeps).forEach((creep) => {
-    if (!creep.memory.isRemote && creep.pos.roomName != HOME_ROOM) {
+    if (!creep.memory.isRemote && creep.pos.roomName != creep.memory.homeroom) {
       creep.moveTo(Game.flags['HOME_FLAG'].pos, { visualizePathStyle: { stroke: '#ffaa00' } });
     }
   });
