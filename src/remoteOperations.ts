@@ -35,6 +35,8 @@ function remoteOperations(spawnName: string, operationList: { roomName: string; 
           remoteMine(spawnName, operation.roomName, operationInfo.stage);
         } else if (operationInfo.type === 'remoteRaid') {
           remoteRaid(spawnName, operation.roomName, operationInfo.stage);
+        } else if (operationInfo.type === 'colonize') {
+          colonize(spawnName, operation.roomName, operationInfo.stage);
         }
       }
     }
