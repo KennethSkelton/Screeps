@@ -14,14 +14,13 @@ const roleStunner = {
     if (creep.memory.targetRoom) {
       if (creep.memory.targetRoom == creep.room.name) {
         if (creep.room.controller) {
-          if (!creep.room.controller?.my) {
-            const error = creep.attackController(creep.room.controller);
-            if (error == ERR_NOT_IN_RANGE) {
+          if (!creep.room.controller.my) {
+            if (creep.attackController(creep.room.controller) == ERR_NOT_IN_RANGE) {
               move(creep, creep.room.controller.pos);
-            } else if (error == ERR_INVALID_TARGET) {
-              if (creep.reserveController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                move(creep, creep.room.controller.pos);
-              }
+            }
+          } else {
+            if (creep.reserveController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+              move(creep, creep.room.controller.pos);
             }
           }
         }
