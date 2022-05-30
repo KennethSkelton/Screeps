@@ -156,7 +156,14 @@ function moveToRoom(creep: Creep, roomname?: string): void {
       console.log('Now heading to room ' + route[0].room);
       const exit = creep.pos.findClosestByRange(route[0].exit);
       if (exit) {
-        creep.moveTo(exit, { visualizePathStyle: { stroke: '#ffaa00' } });
+        creep.moveTo(exit, {
+          visualizePathStyle: {
+            stroke: '#fff',
+            strokeWidth: 0.15,
+            opacity: 0.2,
+            lineStyle: 'dashed'
+          }
+        });
       }
     }
   }
