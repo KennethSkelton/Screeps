@@ -1,6 +1,7 @@
 import { move } from 'functions';
 import profiler from 'screeps-profiler';
 import { RETRIEVE_PRIORITY } from '../constants';
+import roleWaller, { Waller } from './waller';
 
 export interface Repairer extends Creep {
   memory: RepairerMemory;
@@ -50,15 +51,26 @@ const roleRepairer = {
             return !(n instanceof StructureWall || n instanceof StructureRampart) && isDamaged(n);
           }
         });
-        targets.sort((a, b) => a.hits / a.hitsMax - b.hits / b.hitsMax);
-
         if (targets.length > 0) {
+          targets.sort((a, b) => a.hits / a.hitsMax - b.hits / b.hitsMax);
           delete creep.memory.path;
           creep.memory.target = targets[0].id;
           move(creep, targets[0].pos);
         } else {
-          delete creep.memory.path;
-          delete creep.memory.target;
+          const rampartTargets = creep.room.find(FIND_STRUCTURES, {
+            filter: function (n: Structure) {
+              return n instanceof StructureRampart && isDamaged(n);
+            }
+          });
+          if (rampartTargets.length > 0) {
+            rampartTargets.sort((a, b) => a.hits / a.hitsMax - b.hits / b.hitsMax);
+            delete creep.memory.path;
+            creep.memory.target = rampartTargets[0].id;
+            move(creep, rampartTargets[0].pos);
+          } else {
+            delete creep.memory.path;
+            delete creep.memory.target;
+          }
         }
       }
     } else {
