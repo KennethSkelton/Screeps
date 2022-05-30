@@ -41,8 +41,11 @@ const roleColonyBuilder = {
               delete creep.memory.path;
             }
           } else if (target instanceof Spawn) {
-            if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            const transferResult = creep.transfer(target, RESOURCE_ENERGY);
+            if (transferResult == ERR_NOT_IN_RANGE) {
               move(creep, target.pos);
+            } else if (transferResult == ERR_FULL) {
+              creep.drop(RESOURCE_ENERGY);
             } else {
               delete creep.memory.target;
               delete creep.memory.path;
