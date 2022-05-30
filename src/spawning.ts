@@ -173,13 +173,13 @@ function spawnFromQuota(
     if (targetRoom) {
       numberOfCreep = _.filter(
         Game.creeps,
-        (creep: Creep) =>
-          creep.memory.role == quota.role &&
-          creep.memory.targetRoom == targetRoom &&
-          creep.memory.homeroom == homeRoomName
+        (creep: Creep) => creep.memory.role == quota.role && creep.memory.targetRoom == targetRoom
       );
     } else {
-      numberOfCreep = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == quota.role);
+      numberOfCreep = _.filter(
+        Game.creeps,
+        (creep: Creep) => creep.memory.role == quota.role && creep.memory.homeroom == homeRoomName
+      );
     }
 
     console.log(`${quota.role}s: ${numberOfCreep.length}`);
