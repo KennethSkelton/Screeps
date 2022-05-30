@@ -18,9 +18,9 @@ const roleShooter = {
         } else {
           attackCreepsBeforeStructures(creep);
         }
+      } else {
+        moveToRoom(creep);
       }
-    } else {
-      moveToRoom(creep);
     }
   }
 };

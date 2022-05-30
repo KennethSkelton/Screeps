@@ -12,15 +12,15 @@ interface FighterMemory extends CreepMemory {
 const roleFighter = {
   run(creep: Fighter): void {
     if (creep.memory.targetRoom) {
-      if (creep.memory.targetRoom == creep.room.name) {
+      if (creep.memory.targetRoom === creep.room.name) {
         if (creep.memory.favorsStructures) {
           attackStructuresBeforeCreeps(creep);
         } else {
           attackCreepsBeforeStructures(creep);
         }
+      } else {
+        moveToRoom(creep);
       }
-    } else {
-      moveToRoom(creep);
     }
   }
 };
