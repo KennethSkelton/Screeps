@@ -127,7 +127,8 @@ const REMOTE_OPERATIONS_LIST = [
   //{ roomName: 'W13N56', type: 'remoteRaid' }
   { roomName: 'W12N55', type: 'remoteMine' },
   //{ roomName: 'W13N57', type: 'remoteRaid' }
-  { roomName: 'W17N59', type: 'remoteRaid' }
+  //{ roomName: 'W17N59', type: 'remoteRaid' }
+  { roomName: 'W17N59', type: 'colonize' }
 ];
 
 export {
