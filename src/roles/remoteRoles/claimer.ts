@@ -23,9 +23,9 @@ const roleClaimer = {
             }
           }
         }
+      } else {
+        moveToRoom(creep);
       }
-    } else {
-      moveToRoom(creep);
     }
   }
 };

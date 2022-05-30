@@ -1,5 +1,5 @@
 import { Builder } from 'roles/builder';
-import { Claimer } from 'roles/claimer';
+import { Claimer } from 'roles/remoteRoles/claimer';
 import { Stunner } from 'roles/combatRoles/stunner';
 import { Harvester } from 'roles/harvester';
 import { Hauler } from 'roles/hauler';
@@ -7,7 +7,7 @@ import { RemoteBuilder } from 'roles/remoteRoles/remoteBuilder';
 import { RemoteHarvester } from 'roles/remoteRoles/remoteHarvester';
 import { RemoteHauler } from 'roles/remoteRoles/remoteHauler';
 import { Repairer } from 'roles/repairer';
-import { Scouter } from 'roles/scouter';
+import { Scouter } from 'roles/remoteRoles/scouter';
 import { Upgrader } from 'roles/upgrader';
 import { Waller } from 'roles/waller';
 
