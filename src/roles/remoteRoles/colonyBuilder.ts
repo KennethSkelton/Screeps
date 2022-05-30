@@ -40,6 +40,13 @@ const roleColonyBuilder = {
               delete creep.memory.target;
               delete creep.memory.path;
             }
+          } else if (target instanceof Spawn) {
+            if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+              move(creep, target.pos);
+            } else {
+              delete creep.memory.target;
+              delete creep.memory.path;
+            }
           } else {
             delete creep.memory.target;
             delete creep.memory.path;
@@ -51,6 +58,14 @@ const roleColonyBuilder = {
             delete creep.memory.path;
             creep.memory.target = target.id;
             move(creep, target.pos);
+          } else {
+            const sourceTargets = creep.room.find(FIND_MY_SPAWNS);
+            const sourceTarget = creep.pos.findClosestByPath(sourceTargets);
+            if (sourceTarget) {
+              delete creep.memory.path;
+              creep.memory.target = sourceTarget.id;
+              move(creep, sourceTarget.pos);
+            }
           }
         }
       } else {
