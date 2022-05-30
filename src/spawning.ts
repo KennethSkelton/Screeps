@@ -113,8 +113,13 @@ function spawnCreeps(spawnName: string): void {
 
   // eslint-disable-next-line max-len
   if (
-    _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester' || creep.memory.role == 'hauler').length <
-    4
+    _.filter(
+      Game.creeps,
+      (creep: Creep) =>
+        (creep.memory.role == 'harvester' && creep.memory.homeroom == homeRoomName) ||
+        (creep.memory.role == 'hauler' && creep.memory.homeroom == homeRoomName)
+    ).length <
+    2 * numberOfSources
   ) {
     quota = [
       { role: 'harvester', amount: numberOfSources },
