@@ -12,7 +12,7 @@ interface ShooterMemory extends CreepMemory {
 const roleShooter = {
   run(creep: Shooter): void {
     if (creep.memory.targetRoom) {
-      if (creep.memory.targetRoom == creep.room.name) {
+      if (creep.memory.targetRoom === creep.room.name) {
         if (creep.memory.favorsStructures) {
           attackStructuresBeforeCreeps(creep);
         } else {
