@@ -39,6 +39,7 @@ function main(): void {
 
   //Spawning
   spawnCreeps('Spawn1');
+  spawnCreeps('Spawn2');
 
   //Catalog Room
   Object.values(Game.rooms).forEach((room) => {
