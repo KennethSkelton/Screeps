@@ -1,4 +1,4 @@
-import { move } from 'functions';
+import { hasEnergy, move } from 'functions';
 import profiler from 'screeps-profiler';
 import { FILL_PRIORITY } from '../constants';
 
@@ -17,8 +17,20 @@ const roleHauler = {
     if (creep.store.getUsedCapacity() == 0) {
       if (creep.memory.target) {
         const target = Game.getObjectById(creep.memory.target);
-        if (target instanceof Resource && creep.pickup(target) === ERR_NOT_IN_RANGE) {
-          move(creep, target.pos);
+        if (target instanceof Resource) {
+          if (creep.pickup(target) === ERR_NOT_IN_RANGE) {
+            move(creep, target.pos);
+          } else {
+            delete creep.memory.target;
+            delete creep.memory.path;
+          }
+        } else if (target instanceof Structure) {
+          if (creep.withdraw(target, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+            move(creep, target.pos);
+          } else {
+            delete creep.memory.target;
+            delete creep.memory.path;
+          }
         } else {
           delete creep.memory.target;
           delete creep.memory.path;
@@ -26,14 +38,28 @@ const roleHauler = {
       } else {
         const droppedResources = creep.room.find(FIND_DROPPED_RESOURCES, {
           filter: function (object: Resource) {
-            return object.amount >= 50;
+            return object.amount >= creep.store.getFreeCapacity();
           }
         });
-        const target = creep.pos.findClosestByPath(droppedResources);
-        if (target) {
-          delete creep.memory.path;
-          creep.memory.target = target.id;
-          move(creep, target.pos);
+        if (droppedResources.length > 0) {
+          const target = creep.pos.findClosestByPath(droppedResources);
+          if (target) {
+            delete creep.memory.path;
+            creep.memory.target = target.id;
+            move(creep, target.pos);
+          }
+        } else {
+          const targets = creep.room.find(FIND_STRUCTURES, {
+            filter: function (structure) {
+              return structure.structureType == STRUCTURE_CONTAINER && hasEnergy(structure);
+            }
+          });
+          const target = creep.pos.findClosestByPath(targets);
+          if (target) {
+            delete creep.memory.path;
+            creep.memory.target = target.id;
+            move(creep, target.pos);
+          }
         }
       }
     } else {
