@@ -52,9 +52,14 @@ const roleRepairer = {
         });
         targets.sort((a, b) => a.hits / a.hitsMax - b.hits / b.hitsMax);
 
-        delete creep.memory.path;
-        creep.memory.target = targets[0].id;
-        move(creep, targets[0].pos);
+        if (targets.length > 0) {
+          delete creep.memory.path;
+          creep.memory.target = targets[0].id;
+          move(creep, targets[0].pos);
+        } else {
+          delete creep.memory.path;
+          delete creep.memory.target;
+        }
       }
     } else {
       if (creep.memory.target) {
