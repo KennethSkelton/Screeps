@@ -1,7 +1,6 @@
 import { move } from 'functions';
 import profiler from 'screeps-profiler';
 import { RETRIEVE_PRIORITY } from '../constants';
-import roleWaller, { Waller } from './waller';
 
 export interface Repairer extends Creep {
   memory: RepairerMemory;
@@ -59,7 +58,7 @@ const roleRepairer = {
         } else {
           const rampartTargets = creep.room.find(FIND_STRUCTURES, {
             filter: function (n: Structure) {
-              return n instanceof StructureRampart && isDamaged(n);
+              return n instanceof StructureRampart && isDamaged(n) && n.hitsMax / n.hits > 10;
             }
           });
           if (rampartTargets.length > 0) {
