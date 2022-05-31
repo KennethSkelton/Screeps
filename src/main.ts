@@ -46,11 +46,11 @@ function main(): void {
     storeSourcesInMemory(room);
   });
 
-  //Job Assignment
-  assignJobs();
-
   //Handle remote operations
   remoteOperations('Spawn1', REMOTE_OPERATIONS_LIST);
+
+  //Job Assignment
+  assignJobs();
 
   //emergency return to base
   Object.values(Game.creeps).forEach((creep) => {
