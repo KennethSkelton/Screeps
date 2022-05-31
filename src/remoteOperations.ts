@@ -123,6 +123,22 @@ function remoteMine(spawnName: string, roomName: string, stage: number): void {
     }
   }
 
+  if (stage > 0) {
+    const hostiles = Game.rooms[roomName].find(FIND_HOSTILE_CREEPS, {
+      filter: function (object) {
+        return object.owner.username == 'Invader';
+      }
+    });
+
+    if (hostiles.length > 0) {
+      const quota: { role: string; amount: number }[] = [
+        { role: 'fighter', amount: 3 },
+        { role: 'shooter', amount: 2 }
+      ];
+      spawnFromQuota(spawnName, quota, true, roomName);
+    }
+  }
+
   if (stage > 1) {
     if (Game.rooms[roomName]) {
       const amount = Game.rooms[roomName].find(FIND_SOURCES).length;
