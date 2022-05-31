@@ -37,10 +37,25 @@ function remoteOperations(spawnName: string, operationList: { roomName: string; 
           remoteRaid(spawnName, operation.roomName, operationInfo.stage);
         } else if (operationInfo.type === 'colonize') {
           colonize(spawnName, operation.roomName, operationInfo.stage);
+        } else if (operationInfo.type === 'clearHostiles') {
+          clearHostiles(spawnName, operation.roomName, operationInfo.stage);
         }
       }
     }
   }
+}
+
+function clearHostiles(spawnName: string, roomName: string, stage: number) {
+  if (Game.rooms[roomName]) {
+    if (!Game.flags[`${roomName}_Staging_Area`]) {
+      Game.rooms[roomName].createFlag(25, 25, `${roomName}_Staging_Area`);
+    }
+  }
+  const quota: { role: string; amount: number }[] = [
+    { role: 'fighter', amount: 3 },
+    { role: 'shooter', amount: 2 }
+  ];
+  spawnFromQuota(spawnName, quota, true, roomName);
 }
 
 function remoteRaid(spawnName: string, roomName: string, stage: number) {
@@ -141,4 +156,4 @@ function remoteMine(spawnName: string, roomName: string, stage: number): void {
   }
 }
 
-export { remoteMine, remoteOperations, colonize };
+export { remoteMine, remoteOperations, colonize, clearHostiles };
