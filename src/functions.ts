@@ -30,7 +30,9 @@ function createCostMatrix(roomName: string): CostMatrix | boolean {
   }
 
   room.find(FIND_CONSTRUCTION_SITES).forEach(function (site) {
-    costs.set(site.pos.x, site.pos.y, 0xfe);
+    if (site.structureType != STRUCTURE_ROAD) {
+      costs.set(site.pos.x, site.pos.y, 0xfe);
+    }
   });
 
   room.find(FIND_STRUCTURES).forEach(function (struct) {
