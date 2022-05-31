@@ -27,10 +27,10 @@ function remoteOperations(spawnName: string, operationList: { roomName: string; 
       Memory.remoteOperations = {};
     }
     for (const operation of operationList) {
-      if (!Memory.remoteOperations[operation.roomName]) {
-        Memory.remoteOperations[operation.roomName] = { stage: 0, type: operation.type };
+      if (!Memory.remoteOperations[operation.roomName + '_' + operation.type]) {
+        Memory.remoteOperations[operation.roomName + operation.type] = { stage: 0, type: operation.type };
       } else {
-        const operationInfo = Memory.remoteOperations[operation.roomName];
+        const operationInfo = Memory.remoteOperations[operation.roomName + '_' + operation.type];
         if (operationInfo.type === 'remoteMine') {
           remoteMine(spawnName, operation.roomName, operationInfo.stage);
         } else if (operationInfo.type === 'remoteRaid') {
@@ -45,7 +45,7 @@ function remoteOperations(spawnName: string, operationList: { roomName: string; 
   }
 }
 
-function clearHostiles(spawnName: string, roomName: string, stage: number) {
+function clearHostiles(spawnName: string, roomName: string, stage: number): void {
   if (Game.rooms[roomName]) {
     if (!Game.flags[`${roomName}_Staging_Area`]) {
       Game.rooms[roomName].createFlag(25, 25, `${roomName}_Staging_Area`);
@@ -58,7 +58,7 @@ function clearHostiles(spawnName: string, roomName: string, stage: number) {
   spawnFromQuota(spawnName, quota, true, roomName);
 }
 
-function remoteRaid(spawnName: string, roomName: string, stage: number) {
+function remoteRaid(spawnName: string, roomName: string, stage: number): void {
   if (Game.rooms[roomName]) {
     if (!Game.flags[`${roomName}_Staging_Area`]) {
       Game.rooms[roomName].createFlag(25, 25, `${roomName}_Staging_Area`);
