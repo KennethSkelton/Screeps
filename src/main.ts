@@ -41,12 +41,6 @@ function main(): void {
   spawnCreeps('Spawn1');
   spawnCreeps('Spawn2');
 
-  Object.values(Game.creeps).forEach((creep) => {
-    if (!creep.memory.role) {
-      Game.spawns['Spawn1'].recycleCreep(creep);
-    }
-  });
-
   //Catalog Room
   Object.values(Game.rooms).forEach((room) => {
     storeSourcesInMemory(room);
