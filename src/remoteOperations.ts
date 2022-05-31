@@ -131,11 +131,8 @@ function remoteMine(spawnName: string, roomName: string, stage: number): void {
     });
 
     if (hostiles.length > 0) {
-      const quota: { role: string; amount: number }[] = [
-        { role: 'fighter', amount: 3 },
-        { role: 'shooter', amount: 2 }
-      ];
-      spawnFromQuota(spawnName, quota, true, roomName);
+      const quota: { role: string; amount: number }[] = [{ role: 'fighter', amount: 4 }];
+      spawnFromQuota(spawnName, quota, true, roomName, 3);
       return;
     }
   }
