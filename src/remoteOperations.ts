@@ -27,10 +27,10 @@ function remoteOperations(spawnName: string, operationList: { roomName: string; 
       Memory.remoteOperations = {};
     }
     for (const operation of operationList) {
-      if (!Memory.remoteOperations[operation.roomName + '_' + operation.type]) {
+      if (!Memory.remoteOperations[operation.roomName]) {
         Memory.remoteOperations[operation.roomName + operation.type] = { stage: 0, type: operation.type };
       } else {
-        const operationInfo = Memory.remoteOperations[operation.roomName + '_' + operation.type];
+        const operationInfo = Memory.remoteOperations[operation.roomName];
         if (operationInfo.type === 'remoteMine') {
           remoteMine(spawnName, operation.roomName, operationInfo.stage);
         } else if (operationInfo.type === 'remoteRaid') {
