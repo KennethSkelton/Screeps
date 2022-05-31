@@ -25,7 +25,7 @@ const REPAIRER_SCHEMA = [
   [WORK, WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE],
   [WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
 ];
-
+//waller creeps
 const WALLER_SCHEMA = [
   [WORK, CARRY, MOVE],
   [WORK, WORK, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
@@ -42,8 +42,8 @@ const FLOATER_SCHEMA = [
 //hauler creeps
 const HAULER_SCHEMA = [
   [CARRY, CARRY, MOVE, MOVE],
-  [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
-  [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
+  [CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
+  [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]
 ];
 
 //runner creeps
@@ -65,6 +65,14 @@ const SCOUTER_SCHEMA = [
   [MOVE, MOVE],
   [MOVE, MOVE],
   [MOVE, MOVE]
+];
+
+/* Remote Creeps */
+//remote hauler creeps
+const REMOTE_HAULER_SCHEMA = [
+  [CARRY, CARRY, MOVE, MOVE],
+  [CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+  [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]
 ];
 
 /* COMBAT CREEPS */
@@ -110,7 +118,7 @@ const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   //remote varients
   remoteHarvester: HARVESTER_SCHEMA,
   remoteBuilder: BUILDER_SCHEMA,
-  remoteHauler: HAULER_SCHEMA,
+  remoteHauler: REMOTE_HAULER_SCHEMA,
 
   //colony varients
   colonyBuilder: BUILDER_SCHEMA
@@ -139,6 +147,7 @@ export {
   WALLER_SCHEMA,
   FLOATER_SCHEMA,
   HAULER_SCHEMA,
+  REMOTE_HAULER_SCHEMA,
   RUNNER_SCHEMA,
   CLAIMER_SCHEMA,
   SCOUTER_SCHEMA,
