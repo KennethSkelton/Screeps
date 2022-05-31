@@ -136,6 +136,7 @@ function remoteMine(spawnName: string, roomName: string, stage: number): void {
         { role: 'shooter', amount: 2 }
       ];
       spawnFromQuota(spawnName, quota, true, roomName);
+      return;
     }
   }
 
