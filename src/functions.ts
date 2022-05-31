@@ -171,6 +171,69 @@ function moveToRoom(creep: Creep, roomname?: string): void {
     }
   }
 }
+/*
+const WORLD_RESOURCES: string[] = [
+  RESOURCE_CATALYST,
+  RESOURCE_HYDROGEN,
+  RESOURCE_OXYGEN,
+  RESOURCE_LEMERGIUM,
+  RESOURCE_UTRIUM,
+  RESOURCE_ZYNTHIUM,
+  RESOURCE_KEANIUM,
+  RESOURCE_ENERGY,
+  RESOURCE_MIST,
+  RESOURCE_METAL,
+  RESOURCE_BIOMASS,
+  RESOURCE_SILICON
+];
+
+interface cost {
+  name: string;
+  amount: number;
+}
+
+interface totalCost {
+  costs: cost[],
+  time: number
+}
+
+function checkIfArraysAreNotEachOther(array: cost[]): boolean {
+  for (let i = 0; i < array.length; i++) {
+    let flag = true;
+    for (let j = 0; j < WORLD_RESOURCES.length; j++) {
+      if (array[i].name == WORLD_RESOURCES[j]) {
+        flag = false;
+      }
+    }
+    if (flag) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function calculateCost(thing: CommodityConstant, amount: number): totalCost {
+  let costs = [{ name: thing, amount: amount}];
+  let runningTimeTotal
+  while (checkIfArraysAreNotEachOther(costs)) {
+    costs.forEach((element) => {
+      if (!WORLD_RESOURCES.includes(element.name)) {
+        const replaceIndex = costs.indexOf(element);
+        costs.splice(replaceIndex, 1)
+
+        const components = COMMODITIES[element.name].components;
+        const keys = Object.keys(components);
+        const values = Object.values(components);
+
+        for (let i = 0; i < keys.length; i++) {
+          costs.splice(replaceIndex, 0, {name: keys[i], amount: values[i]})
+        }
+
+        costs[costs.indexOf(element)];
+      }
+    });
+  }
+}*/
 
 function hasEnergy(structure: Structure): boolean {
   if (
