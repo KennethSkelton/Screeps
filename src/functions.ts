@@ -1,3 +1,4 @@
+import profiler from 'screeps-profiler';
 import { Builder } from 'roles/builder';
 import { Claimer } from 'roles/remoteRoles/claimer';
 import { Stunner } from 'roles/combatRoles/stunner';
@@ -189,5 +190,9 @@ function hasEnergy(structure: Structure): boolean {
   }
   return false;
 }
+
+profiler.registerFN(createCostMatrix, 'CostMatrix');
+profiler.registerFN(move, 'MyMove');
+profiler.registerFN(moveToRoom, 'moveToRoom');
 
 export { createCostMatrix, move, moveToRoom, hasEnergy };
