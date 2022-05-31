@@ -123,7 +123,7 @@ function remoteMine(spawnName: string, roomName: string, stage: number): void {
     }
   }
 
-  if (stage > 0) {
+  if (stage > 0 && Game.rooms[roomName]) {
     const hostiles = Game.rooms[roomName].find(FIND_HOSTILE_CREEPS, {
       filter: function (object) {
         return object.owner.username == 'Invader';
