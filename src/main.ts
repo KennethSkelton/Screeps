@@ -6,6 +6,7 @@ import { HOME_ROOM, HOME_SPAWN, REMOTE_OPERATIONS_LIST } from './constants';
 import { assignJobs } from 'taskAssignment';
 import { remoteOperations } from 'remoteOperations';
 import profiler from 'screeps-profiler';
+import { findSellOrder } from 'functions';
 
 declare global {
   interface CreepMemory {
@@ -38,14 +39,14 @@ function main(): void {
   }
 
   //order
-  const orderId = '62923773e800b382529c6001';
-  if (Game.market.getOrderById(orderId)) {
-    const terminals = Game.rooms[HOME_ROOM].find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
-    if (terminals.length > 0) {
-      const terminal = terminals[0];
-      if (terminal instanceof StructureTerminal) {
-        const energyAmount = terminal.store[RESOURCE_ENERGY];
-        console.log(`Deal is failing because: ${Game.market.deal(orderId, energyAmount, HOME_ROOM)}`);
+  const orders = Game.market.getAllOrders({ type: ORDER_BUY, resourceType: RESOURCE_ENERGY });
+  const terminals = Game.rooms[HOME_ROOM].find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
+  if (terminals.length > 0) {
+    const terminal = terminals[0];
+    if (terminal instanceof StructureTerminal) {
+      const order = Game.market.getOrderById(findSellOrder(orders, terminal, 9.3, RESOURCE_ENERGY));
+      if (order) {
+        console.log(`Order status is: ${Game.market.deal(order.id, order.amount, terminal.room.name)}`);
       }
     }
   }

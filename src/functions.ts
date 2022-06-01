@@ -237,6 +237,28 @@ function calculateCost(thing: CommodityConstant, amount: number): totalCost {
   }
 }*/
 
+function findSellOrder(
+  orders: Order[],
+  terminal: StructureTerminal,
+  minPrice: number,
+  resourceType: ResourceConstant
+): string {
+  const roomName = terminal.room.name;
+  const resourceAmount = terminal.store[resourceType];
+  for (let i = 0; i < orders.length; i++) {
+    const order = orders[i];
+    if (
+      order.roomName &&
+      order.price >= minPrice &&
+      resourceAmount >= order.amount &&
+      Game.market.calcTransactionCost(order.amount, order.roomName, roomName) < resourceAmount - order.amount
+    ) {
+      return order.id;
+    }
+  }
+  return '';
+}
+
 function hasEnergy(structure: Structure): boolean {
   if (
     structure.structureType === STRUCTURE_EXTENSION ||
@@ -260,4 +282,4 @@ profiler.registerFN(createCostMatrix, 'CostMatrix');
 profiler.registerFN(move, 'MyMove');
 profiler.registerFN(moveToRoom, 'moveToRoom');
 
-export { createCostMatrix, move, moveToRoom, hasEnergy };
+export { createCostMatrix, move, moveToRoom, hasEnergy, findSellOrder };
