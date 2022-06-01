@@ -126,16 +126,30 @@ function spawnCreeps(spawnName: string): void {
       { role: 'hauler', amount: numberOfSources }
     ];
   } else {
-    quota = [
-      { role: 'harvester', amount: numberOfSources },
-      { role: 'hauler', amount: numberOfSources },
-      { role: 'floater', amount: 3 },
-      { role: 'repairer', amount: 2 },
-      { role: 'waller', amount: 1 },
-      { role: 'builder', amount: 2 },
-      { role: 'upgrader', amount: 2 },
-      { role: 'runner', amount: 1 }
-    ];
+    if (spawnName == 'Spawn1') {
+      quota = [
+        { role: 'harvester', amount: numberOfSources },
+        { role: 'hauler', amount: numberOfSources },
+        { role: 'floater', amount: 3 },
+        { role: 'repairer', amount: 2 },
+        { role: 'waller', amount: 1 },
+        { role: 'builder', amount: 2 },
+        { role: 'upgrader', amount: 2 },
+        { role: 'runner', amount: 1 }
+      ];
+    } else if (spawnName == 'Spawn2') {
+      quota = [
+        { role: 'harvester', amount: numberOfSources },
+        { role: 'hauler', amount: numberOfSources },
+        { role: 'floater', amount: 3 },
+        { role: 'repairer', amount: 2 },
+        { role: 'waller', amount: 1 },
+        { role: 'builder', amount: 2 },
+        { role: 'upgrader', amount: 2 }
+      ];
+    } else {
+      quota = [];
+    }
   }
 
   spawnFromQuota(spawnName, quota, false);
