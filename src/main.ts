@@ -40,10 +40,13 @@ function main(): void {
   //order
   const orderId = '62956912e800b3b29ae19fc9';
   if (Game.market.getOrderById(orderId)) {
-    const terminal = Game.rooms[HOME_ROOM].find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } })[0];
-    if (terminal instanceof StructureTerminal) {
-      const energyAmount = terminal.store[RESOURCE_ENERGY];
-      Game.market.deal(orderId, energyAmount, HOME_ROOM);
+    const terminals = Game.rooms[HOME_ROOM].find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
+    if (terminals.length > 0) {
+      const terminal = terminals[0];
+      if (terminal instanceof StructureTerminal) {
+        const energyAmount = terminal.store[RESOURCE_ENERGY];
+        console.log(`Deal is failing because: ${Game.market.deal(orderId, energyAmount, HOME_ROOM)}`);
+      }
     }
   }
 
