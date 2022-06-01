@@ -136,13 +136,20 @@ function isToBeFilled(structure: Structure): boolean {
     structure.structureType === STRUCTURE_SPAWN ||
     structure.structureType === STRUCTURE_TOWER ||
     structure.structureType === STRUCTURE_CONTAINER ||
-    structure.structureType === STRUCTURE_STORAGE
+    structure.structureType === STRUCTURE_STORAGE ||
+    structure.structureType === STRUCTURE_LAB
   ) {
-    const s = structure as StructureExtension | StructureSpawn | StructureTower | StructureContainer | StructureStorage;
+    const s = structure as
+      | StructureExtension
+      | StructureSpawn
+      | StructureTower
+      | StructureContainer
+      | StructureStorage
+      | StructureLab;
     if (s instanceof StructureContainer || s instanceof StructureStorage) {
       return s.store.getFreeCapacity() > 0;
-    } else if (s instanceof StructureTower) {
-      return s.store.getFreeCapacity(RESOURCE_ENERGY) / s.store.getCapacity(RESOURCE_ENERGY) > 0.5;
+    } else if (s instanceof StructureTower || s instanceof StructureLab) {
+      return s.store.getFreeCapacity(RESOURCE_ENERGY) > 0;
     } else {
       return s.energy < s.energyCapacity;
     }
