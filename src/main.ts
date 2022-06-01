@@ -37,6 +37,16 @@ function main(): void {
     }
   }
 
+  //order
+  const orderId = '629702d34b4a6d8c44d26c40';
+  if (Game.market.getOrderById(orderId)) {
+    const terminal = Game.rooms[HOME_ROOM].find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } })[0];
+    if (terminal instanceof StructureTerminal) {
+      const energyAmount = terminal.store[RESOURCE_ENERGY];
+      Game.market.deal(orderId, energyAmount, HOME_ROOM);
+    }
+  }
+
   Object.values(Game.rooms).forEach((room) => {
     if (room.controller?.my) {
       const towers = room.find<StructureTower>(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
