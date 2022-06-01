@@ -27,6 +27,16 @@ function main(): void {
     Game.spawns['Spawn1'].room.controller?.activateSafeMode();
   }
 
+  //create storage while i sleep
+  if (Game.spawns['Spawn2'].room.controller) {
+    if (
+      Game.spawns['Spawn2'].room.controller.level > 3 &&
+      !Game.spawns['Spawn2'].room.lookForAt(LOOK_CONSTRUCTION_SITES, 28, 17)
+    ) {
+      Game.spawns['Spawn2'].room.createConstructionSite(28, 17, STRUCTURE_STORAGE);
+    }
+  }
+
   Object.values(Game.rooms).forEach((room) => {
     if (room.controller?.my) {
       const towers = room.find<StructureTower>(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TOWER } });
