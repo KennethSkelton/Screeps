@@ -38,7 +38,7 @@ function main(): void {
   }
 
   //order
-  const orderId = '62956912e800b3b29ae19fc9';
+  const orderId = '62923773e800b382529c6001';
   if (Game.market.getOrderById(orderId)) {
     const terminals = Game.rooms[HOME_ROOM].find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
     if (terminals.length > 0) {
