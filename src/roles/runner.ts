@@ -45,10 +45,13 @@ const roleRunner = {
         }
       } else {
         const targets = creep.room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
-        if (targets[0]) {
+        if (targets[0] instanceof Structure && creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           delete creep.memory.path;
           creep.memory.target = targets[0].id;
           move(creep, targets[0].pos);
+        } else {
+          delete creep.memory.target;
+          delete creep.memory.path;
         }
       }
     } else {
@@ -74,7 +77,17 @@ const roleRunner = {
         if (targets[0]) {
           delete creep.memory.path;
           creep.memory.target = targets[0].id;
-          move(creep, targets[0].pos);
+          if (targets[0] instanceof StructureStorage) {
+            if (creep.withdraw(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+              move(creep, targets[0].pos);
+            } else {
+              delete creep.memory.target;
+              delete creep.memory.path;
+            }
+          } else {
+            delete creep.memory.target;
+            delete creep.memory.path;
+          }
         }
       }
     }
