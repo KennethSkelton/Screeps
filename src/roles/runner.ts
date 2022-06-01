@@ -13,12 +13,16 @@ interface RunnerMemory extends CreepMemory {
 
 const roleRunner = {
   run(creep: Runner): void {
-    const terminals = creep.room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
-    if (terminals.length > 0) {
+    const terminals = creep.room.find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
+    const storages = creep.room.find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_STORAGE } });
+    if (terminals.length > 0 && storages.length > 0) {
       const terminal = terminals[0];
-      if (terminal instanceof StructureTerminal) {
-        if (terminal.store[RESOURCE_ENERGY] >= 300000) {
-          move(creep, new RoomPosition(36, 37, creep.memory.homeroom));
+      const storage = storages[0];
+      if (terminal instanceof StructureTerminal && storage instanceof StructureStorage) {
+        if (terminal.store[RESOURCE_ENERGY] >= 300000 || storage.store.getUsedCapacity(RESOURCE_ENERGY) < 100000) {
+          if (creep.pos.x != 36 || creep.pos.y != 37) {
+            move(creep, new RoomPosition(36, 37, creep.memory.homeroom));
+          }
           return;
         }
       }
@@ -44,7 +48,7 @@ const roleRunner = {
           delete creep.memory.path;
         }
       } else {
-        const targets = creep.room.find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
+        const targets = creep.room.find(FIND_MY_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
         if (targets[0] instanceof Structure && creep.transfer(targets[0], RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
           delete creep.memory.path;
           creep.memory.target = targets[0].id;
@@ -69,7 +73,7 @@ const roleRunner = {
           delete creep.memory.path;
         }
       } else {
-        const targets = creep.room.find(FIND_STRUCTURES, {
+        const targets = creep.room.find(FIND_MY_STRUCTURES, {
           filter: function (structure) {
             return structure.structureType == STRUCTURE_STORAGE && hasEnergy(structure);
           }
