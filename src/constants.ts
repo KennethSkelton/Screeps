@@ -51,9 +51,9 @@ const HAULER_SCHEMA = [
 
 //runner creeps
 const RUNNER_SCHEMA = [
-  [CARRY, MOVE],
-  [CARRY, MOVE],
-  [CARRY, MOVE]
+  [CARRY, CARRY, MOVE],
+  [CARRY, CARRY, MOVE],
+  [CARRY, CARRY, MOVE]
 ];
 
 //claimer creeps

@@ -14,6 +14,7 @@ import roleShooter, { Shooter } from 'roles/combatRoles/shooter';
 import roleFighter, { Fighter } from 'roles/combatRoles/fighter';
 import roleStunner, { Stunner } from 'roles/combatRoles/stunner';
 import roleColonyBuilder, { ColonyBuilder } from 'roles/remoteRoles/colonyBuilder';
+import roleRunner, { Runner } from 'roles/runner';
 
 function assignJobs(): void {
   const harvesters = _.filter(Game.creeps, (creep: Creep) => creep.memory.role == 'harvester').length;
@@ -91,6 +92,9 @@ function assignJobs(): void {
     }
     if (creep.memory.role === 'colonyBuilder') {
       roleColonyBuilder.run(creep as ColonyBuilder);
+    }
+    if (creep.memory.role === 'runner') {
+      roleRunner.run(creep as Runner);
     }
   });
 }

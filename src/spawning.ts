@@ -133,7 +133,8 @@ function spawnCreeps(spawnName: string): void {
       { role: 'repairer', amount: 2 },
       { role: 'waller', amount: 1 },
       { role: 'builder', amount: 2 },
-      { role: 'upgrader', amount: 2 }
+      { role: 'upgrader', amount: 2 },
+      { role: 'runner', amount: 1 }
     ];
   }
 
