@@ -28,23 +28,13 @@ function main(): void {
     Game.spawns['Spawn1'].room.controller?.activateSafeMode();
   }
 
-  //create storage while i sleep
-  if (Game.spawns['Spawn2'].room.controller) {
-    if (
-      Game.spawns['Spawn2'].room.controller.level > 3 &&
-      !Game.spawns['Spawn2'].room.lookForAt(LOOK_CONSTRUCTION_SITES, 28, 17)
-    ) {
-      Game.spawns['Spawn2'].room.createConstructionSite(28, 17, STRUCTURE_STORAGE);
-    }
-  }
-
   //order
   const orders = Game.market.getAllOrders({ type: ORDER_BUY, resourceType: RESOURCE_ENERGY });
   const terminals = Game.rooms[HOME_ROOM].find(FIND_STRUCTURES, { filter: { structureType: STRUCTURE_TERMINAL } });
   if (terminals.length > 0) {
     const terminal = terminals[0];
     if (terminal instanceof StructureTerminal) {
-      const order = Game.market.getOrderById(findSellOrder(orders, terminal, 9.3, RESOURCE_ENERGY));
+      const order = Game.market.getOrderById(findSellOrder(orders, terminal, 9.5, RESOURCE_ENERGY));
       if (order) {
         console.log(`Order status is: ${Game.market.deal(order.id, order.amount, terminal.room.name)}`);
       }
