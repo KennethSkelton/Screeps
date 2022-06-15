@@ -15,7 +15,6 @@ declare global {
     target?: string;
     isRemote: boolean;
     targetRoom?: string;
-    path?: RoomPosition[];
   }
 }
 

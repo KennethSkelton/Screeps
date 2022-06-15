@@ -52,9 +52,7 @@ function createCostMatrix(roomName: string): CostMatrix | boolean {
 
   // Avoid creeps in the room
   room.find(FIND_CREEPS).forEach(function (creep) {
-    if (!creep.memory.path) {
-      costs.set(creep.pos.x, creep.pos.y, 0xff);
-    }
+    costs.set(creep.pos.x, creep.pos.y, 0xff);
   });
   return costs;
 }
