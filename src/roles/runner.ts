@@ -19,7 +19,7 @@ const roleRunner = {
       const terminal = terminals[0];
       const storage = storages[0];
       if (terminal instanceof StructureTerminal && storage instanceof StructureStorage) {
-        if (terminal.store[RESOURCE_ENERGY] >= 300000 || storage.store.getUsedCapacity(RESOURCE_ENERGY) < 500000) {
+        if (terminal.store[RESOURCE_ENERGY] >= 300000 /*|| storage.store.getUsedCapacity(RESOURCE_ENERGY) < 500000*/) {
           if (creep.pos.x != 36 || creep.pos.y != 37) {
             move(creep, new RoomPosition(36, 37, creep.memory.homeroom), 0);
           }
