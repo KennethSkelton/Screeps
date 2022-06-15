@@ -135,7 +135,8 @@ function spawnCreeps(spawnName: string): void {
         { role: 'waller', amount: 1 },
         { role: 'builder', amount: 2 },
         { role: 'upgrader', amount: 2 },
-        { role: 'runner', amount: 1 }
+        { role: 'runner', amount: 1 },
+        { role: 'rangedDefender', amount: numberOfDefenceCreeps(spawnName) }
       ];
     } else if (spawnName == 'Spawn2') {
       quota = [
@@ -145,7 +146,8 @@ function spawnCreeps(spawnName: string): void {
         { role: 'repairer', amount: 2 },
         { role: 'waller', amount: 1 },
         { role: 'builder', amount: 2 },
-        { role: 'upgrader', amount: 2 }
+        { role: 'upgrader', amount: 2 },
+        { role: 'rangedDefender', amount: numberOfDefenceCreeps(spawnName) }
       ];
     } else {
       quota = [];
@@ -230,6 +232,22 @@ function spawnFromQuota(
       { align: 'left', opacity: 0.8 }
     );
   }
+}
+
+function numberOfDefenceCreeps(spawnName: string): number {
+  const enemies = Game.spawns[spawnName].room.find(FIND_HOSTILE_CREEPS);
+  if (enemies.length > 0) {
+    enemies.forEach((creep) => {
+      if (
+        creep.getActiveBodyparts(ATTACK) > 4 ||
+        creep.getActiveBodyparts(HEAL) > 4 ||
+        creep.getActiveBodyparts(RANGED_ATTACK) > 4
+      ) {
+        return 4;
+      }
+    });
+  }
+  return 0;
 }
 
 export { spawnCreeps, schemaLevel, spawnFromQuota };

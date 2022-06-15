@@ -119,6 +119,7 @@ const CREEP_SCHEMA: Record<string, Array<Array<BodyPartConstant>>> = {
   fighter: FIGHTER_SCHEMA,
   shooter: SHOOTER_SCHEMA,
   stunner: STUNNER_SCHEMA,
+  rangedDefender: SHOOTER_SCHEMA,
 
   //remote varients
   remoteHarvester: HARVESTER_SCHEMA,
