@@ -236,6 +236,7 @@ function spawnFromQuota(
 
 function numberOfDefenceCreeps(spawnName: string): number {
   const enemies = Game.spawns[spawnName].room.find(FIND_HOSTILE_CREEPS);
+  let panic = false;
   if (enemies.length > 0) {
     enemies.forEach((creep) => {
       if (
@@ -243,11 +244,15 @@ function numberOfDefenceCreeps(spawnName: string): number {
         creep.getActiveBodyparts(HEAL) > 4 ||
         creep.getActiveBodyparts(RANGED_ATTACK) > 4
       ) {
-        return 4;
+        panic = true;
       }
     });
   }
-  return 0;
+  if (panic) {
+    return 4;
+  } else {
+    return 0;
+  }
 }
 
 export { spawnCreeps, schemaLevel, spawnFromQuota };
